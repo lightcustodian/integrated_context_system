@@ -18,7 +18,7 @@ This PRP serves as the orchestrator and index for the feature-decomposed impleme
 
 ## Feature Decomposition Overview
 
-This project has been intelligently decomposed into **[TOTAL_FEATURES]** discrete feature requests using ULTRATHINK analysis. Each feature is a buildable unit of functionality with complete TDD/BDD scaffolding, dependency tracking, and independent validation capabilities.
+This project has been intelligently decomposed into **[TOTAL_FEATURES]** discrete feature requests using ULTRATHINK analysis. Each feature is a buildable unit of functionality with complete TDD scaffolding, dependency tracking, and independent validation capabilities.
 
 ### Decomposition Strategy
 
@@ -184,12 +184,12 @@ Key integration test scenarios:
 #### Test Coverage Requirements
 - **Unit Test Coverage**: [UNIT_TEST_COVERAGE_TARGET]%
 - **Integration Test Coverage**: [INTEGRATION_TEST_COVERAGE_TARGET]%
-- **BDD Scenario Coverage**: [BDD_SCENARIO_COVERAGE_TARGET]%
+
 
 #### Current Test Status
 - **Total Unit Tests**: [TOTAL_UNIT_TESTS]
 - **Total Integration Tests**: [TOTAL_INTEGRATION_TESTS]
-- **Total BDD Scenarios**: [TOTAL_BDD_SCENARIOS]
+
 - **Overall Test Coverage**: [OVERALL_TEST_COVERAGE]%
 
 ### Validation Gates
@@ -237,9 +237,26 @@ Individual features have specific performance requirements documented in their r
 1. **Feature Selection**: Choose next feature based on dependency order
 2. **Context Loading**: Load feature requirements, design, and dependencies
 3. **TDD Implementation**: Follow Red-Green-Refactor cycles
-4. **BDD Validation**: Verify behavior against scenarios
+4. **Test Validation**: Verify behavior against test scenarios
 5. **Integration Testing**: Test cross-feature interactions
 6. **Validation Gates**: Pass all required validation checkpoints
+
+### TDD Methodology Details
+**Red-Green-Refactor Workflow**:
+- **RED Phase**: [RED_PHASE_INSTRUCTIONS]
+- **GREEN Phase**: [GREEN_PHASE_INSTRUCTIONS]  
+- **REFACTOR Phase**: [REFACTOR_PHASE_INSTRUCTIONS]
+- **Focused Mode**: [FOCUSED_MODE_DETAILS]
+
+### Test File Organization
+**Test Structure**: [TEST_FILE_STRUCTURE]
+**Naming Convention**: [TEST_NAMING_CONVENTION]
+**Test Groups**: [TEST_GROUP_ORGANIZATION]
+
+### Specialist Agent Coordination
+**Code Writer Agent**: [CODE_WRITER_COORDINATION]
+**Code Tester Agent**: [CODE_TESTER_COORDINATION]
+**Integration Patterns**: [AGENT_INTEGRATION_PATTERNS]
 
 ### Command Usage
 
@@ -292,12 +309,20 @@ Individual features have specific performance requirements documented in their r
 ### Testing Documentation
 - **Integration Tests**: `tests/integration/README.md`
 - **Test Configuration**: `tests/config/`
-- **BDD Features**: `tests/bdd/features/`
+
 
 ### System Documentation
 - **Context Engineering**: `context_engineering_explanation.md`
 - **Feature Request System**: `feature_request_system.md`
 - **Command Reference**: `.claude/commands/`
+
+### Implementation Standards
+- **Design Review Standards**: `2-docs/context/design_review_standards_software.md` (for software components)
+- **Design Review Standards**: `2-docs/context/design_review_standards_non_software.md` (for non-software components, if applicable)
+- **Validation Strategy**: `2-docs/context/validation_strategy_software.md` (for software components)
+- **Validation Strategy**: `2-docs/context/validation_strategy_non_software.md` (for non-software components, if applicable)
+- **Coding Patterns**: [CODING_PATTERNS_REFERENCE]
+- **TDD Methodology**: [TDD_METHODOLOGY_DETAILS]
 
 ## Appendices
 

@@ -6,7 +6,6 @@
 .claude/
 ├── agents/                             # All agents in single directory
 │   ├── core_orchestrator.md           # Main orchestrator for all commands
-│   ├── core_delegator.md               # Specialist delegation logic
 │   ├── analysis_project.md             # Project analysis and complexity assessment
 │   ├── analysis_tech_detector.md       # Technology stack detection
 │   ├── analysis_risk.md                # Risk assessment and mitigation

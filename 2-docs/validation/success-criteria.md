@@ -17,9 +17,8 @@
 - [ ] Performance benchmarks achieved
 - [ ] Security requirements satisfied
 
-### TDD/BDD Requirements
+### TDD Requirements
 - [ ] All test groups pass (happy, edge, negative)
-- [ ] BDD scenarios execute successfully
 - [ ] Red-Green-Refactor cycles completed
 - [ ] Test-first development discipline maintained
 
@@ -56,7 +55,7 @@
 
 ### Definition of Done
 - [ ] Feature implemented according to specifications
-- [ ] All tests pass (unit, integration, BDD)
+- [ ] All tests pass (unit, integration)
 - [ ] Code reviewed and approved
 - [ ] Documentation updated
 - [ ] Deployed to staging environment

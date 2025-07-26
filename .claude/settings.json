@@ -77,6 +77,8 @@
       "assignment_rules": {
         "project_type": {
           "software": ["analysis_project", "analysis_tech_detector", "content_researcher"],
+          "web": ["analysis_project", "analysis_tech_detector", "content_researcher"],
+          "script": ["analysis_project", "analysis_tech_detector", "content_researcher"],
           "marketing": ["analysis_project", "specialist_marketing", "content_researcher"],
           "research": ["analysis_project", "content_researcher", "analysis_risk"],
           "design": ["analysis_project", "specialist_design", "content_researcher"],

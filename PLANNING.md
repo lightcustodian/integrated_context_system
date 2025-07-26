@@ -52,7 +52,7 @@ Based on your selections in the Technical Requirements section, the Context Engi
 # Technical Requirements
 
 ## Market & Technical Research Requirements
-**Research Level**: MINIMAL
+**Research Level**: 
 
 ### NONE
 - **Description**: Skip market and technical research
@@ -93,7 +93,7 @@ Based on your selections in the Technical Requirements section, the Context Engi
 - **Time Impact**: +2-4 hours to init-context
 
 ## Risk Management Requirements
-**Risk Management Level**: MINIMAL
+**Risk Management Level**: 
 
 ### NONE
 - **Description**: Skip formal risk management
@@ -132,7 +132,7 @@ Based on your selections in the Technical Requirements section, the Context Engi
 - **Risk Coverage**: All risk categories with quantitative analysis
 
 ## Planning Depth Requirements
-**Planning Level**: MINIMAL
+**Planning Level**: 
 
 ### NONE
 - **Description**: Skip formal planning documentation
@@ -171,7 +171,7 @@ Based on your selections in the Technical Requirements section, the Context Engi
 - **Planning Artifacts**: Strategic documents, business cases, communication plans
 
 ## Visual Documentation Requirements
-**Diagram Level**: MINIMAL
+**Diagram Level**: 
 
 ### NONE
 - **Description**: Text-only documentation
@@ -207,7 +207,7 @@ Based on your selections in the Technical Requirements section, the Context Engi
 - **Use When**: Stakeholder presentations, funding requests, executive reviews
 
 ## User Story Development Requirements
-**User Story Level**: MINIMAL
+**User Story Level**: 
 
 ### NONE
 - **Description**: Skip formal user story development
@@ -232,16 +232,16 @@ Based on your selections in the Technical Requirements section, the Context Engi
 - **Use When**: User-facing applications, complex workflows, multiple user types
 
 ### COMPREHENSIVE
-- **Description**: Behavior-driven development with BDD scenarios
+- **Description**: Advanced user story development with detailed scenarios
 - **System Provides**:
   - Complete user story framework plus:
-  - Gherkin BDD scenarios for all stories
+  - Detailed acceptance scenarios for all stories
   - Automated acceptance test generation
   - User behavior analytics planning
 - **Use When**: Quality-critical applications, regulated systems, complex user interactions
 
 ## API Specification Requirements
-**API Documentation Level**: MINIMAL
+**API Documentation Level**: 
 
 ### NONE
 - **Description**: No formal API documentation
@@ -276,18 +276,17 @@ Based on your selections in the Technical Requirements section, the Context Engi
   - Developer onboarding and support materials
 - **Use When**: Enterprise APIs, partner integrations, commercial API products
 
-## TDD/BDD Strategy
+## TDD Strategy
 
 ### Test Framework Configuration
 - **Primary Framework**: Jest
-- **BDD Framework**: jest-cucumber
 - **Test Organization**: happy_path, edge_case, negative_case
 - **Coverage Target**: 80% minimum
 
-### BDD Scenario Planning
-- **Format**: Gherkin scenarios
-- **Organization**: One feature file per major functionality
-- **Traceability**: BDD scenarios linked to unit test groups
+### Test Scenario Planning
+- **Format**: Standard test scenarios
+- **Organization**: One test file per major functionality
+- **Traceability**: Test scenarios linked to unit test groups
 
 ### Red-Green-Refactor Workflow
 - **Enabled**: true

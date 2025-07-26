@@ -4,20 +4,27 @@
 **Function**: Orchestration Agent coordinates specialist agents to implement features through systematic Red-Green-Refactor cycles
 
 ## Files Called
+- `CLAUDE.md` - AI agent instructions (read for current configuration)
 - `2-docs/PRPs/main-prp.md` - Project orchestrator and implementation guidance
 - `2-docs/features/feature-registry.json` - Feature tracking and dependencies
 - `2-docs/features/FR-XXX-[feature-name].md` - Individual feature specifications
-- `2-docs/context/design_review_standards.md` - Quality standards
-- `2-docs/context/validation_strategy_template.md` - Testing approach
+- `2-docs/context/design_review_standards_software.md` - Quality standards for software components (if project_type is software/web/script)
+- `2-docs/context/design_review_standards_non_software.md` - Quality standards for non-software components (if project_type is marketing/research/design/mixed)
+- `2-docs/context/validation_strategy_software.md` - Testing approach for software components (if project_type is software/web/script)
+- `2-docs/context/validation_strategy_non_software.md` - Testing approach for non-software components (if project_type is marketing/research/design/mixed)
 - `.claude/settings.json` - Project configuration and agent assignment rules
 - `.claude/state/session.json` - Current state and progress
+- Test files using flat naming convention: `FR-[XXX]_[test_type]_[description].[extension]`
 
 ## Files Created
-- Implementation code in `1-main/` (based on tech stack)
-- Updated test files with actual implementations
-- Integration test results and reports
-- Updated feature registry with completion status
-- Progress tracking and confidence scores
+- None - This command only populates/updates existing files
+
+## Files Populated/Updated
+- `.claude/state/session.json` - Updated with execution progress and specialist tracking
+- `1-main/` - Populated with implementation code (based on tech stack)
+- Test files updated with actual implementations and results using flat naming: `FR-[XXX]_[test_type]_[description].[extension]`
+- `2-docs/features/feature-registry.json` - Updated with completion status and confidence scores
+- `2-docs/features/FR-XXX-[feature-name].md` - Updated with implementation notes and results
 
 ## Usage
 ```
@@ -50,16 +57,19 @@ You are coordinating feature implementation. Your task:
 **Execution Strategy Analysis**:
 ```
 Read agent assignment rules from .claude/settings.json
-Determine execution approach:
+Parse command line arguments:
 - No arguments: Execute all incomplete features in dependency order
-- Specific features: Execute listed features with dependency validation
-- Single feature: Execute one feature (validate dependencies but don't auto-execute)
+- --feature=ID1,ID2: Execute specified features with dependency validation
+- --auto-deps: Automatically include and execute dependencies for specified features
+- --force: Bypass dependency checks and execute anyway
+- --single-feature=ID: Execute only one feature (validate dependencies but don't auto-execute)
 
 Load execution context:
 - Read feature registry and validate structure
 - Check feature dependencies and execution order
 - Verify all required features have complete specifications
 - Validate that create-prp has been completed
+- Load appropriate design review standards and validation strategy files based on project type
 ```
 
 ### Step 3: Specialist Agent Assignment for Implementation
@@ -73,9 +83,9 @@ Create subagent with persona: @../agents/code_writer.md
 Your specific task: Implement features using TDD methodology
 Your input context:
 - Feature specifications and requirements
-- Pre-created test files and validation criteria
+- Pre-created test files using flat naming convention
 - Technology stack and development environment
-- Design review standards and coding patterns
+- Design review standards and coding patterns from appropriate standards file
 
 Your expected output:
 - Working implementation code in 1-main/
@@ -90,10 +100,10 @@ Create subagent with persona: @../agents/code_tester.md
 
 Your specific task: Execute comprehensive test validation
 Your input context:
-- Pre-created test files from /create-prp
+- Pre-created test files from /create-prp using flat naming convention
 - Implementation code from Code Writer Agent
 - Testing framework configuration
-- Quality standards and coverage requirements
+- Quality standards and coverage requirements from validation strategy files
 
 Your expected output:
 - Complete test execution results (Happy Path, Edge Case, Negative Case)
@@ -114,7 +124,7 @@ Your specific task: Validate non-code deliverables and business requirements
 Your input context:
 - Non-code feature deliverables
 - Business requirements and stakeholder expectations
-- Quality standards for content, design, marketing components
+- Quality standards for content, design, marketing components from non-software standards files
 - Project-specific validation criteria
 
 Your expected output:
@@ -134,7 +144,7 @@ Your specific task: Execute comprehensive integration testing
 Your input context:
 - Completed feature implementations
 - Feature dependencies and integration points
-- Integration test templates and scenarios
+- Integration test files using flat naming convention
 - Cross-feature interaction requirements
 
 Your expected output:
@@ -154,11 +164,11 @@ Your specific task: Enhance test coverage based on implementation
 Your input context:
 - Implemented code and feature functionality
 - Existing test coverage analysis
-- Project Testing Review List from /create-prp
+- Validation Strategy files from /create-prp (software or non-software versions)
 - Coverage gaps and additional testing needs
 
 Your expected output:
-- Additional tests for comprehensive coverage
+- Additional tests for comprehensive coverage using flat naming convention
 - Enhanced integration test scenarios
 - End-to-end test implementations
 - Test coverage validation and improvement recommendations
@@ -173,7 +183,7 @@ Your expected output:
 ```
 1. Read feature specification document
 2. Extract requirements, design, and task list
-3. Load associated test files and validation criteria
+3. Load associated test files using flat naming convention: FR-[XXX]_[test_type]_[description].[extension]
 4. Prepare feature-specific implementation environment
 5. Assign appropriate specialists based on feature type
 ```
@@ -184,7 +194,7 @@ Your expected output:
 ```
 Task Assignment: Execute pre-created tests to establish baseline
 For each test group (Happy Path → Edge Case → Negative Case):
-1. Load pre-created test files from /create-prp
+1. Load pre-created test files from /create-prp using flat naming convention
 2. Run tests (should fail initially)
 3. Verify tests fail for correct reasons
 4. Report test failure analysis to Orchestration Agent
@@ -223,8 +233,8 @@ For each test group:
 **Feature Testing Coordination**:
 ```
 Coordinate between Code Tester Agent and other specialists:
-- Execute pre-created Feature Testing Review List
-- Run integration tests for this feature
+- Execute validation strategy from appropriate validation strategy files
+- Run integration tests for this feature using flat naming convention
 - Validate feature meets all acceptance criteria
 - Verify feature integrates properly with dependencies
 ```
@@ -244,7 +254,7 @@ If Validation Stakeholder Agent assigned:
 **After each feature completion:**
 ```
 Coordinate integration testing between specialists:
-- Code Integration Tester Agent: Run integration tests between features
+- Code Integration Tester Agent: Run integration tests between features using flat naming
 - Code Tester Agent: Validate data flow and state consistency
 - Validation Stakeholder Agent: Test business workflow integration (if applicable)
 - Update integration test results in feature registry
@@ -288,16 +298,16 @@ Synthesize specialist progress:
 **Test Writer Agent Enhancement**:
 ```
 If Code Test Writer Agent assigned:
-- Review Project Testing Review List created by /create-prp
+- Review Validation Strategy files created by /create-prp (software or non-software versions)
 - Analyze implemented code and feature interactions
 - Identify gaps in integration testing
-- Create additional tests in list format for comprehensive coverage
+- Create additional tests using flat naming convention for comprehensive coverage
 ```
 
 **Comprehensive Testing Execution**:
 ```
 Coordinate final validation across all specialists:
-- Code Tester Agent: Execute all tests in Project Testing Review List
+- Code Tester Agent: Execute all tests using validation strategy guidelines
 - Code Integration Tester Agent: Run comprehensive integration test suite
 - Validation Stakeholder Agent: Execute end-to-end user journey validation
 - Validate complete system functionality across all domains
@@ -308,7 +318,7 @@ Coordinate final validation across all specialists:
 
 **Code Quality Validation** (Code Writer + Code Tester coordination):
 ```
-- Verify adherence to design review standards
+- Verify adherence to design review standards from appropriate standards files
 - Check naming conventions and coding patterns
 - Validate documentation completeness
 - Ensure security and performance requirements met
@@ -317,7 +327,7 @@ Coordinate final validation across all specialists:
 **Testing Validation** (Code Tester + Code Test Writer coordination):
 ```
 - Verify minimum test coverage achieved (80%+ for code)
-- Validate BDD scenarios align with implementation
+- Validate test scenarios align with implementation
 - Check test isolation and reliability
 - Ensure integration tests cover feature interactions
 ```
@@ -325,7 +335,7 @@ Coordinate final validation across all specialists:
 **Non-Code Quality Validation** (Validation Stakeholder coordination):
 ```
 If applicable:
-- Validate content quality and brand compliance
+- Validate content quality and brand compliance using non-software standards
 - Ensure business requirement satisfaction
 - Verify stakeholder acceptance criteria met
 - Confirm non-code deliverable quality standards

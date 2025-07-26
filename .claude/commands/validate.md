@@ -4,21 +4,27 @@
 **Function**: Orchestration Agent coordinates specialist validation agents to perform intelligent quality assessment
 
 ## Files Called
+- `CLAUDE.md` - AI agent instructions (read for current configuration)
 - `2-docs/features/feature-registry.json` - Feature tracking and status
 - `2-docs/features/FR-XXX-[feature-name].md` - Feature specifications
-- `2-docs/context/design_review_standards.md` - Quality standards
-- `2-docs/context/validation_strategy_template.md` - Validation approach
-- `2-docs/context/validation_adaptations.md` - Non-software adaptations
+- `2-docs/context/design_review_standards_software.md` - Quality standards for software components (if project_type is software/web/script)
+- `2-docs/context/design_review_standards_non_software.md` - Quality standards for non-software components (if project_type is marketing/research/design/mixed)
+- `2-docs/context/validation_strategy_software.md` - Validation approach for software components (if project_type is software/web/script)
+- `2-docs/context/validation_strategy_non_software.md` - Validation approach for non-software components (if project_type is marketing/research/design/mixed)
 - `2-docs/validation/success-criteria.md` - Project success criteria
 - `.claude/settings.json` - Project configuration and agent assignment rules
 - `.claude/state/session.json` - Current state
+- `1-main/` - Implementation code for validation
+- `tests/` - All test files and results for validation
 
 ## Files Created
-- `2-docs/validation/validation-report-[timestamp].md` - Comprehensive validation report
-- Updated feature registry with validation results
-- Test execution logs and coverage reports
-- Integration test results and analysis
-- Quality assessment and recommendations from all specialists
+- `2-docs/validation/validation-report-[timestamp].md` - Comprehensive validation report with timestamp
+
+## Files Populated/Updated
+- `.claude/state/session.json` - Updated with validation progress and specialist results
+- `2-docs/features/feature-registry.json` - Updated with validation results and quality scores
+- `tests/` - Updated with test execution logs and coverage reports
+- `2-docs/validation/success-criteria.md` - Updated with validation results and achievement status
 
 ## Usage
 ```
@@ -52,6 +58,11 @@ You are coordinating comprehensive project validation. Your task:
 **Validation Strategy Analysis**:
 ```
 Read agent assignment rules from .claude/settings.json
+Load project type from PLANNING.md and settings.json to determine appropriate standards files:
+- "software", "web", "script" → Use software-focused validation files
+- "marketing", "research", "design" → Use non-software-focused validation files  
+- "mixed" → Use both software and non-software validation files
+
 Determine validation approach based on arguments:
 
 Default behavior (no arguments):

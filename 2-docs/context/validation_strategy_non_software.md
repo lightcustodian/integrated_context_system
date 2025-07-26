@@ -1,4 +1,4 @@
-# Validation Adaptations for Non-Software Projects
+# Validation Strategy Template: Non-Software Projects
 
 ## Overview
 

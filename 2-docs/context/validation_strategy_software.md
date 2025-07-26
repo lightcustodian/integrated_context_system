@@ -1,4 +1,4 @@
-# Test Strategy Template
+# Validation Strategy Template: Software Projects
 
 ## Testing Levels Overview
 

@@ -4,24 +4,34 @@
 **Function**: Orchestration Agent coordinates specialist agents to create systematic implementation guidance
 
 ## Files Called
+- `CLAUDE.md` - AI agent instructions (read for current configuration)
 - `2-docs/planning/*.md` - Planning documents from /init-context specialist analysis
 - `PLANNING.md` - Original project configuration
 - `.claude/settings.json` - Project configuration and agent assignment rules
 - `.claude/state/session.json` - Current project state
-- `.claude/utils/mcp_client.py` - Enhanced research capabilities (optional)
+- `.claude/utils/mcp_health.py` - MCP health monitoring (optional)
 
 ## Files Created
-- `2-docs/PRPs/main-prp.md` - Comprehensive project implementation guide
-- `2-docs/features/project-requirements.md` - Detailed project requirements
-- `2-docs/features/project-design.md` - High-level project design
-- `2-docs/features/FR-001-[feature-name].md` - Individual feature documents
-- `2-docs/features/feature-registry.json` - Feature tracking and dependencies
-- Test scaffolding for each feature (unit, integration, BDD)
-- Integration test templates for cross-feature validation
+- `2-docs/features/FR-XXX-[feature-name].md` - Individual feature documents for each decomposed feature
+- Test files using flat naming convention: `FR-[XXX]_[test_type]_[description].[extension]`
+  - Example: `FR-001_task_submit-button.py` for task-level testing
+  - Example: `FR-001_feature_user-authentication.py` for feature-level testing  
+  - Example: `FR-001_project_end-to-end-workflow.py` for project-level testing
+
+## Files Populated/Updated
+- `.claude/state/session.json` - Updated with PRP creation progress and specialist tracking
+- `2-docs/PRPs/main-prp.md` - Populated with comprehensive project implementation guide using project-prp-template.md
+- `2-docs/features/project-requirements.md` - Populated with detailed project requirements
+- `2-docs/features/project-design.md` - Populated with high-level project design
+- `2-docs/features/feature-registry.json` - Updated with feature tracking and dependencies
+- `2-docs/context/design_review_standards_software.md` - Created/updated with coding standards for software projects
+- `2-docs/context/design_review_standards_non_software.md` - Created/updated with standards for non-software projects (if applicable)
+- `2-docs/context/validation_strategy_software.md` - Created/updated with validation approach for software projects
+- `2-docs/context/validation_strategy_non_software.md` - Created/updated with validation approach for non-software projects (if applicable)
 
 ## Usage
 ```
-/create-prp [--complexity=low|medium|high] [--max-features=10] [--no-decomposition]
+/create-prp
 ```
 
 ## Orchestration Agent Instructions
@@ -51,9 +61,10 @@ Load comprehensive project context:
 - Validate that initialization is complete
 
 Determine specialist needs based on:
-- Project type (software, marketing, research, design, mixed)
-- Project complexity (simple, medium, complex)
-- Feature decomposition requirements
+- Project type from PLANNING.md and settings.json (software, web, script, marketing, research, design, mixed)
+- Technical requirements levels from PLANNING.md (what level of research, risk management, planning depth, etc.)
+- Feature decomposition requirements based on project scope and goals
+- Available planning documents and their completeness
 ```
 
 ### Step 3: Specialist Agent Assignment and Delegation
@@ -91,11 +102,16 @@ Your expected output:
 - 2-docs/features/project-requirements.md (comprehensive requirements)
 - 2-docs/features/project-design.md (high-level system design)
 - Feature documentation templates and structure
+- Implementation guidance for /execute-prp including:
+  - TDD methodology details for Code Writer and Code Tester Agents
+  - Test file organization and naming conventions
+  - Agent coordination patterns and responsibilities
+  - Design review standards and coding patterns
 ```
 
 #### Conditional Specialists Based on Project Type
 
-**If project involves software development:**
+**If project_type is "software", "web", or "script":**
 
 **Analysis Tech Detector Agent** (if not already completed):
 ```
@@ -114,7 +130,7 @@ Your expected output: Enhanced technology configuration including:
 - Integration testing setup requirements
 ```
 
-**If project involves complex feature decomposition:**
+**If Planning Depth Requirements >= "STANDARD" from PLANNING.md:**
 
 **Validation Designer Agent**:
 ```
@@ -130,10 +146,10 @@ Your expected output: Enhanced test strategy including:
 - Task-level testing framework (Happy Path, Edge Case, Negative Case)
 - Feature-level testing and integration approach
 - Project-level testing and validation procedures
-- Test scaffolding and BDD scenario templates
+- Test scaffolding and templates
 ```
 
-**If project type includes non-software components:**
+**If project_type is "marketing", "research", "design", or "mixed":**
 
 **Validation Stakeholder Agent**:
 ```
@@ -157,15 +173,29 @@ Your expected output: Stakeholder validation framework including:
 
 **Feature Decomposition Decision**:
 ```
-Based on specialist analysis, determine decomposition approach:
-- Simple projects (1-3 features): Single comprehensive PRP
-- Medium projects (4-8 features): Moderate feature decomposition
-- Complex projects (9+ features): Comprehensive feature decomposition
+Based on specialist analysis and project scope, determine decomposition approach:
 
-Feature Decomposition Guidelines from specialists:
-- Code-focused features: Minimize non-code tasks to essential documentation
-- Non-code-focused features: Minimize code tasks to essential automation
-- Clear separation: Maintain feature focus while enabling integration
+Decomposition Criteria (applies to all project types):
+- Default to MORE feature decomposition when in doubt
+- If choosing between 2 or 3+ features, always choose the higher number
+- Can the project be completed as a single cohesive deliverable? → Consider decomposition anyway for better organization
+- Does the project have multiple distinct deliverables or phases? → Feature decomposition required
+- Are there clear boundaries between different aspects of the work? → Feature decomposition beneficial
+- When uncertain about boundaries, err on the side of more granular features
+
+Feature Decomposition Guidelines for all project types:
+- Each feature should represent a complete, testable deliverable
+- Features should have clear boundaries and minimal dependencies
+- Features can be coding deliverables, content deliverables, design deliverables, or mixed
+- Maintain feature focus while enabling integration across all deliverable types
+- Consider stakeholder review and approval workflows for each feature type
+
+Examples:
+- Coding projects: Features = functional components, APIs, user interfaces
+- Marketing projects: Features = campaign phases, content types, channel strategies  
+- Research projects: Features = research phases, analysis components, report sections
+- Design projects: Features = design systems, user flows, visual components
+- Mixed projects: Features = any combination of the above with clear boundaries
 ```
 
 **If decomposition is needed, coordinate feature creation:**
@@ -185,19 +215,25 @@ For each identified feature boundary:
 Using Validation Designer Agent output and specialist recommendations:
 
 Task-Level Testing (Happy Path, Edge Case, Negative Case):
-- Create test templates in tests/unit/FR-XXX/ for each feature
-- Generate BDD scenarios in tests/bdd/features/FR-XXX.feature
-- Set up test group organization and execution order
+- Create test files using naming convention: FR-[XXX]_task_[task-description].[extension]
+- For coding projects: Create in tests/ directory with appropriate file extension
+- For non-coding projects: Create validation checklists with .md extension
 
-Feature-Level Testing:
-- Create Feature Testing Review List for manual validation
-- Set up integration test templates in tests/integration/
-- Configure stakeholder validation for non-code components
+Feature-Level Testing with manual validation:
+- Create test files using naming convention: FR-[XXX]_feature_[feature-description].[extension]
+- For coding projects: Create in tests/ directory with appropriate file extension
+- For non-coding projects: Create stakeholder review workflows with .md extension
 
 Project-Level Testing:
-- Create Project Testing Review List for comprehensive validation
-- Plan Test Writer agent enhancement process
-- Set up end-to-end test structure in tests/e2e/
+- Create test files using naming convention: FR-[XXX]_project_[project-description].[extension]
+- For coding projects: Create in tests/ directory with appropriate file extension
+- For non-coding projects: Create final deliverable validation with .md extension
+
+File naming examples:
+- Task test: FR-001_task_submit-button.py
+- Feature test: FR-002_feature_user-login.py  
+- Project test: FR-003_project_full-workflow.py
+- Non-coding validation: FR-001_task_content-review.md
 ```
 
 ### Step 6: Feature Registry and Documentation Creation
@@ -222,44 +258,108 @@ Create 2-docs/features/feature-registry.json with specialist input:
       "user_story": "[User story text]",
       "dependencies": [],
       "dependents": ["FR-002"],
-      "complexity": "medium",
       "priority": "high",
       "status": "planned",
       "specialist_analysis": "[Key insights from specialists]",
       "file_path": "2-docs/features/FR-001-feature-name.md",
-      "test_files": {
-        "unit": ["tests/unit/FR-001/"],
-        "integration": ["tests/integration/FR-001/"],
-        "bdd": ["tests/bdd/features/FR-001.feature"]
-      }
+      "test_files": [
+        "FR-001_task_submit-button.py",
+        "FR-001_feature_task-management.py",
+        "FR-001_project_full-workflow.py"
+      ]
     }
   ]
 }
 ```
 
-### Step 7: Main PRP Creation
+### Step 7: Implementation Standards Creation
+**Orchestration Task**: Ensure implementation standards exist for /execute-prp
+
+**Create Required Standards Files**:
+```
+Determine required standards files based on project type from PLANNING.md:
+
+Project Type Mapping:
+- "software", "web", "script" → Software-focused project
+- "marketing", "research", "design" → Non-software-focused project  
+- "mixed" → Both software and non-software components
+
+For Software-focused projects (software/web/script):
+- 2-docs/context/design_review_standards_software.md (from Validation Designer Agent or create basic version)
+- 2-docs/context/validation_strategy_software.md (from Validation Designer Agent or create basic version)
+
+For Non-software-focused projects (marketing/research/design):
+- 2-docs/context/design_review_standards_non_software.md (from Validation Designer Agent or create basic version)
+- 2-docs/context/validation_strategy_non_software.md (from Validation Designer Agent or create basic version)
+
+For Mixed projects:
+- Create BOTH software and non-software versions:
+  - 2-docs/context/design_review_standards_software.md
+  - 2-docs/context/design_review_standards_non_software.md
+  - 2-docs/context/validation_strategy_software.md
+  - 2-docs/context/validation_strategy_non_software.md
+
+These files are required by /execute-prp for proper agent coordination based on project components.
+```
+
+### Step 8: Main PRP Creation
 **Orchestration Task**: Create comprehensive PRP as orchestrator document
 
 **Main PRP Generation**:
 ```
-Create 2-docs/PRPs/main-prp.md integrating all specialist outputs:
+Create 2-docs/PRPs/main-prp.md using template: 2-docs/PRPs/templates/project-prp-template.md
 
-For Feature-Decomposed Projects:
-- Project overview synthesizing specialist analysis
-- Feature summary with specialist insights
-- Execution strategy based on specialist recommendations
-- Integration testing approach from validation design
-- Progress tracking framework with specialist input
-- Links to individual feature documents
+Populate template with specialist outputs:
+
+**Basic Project Information**:
+- [PROJECT_NAME]: From PLANNING.md
+- [PROJECT_DESCRIPTION]: From project analysis
+- [PROJECT_ID]: Generate from project name
+- [CREATION_DATE]: Current timestamp
+- [PROJECT_STATUS]: "In Planning" or "Ready for Implementation"
+
+**Feature Information**:
+- [TOTAL_FEATURES]: From feature decomposition analysis
+- [CORE_FEATURE_COUNT] and feature lists: From feature registry
+- [EXECUTION_ORDER]: From feature dependency analysis
+- [PHASE_1_FEATURE_COUNT] etc.: Organize features into implementation phases
+
+**Technical Information**:
+- [TECHNOLOGY_STACK]: From Analysis Tech Detector Agent
+- [FRONTEND_TECH_STACK], [BACKEND_TECH_STACK], etc.: Break down by component
+- [CODING_PATTERNS_REFERENCE]: From Analysis Tech Detector Agent
+- [ARCHITECTURAL_DECISION_1] etc.: From architecture vision
+
+**Implementation Guidance for /execute-prp**:
+- [TDD_METHODOLOGY_DETAILS]: Standard Red-Green-Refactor workflow
+- [RED_PHASE_INSTRUCTIONS]: "Execute pre-created tests (should fail initially)"
+- [GREEN_PHASE_INSTRUCTIONS]: "Implement minimal code to make tests pass"
+- [REFACTOR_PHASE_INSTRUCTIONS]: "Improve code quality while keeping tests green"
+- [FOCUSED_MODE_DETAILS]: "Maximum 3 focused attempts on failed tests before escalation"
+- [TEST_FILE_STRUCTURE]: From test strategy (flat naming: FR-XXX_type_description.ext)
+- [TEST_NAMING_CONVENTION]: "FR-[XXX]_[test_type]_[description].[extension]"
+- [TEST_GROUP_ORGANIZATION]: "Happy Path, Edge Case, Negative Case"
+
+**Agent Coordination Details**:
+- [CODE_WRITER_COORDINATION]: "Implements features using TDD methodology with design review standards"
+- [CODE_TESTER_COORDINATION]: "Executes tests and validates results with coverage requirements"
+- [AGENT_INTEGRATION_PATTERNS]: "Code Writer and Code Tester coordinate through Orchestration Agent"
+
+**Analysis Summaries**:
+- [COMPLEXITY_ANALYSIS]: From Analysis Project Agent
+- [MARKET_RESEARCH_SUMMARY]: From Content Researcher Agent (if available)
+- [TECHNICAL_RESEARCH_SUMMARY]: From Content Researcher Agent (if available)
+- [ARCHITECTURE_VISION_SUMMARY]: From planning documents
+- [RISK_ASSESSMENT_SUMMARY]: From Analysis Risk Agent (if available)
+- [TEST_STRATEGY]: From Validation Designer Agent
 
 For Single-Feature Projects:
-- Comprehensive implementation guide
-- Complete requirements and design from specialists
-- Detailed task breakdown with specialist analysis
-- Full testing strategy from validation design
+- Use same template but populate with single feature information
+- Set [TOTAL_FEATURES] to 1
+- Populate execution phases with single feature tasks
 ```
 
-### Step 8: Integration and Quality Control
+### Step 9: Integration and Quality Control
 **Orchestration Integration Tasks**:
 1. **Validate Specialist Outputs**: Ensure all requirements and features are complete and consistent
 2. **Resolve Conflicts**: Address any contradictions between specialist recommendations
@@ -278,7 +378,7 @@ For Single-Feature Projects:
 - Integration test compatibility across features
 - Test data consistency and isolation
 
-### Step 9: Comprehensive Summary and Approval Gate
+### Step 10: Comprehensive Summary and Approval Gate
 **Generate orchestrated approval gate summary:**
 
 **Specialist Agent Summary**:

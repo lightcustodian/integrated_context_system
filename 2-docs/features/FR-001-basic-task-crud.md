@@ -53,7 +53,7 @@ As a user, I want to create, read, update, and delete tasks, so that I can manag
 
 ## Test Strategy
 
-### BDD Scenarios
+### Test Scenarios
 
 ```gherkin
 Feature: Task Management

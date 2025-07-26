@@ -60,7 +60,7 @@
 **Depends On**: [DEPENDENCY_LIST]  
 **Dependents**: [DEPENDENT_LIST]  
 
-## BDD Scenarios
+## Test Scenarios
 
 ### Happy Path Scenarios
 [HAPPY_PATH_SCENARIOS]

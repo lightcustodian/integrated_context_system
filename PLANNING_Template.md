@@ -6,15 +6,13 @@
 [PROJECT_NAME]
 
 ### Project Type
-- [ ] Software Development
-- [ ] Web Application
-- [ ] Mobile Application
-- [ ] API/Backend Service
-- [ ] Data Analysis/Research
-- [ ] Marketing Campaign
-- [ ] Content Creation
-- [ ] Design Project
-- [ ] Mixed Project (specify components)
+- [ ] software
+- [ ] web
+- [ ] script
+- [ ] marketing
+- [ ] research
+- [ ] design
+- [ ] mixed
 - [ ] Other: [SPECIFY]
 
 ### Project Description

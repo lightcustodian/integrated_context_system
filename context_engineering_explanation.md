@@ -35,9 +35,8 @@ Comprehensive documentation drives implementation rather than being an afterthou
 The Context Engineering system uses a sophisticated **Orchestration Agent → Specialist Agent → Orchestration Agent** pattern with intelligent external capability access:
 
 1. **Command Initiation**: Each .claude command initiates an Orchestration Agent
-2. **Capability Planning**: Orchestration Agent analyzes all planned work and identifies required external capabilities
-3. **External Tool Access**: MCP Agent provides necessary external capabilities transparently
-4. **Specialist Assignment**: Orchestration Agent determines which specialist agents are needed based on project type, complexity, and requirements
+2. **External Tool Access**: MCP Agent provides necessary external capabilities transparently
+3. **Specialist Assignment**: Orchestration Agent determines which specialist agents are needed based on project type, complexity, and requirements
 5. **Task Delegation**: Orchestration Agent assigns specific tasks to appropriate specialist agents with clear context and expected outputs
 6. **Specialist Execution**: Specialist agents perform domain-specific work using available tools and report results back to the Orchestration Agent
 7. **Integration and Synthesis**: Orchestration Agent combines specialist outputs into cohesive project deliverables
@@ -258,55 +257,59 @@ The Context Engineering system uses a systematic five-command workflow, each orc
 
 **Enhanced Orchestration Process**:
 1. **Load Orchestration Agent**: Primary coordinator for specialist assignment
-2. **Capability Assessment**: Determine external tools needed for project initialization
-3. **MCP Agent Coordination**: Request capabilities: "file_operations, version_control, web_search"
-4. **Specialist Assignment**: Based on project type, complexity, and planning depth
-5. **Coordinated Execution**: Specialists work on planning documents using available tools
-6. **Integration**: Orchestration Agent synthesizes specialist outputs
-7. **Quality Control**: Validation of all specialist work integration
-8. **Approval Gate**: Comprehensive summary of all specialist contributions
+2. **Project Configuration Analysis**: Analyze PLANNING.md to determine specialist requirements
+3. **Specialist Agent Assignment and Delegation**: Based on project type, complexity, and planning depth
+4. **Architecture and Vision Planning**: Create architecture vision based on specialist outputs
+5. **Project Structure and Template Generation**: Generate standardized project structure
+6. **Configuration and State Management**: Generate settings and initialize state
+7. **Integration and Quality Control**: Validate specialist outputs and resolve conflicts
+8. **Final Setup and Configuration**: Complete project initialization
+9. **Comprehensive Summary and Approval Gate**: Summary of all specialist contributions
 
 ### 2. `/create-prp` - Project Requirements and Feature Decomposition
 **Purpose**: Create comprehensive project requirements and decompose into manageable features through specialist coordination
 
 **Enhanced Orchestration Process**:
 1. **Load Orchestration Agent**: Coordinate requirements analysis and feature decomposition
-2. **Capability Planning**: Analyze needs: "file_operations, version_control, web_search, data_analysis"
-3. **MCP Agent Coordination**: Establish connections to required external tools
-4. **Specialist Assignment**: Based on project complexity and type
-5. **Feature Decomposition**: Orchestrator coordinates feature boundary identification
-6. **Test Strategy Development**: Validation specialists design comprehensive testing
-7. **Integration**: All specialist outputs synthesized into cohesive PRP
-8. **Quality Control**: Design review validation and testing framework validation
-9. **Approval Gate**: Summary of all specialist analysis and feature decomposition
+2. **Context Analysis and Validation**: Analyze project context and determine specialist requirements
+3. **Specialist Agent Assignment and Delegation**: Based on project type and technical requirements levels
+4. **Feature Decomposition Analysis and Creation**: Coordinate feature decomposition based on specialist analysis
+5. **Test Strategy Implementation**: Coordinate comprehensive test strategy creation
+6. **Feature Registry and Documentation Creation**: Create comprehensive feature tracking and documentation
+7. **Implementation Standards Creation**: Ensure design review and validation standards exist for /execute-prp
+8. **Main PRP Creation**: Create comprehensive PRP as orchestrator document
+9. **Integration and Quality Control**: Validate specialist outputs and resolve conflicts
+10. **Comprehensive Summary and Approval Gate**: Summary of all specialist analysis and feature decomposition
 
 ### 3. `/execute-prp` - Implementation with Coordinated TDD Methodology
 **Purpose**: Implement features through specialist coordination following test-driven development methodology
 
 **Enhanced Orchestration Process**:
 1. **Load Orchestration Agent**: Coordinate feature implementation across specialists
-2. **Capability Planning**: Analyze implementation needs across all features
-3. **MCP Agent Coordination**: Request comprehensive development capabilities
-4. **Implementation Specialist Assignment**: Code Writer, Code Tester, Integration Tester agents
-5. **Coordinated TDD Workflow**: Orchestrator coordinates Red-Green-Refactor cycles using external tools
-6. **Feature-Level Validation**: Specialists validate feature completion and integration
-7. **Integration Testing**: Cross-feature validation through specialist coordination
-8. **Quality Assurance**: Code quality and testing validation across specialists
-9. **Approval Gate**: Implementation summary with specialist validation results
+2. **Execution Planning and Validation**: Determine execution strategy and specialist requirements
+3. **Implementation Specialist Assignment**: Code Writer, Code Tester, Code Integration Tester, Validation Stakeholder agents
+4. **Feature Implementation Loop**: Coordinate systematic feature implementation with TDD workflow
+5. **Feature-Level Validation**: Specialists validate feature completion and integration
+6. **Integration Validation**: Cross-feature validation through specialist coordination
+7. **Progress Tracking and State Management**: Coordinate progress tracking across all specialists
+8. **Project-Level Testing**: Comprehensive project validation when all features complete
+9. **Quality Assurance**: Code quality and testing validation across specialists
+10. **Approval Gate**: Implementation summary with specialist validation results
 
 ### 4. `/validate` - Comprehensive Validation with Specialist Coordination
 **Purpose**: Comprehensive validation through coordinated specialist validation
 
 **Enhanced Orchestration Process**:
 1. **Load Orchestration Agent**: Coordinate comprehensive project validation
-2. **Capability Planning**: Determine validation tool requirements
-3. **MCP Agent Coordination**: Access testing, analysis, and validation tools
-4. **Validation Specialist Assignment**: Comprehensive validation team coordination
-5. **Multi-Level Validation**: Coordinated task, feature, and project-level validation
-6. **Quality Assessment**: Comprehensive scoring across all domains
-7. **Integration**: All specialist validation results synthesized
-8. **Final Validation Report**: Comprehensive report with specialist insights
-9. **Approval Gate**: Overall project validation with specialist recommendations
+2. **Validation Scope Determination**: Determine validation scope and specialist requirements
+3. **Specialist Validation Agent Assignment**: Comprehensive validation team coordination
+4. **Multi-Level Validation Strategy Execution**: Coordinated task, feature, and project-level validation
+5. **Validation Execution Coordination**: Coordinate validation execution across all specialists
+6. **Integration Test Execution**: Comprehensive integration testing (when specified)
+7. **Quality Assessment and Scoring Coordination**: Comprehensive scoring across all domains
+8. **Validation Report Generation**: Comprehensive report with specialist insights
+9. **Registry and State Updates**: Update project state with validation results
+10. **Comprehensive Approval Gate**: Overall project validation with specialist recommendations
 
 ### 5. `/help` - User Guidance and System Status
 **Purpose**: Provide user guidance and system status information

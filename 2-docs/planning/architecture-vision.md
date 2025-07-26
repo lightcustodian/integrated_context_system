@@ -12,7 +12,7 @@
 ## Technology Integration
 - **Primary Stack**: [TECH_STACK]
 - **Test Framework**: [TEST_FRAMEWORK_PRIMARY]
-- **BDD Framework**: [TEST_FRAMEWORK_BDD]
+
 
 ## Project-Specific Architecture
 - **Primary Goal**: [PRIMARY_GOAL]

@@ -4,20 +4,26 @@
 **Function**: Orchestration Agent coordinates specialist agents to create systematic project setup
 
 ## Files Called
-- `PLANNING_Template.md` - Template for creating project-specific PLANNING.md
-- `.claude/settings.json` - Agent assignment rules and configuration
-- `.claude/utils/mcp_client.py` - MCP integration for enhanced research (optional)
+- `PLANNING.md` - User-created project configuration (must exist)
+- `CLAUDE.md` - AI agent instructions (read for current configuration)
+- `.claude/settings.json` - Project configuration and agent assignment rules (read for current settings)
+- `2-docs/planning/templates/*.md` - Planning document templates
+- `.claude/utils/mcp_health.py` - MCP health monitoring (optional)
 
 ## Files Created
-- `CLAUDE.md` - AI agent instructions for child project
-- `.claude/settings.json` - Project configuration and agent assignment rules
-- `.claude/state/session.json` - Progress tracking and recovery state
-- `2-docs/planning/templates/*.md` - Planning document templates
-- `2-docs/planning/*.md` - Actual planning documents from specialist analysis
-- `2-docs/context/*.md` - Quality standards and validation templates
-- `2-docs/external/mcp-index.json` - MCP server configuration
-- `2-docs/validation/success-criteria.md` - Project success criteria
-- Basic test directory structure
+- `1-main/` directory - Created if doesn't exist for child project implementation
+
+## Files Populated/Updated
+- `.claude/settings.json` - Populated with project-specific configuration and agent assignment rules
+- `.claude/state/session.json` - Updated with initialization progress and specialist tracking
+- `CLAUDE.md` - Populated with project-specific AI agent instructions and context
+- `2-docs/planning/*.md` - Populated with specialist analysis results:
+  - `project-analysis.md` - From Analysis Project Agent
+  - `market-research.md` - From Content Researcher Agent (if assigned)
+  - `technical-research.md` - From Content Researcher Agent (if assigned)  
+  - `architecture-vision.md` - From Orchestration synthesis
+  - `risk-assessment.md` - From Analysis Risk Agent (if assigned)
+- `2-docs/validation/success-criteria.md` - Populated with project-specific success criteria
 
 ## Usage
 ```
@@ -44,9 +50,15 @@ You are coordinating project initialization. Your task:
 **Decision Logic**:
 ```
 Read PLANNING.md and determine:
-- Project type (software, marketing, research, design, mixed)
+- Project type (software, web, script, marketing, research, design, mixed)
 - Complexity level (simple, medium, complex) 
-- Planning depth (minimal, standard, comprehensive)
+- Individual technical requirement levels:
+  - Market & Technical Research Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
+  - Risk Management Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
+  - Planning Depth Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
+  - Visual Documentation Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
+  - User Story Development Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
+  - API Specification Requirements (NONE, MINIMAL, STANDARD, COMPREHENSIVE)
 - Technology stack preferences
 - Quality standards and validation requirements
 
@@ -71,7 +83,8 @@ Your input context:
 - Quality standards and constraints
 
 Your expected output: 2-docs/planning/project_analysis.md
-- Use template: 2-docs/planning/templates/project_analysis.md
+- Use template: 2-docs/planning/templates/project_analysis_template.md
+- Convert template to planning document by removing "_template" from filename and filling with project-specific content
 - Fill with project-specific analysis and findings
 - Focus on scope, stakeholders, feasibility, and requirements
 ```
@@ -94,7 +107,7 @@ Your expected output:
 
 #### Conditional Specialists Based on Project Type
 
-**If project_type includes "software":**
+**If project_type includes "software" OR "web" OR "script":**
 
 **Analysis Tech Detector Agent**:
 ```
@@ -149,9 +162,9 @@ Your expected output: Design-specific sections in planning documents:
 - Accessibility and usability standards
 ```
 
-#### Conditional Specialists Based on Planning Depth
+#### Conditional Specialists Based on Technical Requirements
 
-**If planning_depth >= "standard":**
+**If Market & Technical Research Requirements >= "MINIMAL":**
 
 **Content Researcher Agent**:
 ```
@@ -164,12 +177,13 @@ Your input context:
 - Available MCP servers for enhanced research
 
 Your expected output:
-- 2-docs/planning/market_research.md (use template)
-- 2-docs/planning/technical_research.md (use template)
+- 2-docs/planning/market_research.md (use template: 2-docs/planning/templates/market_research_template.md)
+- 2-docs/planning/technical_research.md (use template: 2-docs/planning/templates/technical_research_template.md)
+- Convert templates to planning documents by removing "_template" from filename and filling with project-specific content
 - Research-based recommendations and insights
 ```
 
-**If planning_depth == "comprehensive":**
+**If Risk Management Requirements >= "MINIMAL":**
 
 **Analysis Risk Agent**:
 ```
@@ -182,10 +196,13 @@ Your input context:
 - Project constraints and timeline
 
 Your expected output: 2-docs/planning/risk_assessment.md
-- Use template: 2-docs/planning/templates/risk_assessment.md
+- Use template: 2-docs/planning/templates/risk_assessment_template.md
+- Convert template to planning document by removing "_template" from filename and filling with project-specific content
 - Identify risks across technical, business, and operational domains
 - Provide specific mitigation strategies and contingency plans
 ```
+
+**If Planning Depth Requirements >= "STANDARD":**
 
 **Validation Designer Agent**:
 ```
@@ -198,7 +215,8 @@ Your input context:
 - Validation needs across all project domains
 
 Your expected output:
-- 2-docs/context/design_review_standards.md
+- 2-docs/context/design_review_standards_software.md (for software/web/script projects)
+- 2-docs/context/design_review_standards_non_software.md (for non-software projects)
 - 2-docs/context/validation_strategy_template.md
 - 2-docs/context/validation_adaptations.md
 - 2-docs/validation/success_criteria.md
@@ -214,60 +232,66 @@ Using integrated outputs from Analysis Project Agent and other specialists:
 2. Create 2-docs/planning/architecture_vision.md
 3. Include integration points and design principles  
 4. Document technology decisions and rationale
-5. Use template: 2-docs/planning/templates/architecture_vision.md
+5. Use template: 2-docs/planning/templates/architecture_vision_template.md
+6. Convert template to planning document by removing "_template" from filename and filling with project-specific content
 ```
 
 ### Step 5: Project Structure and Template Generation
 
 **Orchestration Task**: Generate standardized project structure and templates
 
-**Create directory structure:**
+**Ensure project structure exists:**
 ```
-1-main/                          # Implementation directory
-2-docs/
-  ├── planning/
-  │   ├── templates/             # Planning document templates
-  │   ├── project_analysis.md    # From Analysis Project Agent
-  │   ├── market_research.md     # From Content Researcher Agent  
-  │   ├── technical_research.md  # From Content Researcher Agent
-  │   ├── architecture_vision.md # From Orchestration synthesis
-  │   └── risk_assessment.md     # From Analysis Risk Agent
-  ├── context/                   # From Validation Designer Agent
-  ├── external/                  # MCP configuration
-  ├── features/                  # For feature decomposition
-  ├── PRPs/                      # Project Requirements and Planning
-  └── validation/                # Success criteria and validation
-tests/
-  ├── unit/                      # Task-level tests
-  ├── integration/               # Feature-level tests  
-  └── e2e/                       # Project-level tests
-.claude/
-  ├── agents/                    # Agent persona files
-  ├── commands/                  # Command definitions
-  ├── utils/                     # Python utilities
-  ├── state/                     # Progress tracking
-  └── logs/                      # Operation logs
-```
+Verify and create only missing directories as needed:
+- 1-main/ (if doesn't exist)
+- Any missing subdirectories in 2-docs/ structure
+- tests/ subdirectories (if project requires testing)
 
-**Create planning templates directory**: Copy standard templates to `2-docs/planning/templates/`
+Note: Most directory structure should already exist in Context Engineering parent project
+```
 
 ### Step 6: Configuration and State Management
 
 **Generate `.claude/settings.json`**:
+```
+Populate settings.json with actual values from PLANNING.md and specialist analysis:
+- PROJECT_NAME: Extract from PLANNING.md "Project Name" field
+- PROJECT_TYPE: Extract from PLANNING.md "Project Type" field  
+- TECH_STACK: Use results from Analysis Tech Detector Agent
+- TECH_DETECTION: Include detection confidence and all detected stacks
+- Technical requirement levels: Extract all 6 technical requirement selections from PLANNING.md
+- Load agent assignment rules from existing system configuration
+- Include complete available agents list from system
+```
+
+Example populated structure:
 ```json
 {
   "version": "1.0.0",
-  "PROJECT_NAME": "[FROM_PLANNING_MD]",
-  "PROJECT_TYPE": "[FROM_PLANNING_MD]", 
-  "TECH_STACK": "[FROM_TECH_DETECTOR]",
+  "PROJECT_NAME": "Simple Task Manager",
+  "PROJECT_TYPE": "web", 
+  "TECH_STACK": "javascript",
+  "TECH_DETECTION": {
+    "primary": "javascript",
+    "confidence": "high",
+    "ALL_DETECTED": ["html", "css", "javascript"]
+  },
+  "technical_requirements": {
+    "market_research": "MINIMAL",
+    "risk_management": "MINIMAL", 
+    "planning_depth": "MINIMAL",
+    "visual_documentation": "MINIMAL",
+    "user_stories": "MINIMAL",
+    "api_documentation": "MINIMAL"
+  },
   "context_engineering": {
     "version": "3.0",
     "agents": {
       "assignment_rules": {
-        // Load from system configuration
+        // Load from existing system configuration
       },
       "available_agents": [
-        // Complete agent list
+        // Load complete agent list from system
       ]
     }
   }
@@ -349,9 +373,9 @@ If initialization is interrupted:
 - Update state tracking appropriately
 
 ## Python Utilities Used
-- `.claude/utils/mcp_client.py` - Only for MCP timeout handling and server communication
+- `.claude/utils/mcp_health.py` - Only for MCP health monitoring and server communication
 - Standard agent file operations for all other tasks
 
 ---
-*Generated by Context Engineering v3.0 with Multi-Agent Orchestration*
+*Generated by Context Engineering v4.0 with Multi-Agent Orchestration*
 *Next Step: Review specialist outputs and planning documents, then run /create-prp*
