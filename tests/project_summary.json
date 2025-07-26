@@ -1,0 +1,187 @@
+{
+  "project_type": "generic",
+  "root_path": "C:\\Users\\John\\Documents\\Development\\context_engineering",
+  "platform_info": {
+    "platform": "Windows",
+    "windows_attributes_available": true,
+    "checking_windows_attributes": true
+  },
+  "summary": {
+    "target_files": [
+      "Makefile",
+      "README.txt",
+      "README.rst",
+      "Dockerfile",
+      ".gitignore",
+      "LICENSE",
+      "README.md"
+    ],
+    "found_important_files": [],
+    "important_dirs": [
+      ".claude",
+      "1-main",
+      "2-docs",
+      "3-tools",
+      "old",
+      "tests"
+    ],
+    "hidden_dirs": [
+      ".claude"
+    ],
+    "z_old_files": [],
+    "excluded_dirs": [
+      "__pycache__",
+      ".git",
+      ".venv",
+      "venv",
+      "env",
+      "node_modules",
+      "dist",
+      "build",
+      ".idea",
+      ".vscode",
+      "migrations",
+      "staticfiles",
+      "media",
+      ".pytest_cache",
+      ".tox",
+      ".coverage",
+      ".mypy_cache",
+      "htmlcov"
+    ],
+    "total_files": 54,
+    "total_dirs": 30
+  },
+  "directory_tree": {
+    ".claude": {
+      "commands": {
+        "create-prp.md": "file",
+        "execute-prp.md": "file",
+        "help.md": "file",
+        "init-context.md": "file",
+        "validate.md": "file"
+      },
+      "settings.json": "file",
+      "state": {
+        "context-metadata.json": "file",
+        "current-session.json": "file",
+        "prp-history.json": "file"
+      },
+      "system": {
+        "command_discovery.js": "file",
+        "mcp_client.js": "file",
+        "state_manager.js": "file",
+        "tech_detection.js": "file",
+        "template_configs.js": "file",
+        "template_core.js": "file",
+        "template_generators.js": "file",
+        "template_index.js": "file"
+      }
+    },
+    ".project_summary.config.json": "file",
+    "1-context-conversations.md": "file",
+    "1-main": {
+      "type": "directory"
+    },
+    "2-context-engineering-implementation.md": "file",
+    "2-docs": {
+      "PRPs": {
+        "active": {
+          "type": "directory"
+        },
+        "completed": {
+          "type": "directory"
+        },
+        "history": {
+          "type": "directory"
+        },
+        "templates": {
+          "tier1-prp.md": "file"
+        }
+      },
+      "context": {
+        "examples": {
+          "README.md": "file",
+          "examples.json": "file"
+        },
+        "patterns": {
+          "core-patterns.md": "file"
+        }
+      },
+      "external": {
+        ".env.example": "file",
+        "README.md": "file",
+        "mcp_index.json": "file",
+        "old": {
+          "essential_mcp_servers.md": "file",
+          "optional_mcp_servers.md": "file"
+        },
+        "rag_sources": {
+          "type": "directory"
+        },
+        "scripts": {
+          "setup-mcp.sh": "file"
+        }
+      },
+      "specifications": {
+        "INITIAL-template.md": "file"
+      },
+      "validation": {
+        "basic-checks.md": "file",
+        "success-criteria.md": "file"
+      }
+    },
+    "3-tools": {
+      ".project_summary.config.json": "file",
+      "project_summary.py": "file",
+      "replace_bracketed_vars.py": "file"
+    },
+    "CLAUDE.md": "file",
+    "execution-logic.md": "file",
+    "old": {
+      "chat-context.md": "file",
+      "chat-validation.md": "file",
+      "claude-context.md": "file",
+      "coding_responses.md": "file",
+      "update.md": "file"
+    },
+    "project_summary.json": "file",
+    "project_summary.py": "file",
+    "tdd-implementation.md": "file",
+    "tests": {
+      "bdd": {
+        "README.md": "file",
+        "features": {
+          "type": "directory"
+        },
+        "step_definitions": {
+          "type": "directory"
+        }
+      },
+      "config": {
+        ".gitkeep": "file",
+        "javascript_test_scaffold.txt": "file",
+        "python_test_scaffold.txt": "file",
+        "typescript_test_scaffold.txt": "file"
+      },
+      "fixtures": {
+        "README.md": "file"
+      },
+      "mapping": {
+        "bdd_unit_mapping.json": "file"
+      },
+      "unit": {
+        "README.md": "file"
+      }
+    }
+  },
+  "file_samples": {
+    "README.md": {
+      "path": "tests\\unit\\README.md",
+      "content_preview": "# Unit Tests Directory\n\nThis directory contains unit tests organized by test groups:\n- Happy path tests\n- Edge case tests  \n- Negative case tests\n\nTest files will be generated during PRP creation and organized according to the detected tech stack patterns.",
+      "size": 256,
+      "lines": 8
+    }
+  },
+  "project_metadata": {}
+}

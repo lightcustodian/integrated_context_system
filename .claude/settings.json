@@ -1,0 +1,107 @@
+{
+  "version": "1.0.0",
+  "PROJECT_NAME": "[PROJECT_NAME]",
+  "PROJECT_TYPE": "[PROJECT_TYPE]", 
+  "TECH_STACK": "[TECH_STACK]",
+  "TECH_DETECTION": {
+    "primary": "[TECH_STACK]",
+    "confidence": "[DETECTION_CONFIDENCE]",
+    "ALL_DETECTED": "[ALL_DETECTED_STACKS]"
+  },
+  "created": "[GENERATED_DATE]",
+  "features": {
+    "TDD_INTEGRATION": {
+      "enabled": true,
+      "RED_GREEN_REFACTOR": true,
+      "TEST_GROUP_ORGANIZATION": ["happy_path", "edge_case", "negative_case"],
+      "FOCUSED_MODE": true,
+      "TEST_FRAMEWORK_AUTO_CONFIG": true
+    },
+    "BDD_INTEGRATION": {
+      "enabled": true,
+      "SCENARIO_FORMAT": "gherkin",
+      "TRACEABILITY_ENABLED": true,
+      "STEP_DEFINITION_AUTO_GEN": true,
+      "FEATURE_ORGANIZATION": "one_per_feature"
+    },
+    "RAG_INTEGRATION": {
+      "enabled": true,
+      "required": false,
+      "FALLBACK_TO_LOCAL": true
+    },
+    "ITERATION_SUPPORT": {
+      "enabled": true,
+      "TRACK_HISTORY": true,
+      "LEARNINGS_CAPTURE": true
+    },
+    "AUTO_FIX": {
+      "enabled": true,
+      "REQUIRES_FLAG": true,
+      "SAFETY_LEVEL": "basic"
+    },
+    "MCP_SERVERS": {
+      "enabled": true,
+      "required": false,
+      "ESSENTIAL_ONLY": false
+    },
+    "COMMAND_DISCOVERY": {
+      "enabled": true,
+      "HELP_SYSTEM": true
+    },
+    "TECH_DETECTION": {
+      "enabled": true,
+      "AUTO_CONFIG": true
+    }
+  },
+  "validation": {
+    "levels": {
+      "level1": "Syntax & Style",
+      "level2": "Unit Tests",
+      "level3": "Integration Tests",
+      "level4": "Quality Gates"
+    },
+    "coverage": {
+      "minimum": 80,
+      "target": 90
+    },
+    "AUTO_FIX": {
+      "syntax": true,
+      "formatting": true,
+      "imports": true,
+      "logic": false
+    }
+  },
+  "context_engineering": {
+    "version": "3.0",
+    "agents": {
+      "assignment_rules": {
+        "project_type": {
+          "software": ["analysis_project", "analysis_tech_detector", "content_researcher"],
+          "marketing": ["analysis_project", "specialist_marketing", "content_researcher"],
+          "research": ["analysis_project", "content_researcher", "analysis_risk"],
+          "design": ["analysis_project", "specialist_design", "content_researcher"],
+          "mixed": ["analysis_project", "content_researcher", "analysis_risk"]
+        },
+        "complexity": {
+          "simple": ["analysis_project", "content_creator"],
+          "medium": ["analysis_project", "content_researcher", "content_creator", "analysis_risk"], 
+          "complex": ["analysis_project", "content_researcher", "content_creator", "analysis_risk", "validation_designer", "specialist_agents"]
+        },
+        "planning_depth": {
+          "minimal": ["analysis_project", "content_creator"],
+          "standard": ["analysis_project", "content_researcher", "content_creator"],
+          "comprehensive": ["analysis_project", "content_researcher", "content_creator", "analysis_risk", "validation_designer"]
+        }
+      },
+      "available_agents": [
+        "core_orchestrator", "analysis_project", "analysis_tech_detector", 
+        "analysis_risk", "content_creator", "content_researcher", 
+        "content_summarizer", "content_technical_writer", "code_writer", 
+        "code_tester", "code_test_writer", "code_integration_tester", 
+        "validation_coordinator", "validation_designer", "validation_stakeholder", 
+        "validation_assessor", "specialist_marketing", "specialist_design",
+        "specialist_finance", "specialist_security", "specialist_performance"
+      ]
+    }
+  }
+}

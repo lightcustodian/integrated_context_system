@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "project_id": "[PROJECT_ID]",
+  "project_name": "[PROJECT_NAME]",
+  "created": "[CREATION_DATE]",
+  "last_updated": "[LAST_UPDATED_DATE]",
+  "schema_version": "1.0.0",
+  "features": [
+    {
+      "id": "FR-001",
+      "name": "[FEATURE_NAME]",
+      "slug": "[FEATURE_SLUG]",
+      "file_path": "2-docs/features/FR-001-[FEATURE_SLUG].md",
+      "status": "planned",
+      "priority": "medium",
+      "complexity": "moderate",
+      "estimated_effort": "medium",
+      "confidence_score": 0.0,
+      "dependencies": [],
+      "dependents": [],
+      "dependency_type": "hard",
+      "execution_order": 1,
+      "created": "[FEATURE_CREATION_DATE]",
+      "last_updated": "[FEATURE_LAST_UPDATED]",
+      "last_executed": null,
+      "iteration_count": 0,
+      "test_results": {
+        "unit_tests": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "coverage": 0.0
+        },
+        "integration_tests": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "coverage": 0.0
+        },
+        "bdd_scenarios": {
+          "total": 0,
+          "passed": 0,
+          "failed": 0,
+          "coverage": 0.0
+        }
+      },
+      "validation_gates": {
+        "pre_implementation": false,
+        "implementation": false,
+        "post_implementation": false
+      },
+      "integration_points": [],
+      "risk_level": "medium",
+      "tags": []
+    }
+  ],
+  "dependency_graph": {
+    "FR-001": []
+  },
+  "execution_order": ["FR-001"],
+  "integration_test_mapping": {
+    "FR-001": {
+      "depends_on": [],
+      "integration_scenarios": [],
+      "test_files": []
+    }
+  },
+  "overall_progress": {
+    "total_features": 1,
+    "completed_features": 0,
+    "in_progress_features": 0,
+    "blocked_features": 0,
+    "completion_percentage": 0,
+    "overall_confidence": 0.0,
+    "average_confidence": 0.0,
+    "last_updated": "[PROGRESS_LAST_UPDATED]"
+  },
+  "test_summary": {
+    "total_unit_tests": 0,
+    "total_integration_tests": 0,
+    "total_bdd_scenarios": 0,
+    "overall_test_coverage": 0.0,
+    "unit_test_coverage": 0.0,
+    "integration_test_coverage": 0.0,
+    "bdd_scenario_coverage": 0.0,
+    "last_test_run": null
+  },
+  "validation_summary": {
+    "features_with_all_gates_passed": 0,
+    "features_with_partial_gates_passed": 0,
+    "features_with_no_gates_passed": 1,
+    "overall_validation_score": 0.0,
+    "last_validation_run": null
+  },
+  "risk_summary": {
+    "high_risk_features": 0,
+    "medium_risk_features": 1,
+    "low_risk_features": 0,
+    "overall_risk_level": "medium",
+    "risk_mitigation_status": "pending"
+  },
+  "execution_history": [],
+  "configuration": {
+    "auto_dependency_resolution": true,
+    "parallel_execution_enabled": false,
+    "integration_tests_required": true,
+    "minimum_confidence_threshold": 0.8,
+    "minimum_test_coverage": 0.85,
+    "validation_gates_required": true
+  },
+  "metadata": {
+    "created_by": "[CREATED_BY]",
+    "last_modified_by": "[LAST_MODIFIED_BY]",
+    "version_history": [
+      {
+        "version": "1.0.0",
+        "date": "[CREATION_DATE]",
+        "changes": "Initial registry creation",
+        "author": "[CREATED_BY]"
+      }
+    ],
+    "tags": ["[PROJECT_TAG_1]", "[PROJECT_TAG_2]"],
+    "notes": "[REGISTRY_NOTES]"
+  }
+}

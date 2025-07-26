@@ -1,0 +1,618 @@
+{
+  "_metadata": {
+    "version": "2.0.0",
+    "created": "2025-01-20T12:00:00.000Z",
+    "description": "Enhanced MCP servers for Context Engineering v4.0 - organized by category and use case",
+    "documentation": "See 2-docs/external/README.md for setup instructions and usage guidance"
+  },
+
+  "_essential": {
+    "filesystem": {
+      "server": "@modelcontextprotocol/server-filesystem",
+      "description": "Access project files and local documentation. Always required for Context Engineering.",
+      "command": "npx @modelcontextprotocol/server-filesystem .",
+      "installation": "npm install -g @modelcontextprotocol/server-filesystem",
+      "validation": "npx @modelcontextprotocol/server-filesystem --help",
+      "enabled": true,
+      "category": "core",
+      "priority": 1,
+      "when_to_use": "Every Context Engineering project",
+      "provides": ["file_reading", "file_writing", "project_structure_access"],
+      "capability_mapping": "file_operations"
+    },
+    "git": {
+      "server": "@modelcontextprotocol/server-git",
+      "description": "Git operations for project history and change tracking. Required for iteration support.",
+      "command": "npx @modelcontextprotocol/server-git",
+      "installation": "npm install -g @modelcontextprotocol/server-git",
+      "validation": "npx @modelcontextprotocol/server-git --help",
+      "enabled": true,
+      "category": "core",
+      "priority": 1,
+      "when_to_use": "Projects using git (recommended for all)",
+      "provides": ["git_history", "branch_info", "change_tracking"],
+      "capability_mapping": "version_control"
+    },
+    "memory": {
+      "server": "@modelcontextprotocol/server-memory",
+      "description": "Session memory for conversation continuity. Enables context persistence across sessions.",
+      "command": "npx @modelcontextprotocol/server-memory",
+      "installation": "npm install -g @modelcontextprotocol/server-memory",
+      "validation": "npx @modelcontextprotocol/server-memory --help",
+      "enabled": true,
+      "category": "core",
+      "priority": 1,
+      "when_to_use": "All Context Engineering sessions",
+      "provides": ["conversation_history", "context_persistence"],
+      "capability_mapping": "memory"
+    },
+    "sequential-thinking": {
+      "server": "@smithery-ai/server-sequential-thinking",
+      "description": "Dynamic problem-solving through structured reasoning. Most popular MCP server (5,550+ uses).",
+      "command": "npx @smithery-ai/server-sequential-thinking",
+      "installation": "npm install -g @smithery-ai/server-sequential-thinking",
+      "validation": "npx @smithery-ai/server-sequential-thinking --help",
+      "enabled": true,
+      "category": "core",
+      "priority": 1,
+      "when_to_use": "Complex problem solving requiring structured thinking",
+      "provides": ["step_by_step_reasoning", "problem_analysis", "structured_planning"],
+      "capability_mapping": "structured_reasoning"
+    }
+  },
+
+  "_search_and_information": {
+    "brave-search": {
+      "server": "@modelcontextprotocol/server-brave-search",
+      "description": "Privacy-focused web search with context-aware results. Primary web search option.",
+      "command": "npx @modelcontextprotocol/server-brave-search",
+      "installation": "npm install -g @modelcontextprotocol/server-brave-search",
+      "validation": "echo $BRAVE_API_KEY",
+      "requires": ["BRAVE_API_KEY"],
+      "enabled": false,
+      "category": "search",
+      "priority": 1,
+      "when_to_use": "Web search with privacy focus and context-aware results",
+      "provides": ["current_documentation", "code_examples", "best_practices", "web_search"],
+      "api_key_url": "https://api.search.brave.com/",
+      "capability_mapping": "web_search"
+    },
+    "exa": {
+      "server": "@modelcontextprotocol/server-exa",
+      "description": "AI-powered web search for research. Alternative search with different result types.",
+      "command": "npx @modelcontextprotocol/server-exa",
+      "installation": "npm install -g @modelcontextprotocol/server-exa",
+      "validation": "echo $EXA_API_KEY",
+      "requires": ["EXA_API_KEY"],
+      "enabled": false,
+      "category": "search",
+      "priority": 2,
+      "when_to_use": "Alternative web search when Brave Search unavailable or different results needed",
+      "provides": ["web_search", "alternative_results", "ai_powered_search"],
+      "capability_mapping": "web_search"
+    },
+    "duckduckgo": {
+      "server": "mcp-server-duckduckgo",
+      "description": "Privacy-focused search without API keys. No-setup web search option.",
+      "command": "npx mcp-server-duckduckgo",
+      "installation": "npm install -g mcp-server-duckduckgo",
+      "validation": "npx mcp-server-duckduckgo --help",
+      "enabled": false,
+      "category": "search",
+      "priority": 3,
+      "when_to_use": "Anonymous web search when API-based options unavailable",
+      "provides": ["web_search", "anonymous_search", "no_api_required"],
+      "capability_mapping": "web_search"
+    },
+    "tavily": {
+      "server": "mcp-server-tavily",
+      "description": "AI-optimized web search and research. Specialized for research and fact-checking.",
+      "command": "npx mcp-server-tavily",
+      "installation": "npm install -g mcp-server-tavily",
+      "validation": "echo $TAVILY_API_KEY",
+      "requires": ["TAVILY_API_KEY"],
+      "enabled": false,
+      "category": "search",
+      "priority": 1,
+      "when_to_use": "Specialized research tasks and comprehensive fact-checking",
+      "provides": ["research_search", "fact_checking", "comprehensive_analysis"],
+      "capability_mapping": "research_search"
+    },
+    "arxiv": {
+      "server": "mcp-server-arxiv",
+      "description": "Academic paper search and access for scholarly research",
+      "command": "npx mcp-server-arxiv",
+      "installation": "npm install -g mcp-server-arxiv",
+      "validation": "npx mcp-server-arxiv --help",
+      "enabled": false,
+      "category": "search",
+      "priority": 1,
+      "when_to_use": "Academic research and scholarly paper access",
+      "provides": ["academic_papers", "scholarly_research", "paper_access"],
+      "capability_mapping": "academic_research"
+    },
+    "context7": {
+      "server": "mcp-server-context7",
+      "description": "Up-to-date documentation for AI prompts and current framework documentation",
+      "command": "npx mcp-server-context7",
+      "installation": "npm install -g mcp-server-context7",
+      "validation": "npx mcp-server-context7 --help",
+      "enabled": false,
+      "category": "search",
+      "priority": 1,
+      "when_to_use": "Current framework and library documentation access",
+      "provides": ["current_docs", "framework_documentation", "library_docs"],
+      "capability_mapping": "documentation_access"
+    }
+  },
+
+  "_version_control_and_collaboration": {
+    "github": {
+      "server": "@modelcontextprotocol/server-github",
+      "description": "GitHub integration for repository and issue management. Primary Git platform integration.",
+      "command": "npx @modelcontextprotocol/server-github",
+      "installation": "npm install -g @modelcontextprotocol/server-github",
+      "validation": "echo $GITHUB_PERSONAL_ACCESS_TOKEN",
+      "requires": ["GITHUB_PERSONAL_ACCESS_TOKEN"],
+      "enabled": false,
+      "category": "collaboration",
+      "priority": 1,
+      "when_to_use": "Projects hosted on GitHub",
+      "provides": ["repository_access", "issue_tracking", "collaboration", "pr_management"],
+      "token_url": "https://github.com/settings/tokens",
+      "capability_mapping": "repository_management"
+    },
+    "gitlab": {
+      "server": "@modelcontextprotocol/server-gitlab",
+      "description": "GitLab repository and issue management. Alternative to GitHub.",
+      "command": "npx @modelcontextprotocol/server-gitlab",
+      "installation": "npm install -g @modelcontextprotocol/server-gitlab",
+      "validation": "echo $GITLAB_PERSONAL_ACCESS_TOKEN",
+      "requires": ["GITLAB_PERSONAL_ACCESS_TOKEN"],
+      "enabled": false,
+      "category": "collaboration",
+      "priority": 2,
+      "when_to_use": "Projects hosted on GitLab",
+      "provides": ["repository_access", "issue_tracking", "gitlab_ci", "merge_requests"],
+      "capability_mapping": "repository_management"
+    },
+    "slack": {
+      "server": "@modelcontextprotocol/server-slack",
+      "description": "Slack workspace integration for team communication without admin approval",
+      "command": "npx @modelcontextprotocol/server-slack",
+      "installation": "npm install -g @modelcontextprotocol/server-slack",
+      "validation": "echo $SLACK_BOT_TOKEN",
+      "requires": ["SLACK_BOT_TOKEN"],
+      "enabled": false,
+      "category": "collaboration",
+      "priority": 1,
+      "when_to_use": "Teams using Slack for communication",
+      "provides": ["team_communication", "notifications", "workspace_integration"],
+      "capability_mapping": "team_communication"
+    }
+  },
+
+  "_database_and_backend": {
+    "postgres": {
+      "server": "@modelcontextprotocol/server-postgres",
+      "description": "PostgreSQL database operations and queries. Production database integration.",
+      "command": "npx @modelcontextprotocol/server-postgres",
+      "installation": "npm install -g @modelcontextprotocol/server-postgres",
+      "validation": "echo $DATABASE_URL",
+      "requires": ["DATABASE_URL"],
+      "enabled": false,
+      "category": "database",
+      "priority": 1,
+      "when_to_use": "Projects using PostgreSQL database",
+      "provides": ["database_queries", "schema_access", "data_operations", "transactions"],
+      "capability_mapping": "database_operations"
+    },
+    "sqlite": {
+      "server": "@modelcontextprotocol/server-sqlite",
+      "description": "SQLite database operations and queries. Lightweight local database.",
+      "command": "npx @modelcontextprotocol/server-sqlite",
+      "installation": "npm install -g @modelcontextprotocol/server-sqlite",
+      "validation": "npx @modelcontextprotocol/server-sqlite --help",
+      "enabled": false,
+      "category": "database",
+      "priority": 2,
+      "when_to_use": "Projects using SQLite database or local storage needs",
+      "provides": ["lightweight_database", "local_storage", "sql_queries"],
+      "capability_mapping": "database_operations"
+    }
+  },
+
+  "_development_tools": {
+    "puppeteer": {
+      "server": "@modelcontextprotocol/server-puppeteer",
+      "description": "Web scraping and browser automation. Primary browser automation tool.",
+      "command": "npx @modelcontextprotocol/server-puppeteer",
+      "installation": "npm install -g @modelcontextprotocol/server-puppeteer",
+      "validation": "npx @modelcontextprotocol/server-puppeteer --help",
+      "enabled": false,
+      "category": "automation",
+      "priority": 1,
+      "when_to_use": "Web scraping, testing, or browser automation",
+      "provides": ["web_scraping", "browser_automation", "testing"],
+      "capability_mapping": "web_automation"
+    },
+    "playwright": {
+      "server": "mcp-server-playwright",
+      "description": "Advanced browser testing and automation. Cross-browser testing tool.",
+      "command": "npx mcp-server-playwright",
+      "installation": "npm install -g mcp-server-playwright",
+      "validation": "npx mcp-server-playwright --help",
+      "enabled": false,
+      "category": "automation",
+      "priority": 2,
+      "when_to_use": "Cross-browser testing and advanced automation",
+      "provides": ["cross_browser_testing", "e2e_testing", "automation"],
+      "capability_mapping": "web_automation"
+    },
+    "browserbase": {
+      "server": "mcp-server-browserbase",
+      "description": "Cloud browser automation platform. Scalable browser automation.",
+      "command": "npx mcp-server-browserbase",
+      "installation": "npm install -g mcp-server-browserbase",
+      "validation": "echo $BROWSERBASE_API_KEY",
+      "requires": ["BROWSERBASE_API_KEY"],
+      "enabled": false,
+      "category": "automation",
+      "priority": 3,
+      "when_to_use": "Scalable cloud-based browser automation",
+      "provides": ["cloud_automation", "scalable_testing", "browser_cloud"],
+      "capability_mapping": "web_automation"
+    },
+    "jest": {
+      "server": "mcp-server-jest",
+      "description": "JavaScript/TypeScript testing framework. Primary JS testing tool.",
+      "command": "npx mcp-server-jest",
+      "installation": "npm install -g mcp-server-jest",
+      "validation": "npx mcp-server-jest --help",
+      "enabled": false,
+      "category": "testing",
+      "priority": 1,
+      "when_to_use": "JavaScript/TypeScript/React project testing",
+      "provides": ["js_testing", "unit_tests", "integration_tests"],
+      "capability_mapping": "testing_framework"
+    },
+    "pytest": {
+      "server": "mcp-server-pytest",
+      "description": "Python testing framework integration. Primary Python testing tool.",
+      "command": "python -m mcp_server_pytest",
+      "installation": "pip install mcp-server-pytest",
+      "validation": "python -m mcp_server_pytest --help",
+      "enabled": false,
+      "category": "testing",
+      "priority": 1,
+      "when_to_use": "Python project testing and validation",
+      "provides": ["python_testing", "unit_tests", "fixtures"],
+      "capability_mapping": "testing_framework"
+    },
+    "everything": {
+      "server": "@modelcontextprotocol/server-everything",
+      "description": "File system search and indexing across large codebases",
+      "command": "npx @modelcontextprotocol/server-everything",
+      "installation": "npm install -g @modelcontextprotocol/server-everything",
+      "validation": "npx @modelcontextprotocol/server-everything --help",
+      "enabled": false,
+      "category": "search",
+      "priority": 1,
+      "when_to_use": "Fast file searching across large codebases",
+      "provides": ["file_search", "indexing", "content_discovery"],
+      "capability_mapping": "file_search"
+    },
+    "nx": {
+      "server": "nx-mcp",
+      "description": "Nx monorepo structure analysis and project relationships",
+      "command": "npx nx-mcp",
+      "installation": "npm install -g nx-mcp",
+      "validation": "npx nx-mcp --help",
+      "enabled": false,
+      "category": "development",
+      "priority": 1,
+      "when_to_use": "Nx monorepo projects requiring structure analysis",
+      "provides": ["monorepo_analysis", "project_relationships", "nx_integration"],
+      "capability_mapping": "project_analysis"
+    },
+    "docker": {
+      "server": "mcp-server-docker",
+      "description": "Container management and orchestration",
+      "command": "npx mcp-server-docker",
+      "installation": "npm install -g mcp-server-docker",
+      "validation": "npx mcp-server-docker --help",
+      "enabled": false,
+      "category": "infrastructure",
+      "priority": 1,
+      "when_to_use": "Container management and deployment",
+      "provides": ["container_management", "docker_operations", "deployment"],
+      "capability_mapping": "container_operations"
+    }
+  },
+
+  "_content_and_design": {
+    "firecrawl": {
+      "server": "@mendable/firecrawl-mcp",
+      "description": "Advanced web scraping and content extraction. High-quality content extraction.",
+      "command": "npx @mendable/firecrawl-mcp",
+      "installation": "npm install -g @mendable/firecrawl-mcp",
+      "validation": "echo $FIRECRAWL_API_KEY",
+      "requires": ["FIRECRAWL_API_KEY"],
+      "enabled": false,
+      "category": "content",
+      "priority": 1,
+      "when_to_use": "High-quality web content extraction and processing",
+      "provides": ["content_extraction", "web_scraping", "text_processing"],
+      "capability_mapping": "content_extraction"
+    },
+    "excel": {
+      "server": "mcp-server-excel",
+      "description": "Excel spreadsheet manipulation and analysis",
+      "command": "npx mcp-server-excel",
+      "installation": "npm install -g mcp-server-excel",
+      "validation": "npx mcp-server-excel --help",
+      "enabled": false,
+      "category": "content",
+      "priority": 1,
+      "when_to_use": "Data analysis and spreadsheet manipulation",
+      "provides": ["spreadsheet_ops", "data_analysis", "excel_integration"],
+      "capability_mapping": "data_analysis"
+    },
+    "markdownify": {
+      "server": "mcp-server-markdownify",
+      "description": "Convert various formats to Markdown for documentation",
+      "command": "npx mcp-server-markdownify",
+      "installation": "npm install -g mcp-server-markdownify",
+      "validation": "npx mcp-server-markdownify --help",
+      "enabled": false,
+      "category": "content",
+      "priority": 1,
+      "when_to_use": "Documentation and content format conversion",
+      "provides": ["format_conversion", "markdown_creation", "documentation"],
+      "capability_mapping": "content_conversion"
+    },
+    "figma": {
+      "server": "mcp-server-figma-context",
+      "description": "Figma design file access and context for design system integration",
+      "command": "npx mcp-server-figma-context",
+      "installation": "npm install -g mcp-server-figma-context",
+      "validation": "echo $FIGMA_ACCESS_TOKEN",
+      "requires": ["FIGMA_ACCESS_TOKEN"],
+      "enabled": false,
+      "category": "design",
+      "priority": 1,
+      "when_to_use": "Design system integration and Figma access",
+      "provides": ["design_access", "figma_integration", "design_system"],
+      "capability_mapping": "design_access"
+    },
+    "everart": {
+      "server": "mcp-server-everart",
+      "description": "AI image generation and visual content creation",
+      "command": "npx mcp-server-everart",
+      "installation": "npm install -g mcp-server-everart",
+      "validation": "echo $EVERART_API_KEY",
+      "requires": ["EVERART_API_KEY"],
+      "enabled": false,
+      "category": "design",
+      "priority": 1,
+      "when_to_use": "AI-powered visual content creation",
+      "provides": ["image_generation", "visual_content", "ai_art"],
+      "capability_mapping": "image_generation"
+    },
+    "magic": {
+      "server": "mcp-server-magic",
+      "description": "21st.dev Magic UI components for advanced component generation",
+      "command": "npx mcp-server-magic",
+      "installation": "npm install -g mcp-server-magic",
+      "validation": "npx mcp-server-magic --help",
+      "enabled": false,
+      "category": "design",
+      "priority": 1,
+      "when_to_use": "Advanced UI component generation and design",
+      "provides": ["ui_components", "component_generation", "design_components"],
+      "capability_mapping": "ui_components"
+    }
+  },
+
+  "_social_media_and_marketing": {
+    "twitter": {
+      "server": "mcp-server-twitter",
+      "description": "Twitter/X social media integration for marketing and engagement",
+      "command": "npx mcp-server-twitter",
+      "installation": "npm install -g mcp-server-twitter",
+      "validation": "echo $TWITTER_API_KEY && echo $TWITTER_API_SECRET",
+      "requires": ["TWITTER_API_KEY", "TWITTER_API_SECRET"],
+      "enabled": false,
+      "category": "social_media",
+      "priority": 1,
+      "when_to_use": "Twitter/X social media marketing and engagement",
+      "provides": ["social_posting", "engagement_tracking", "twitter_analytics"],
+      "capability_mapping": "social_media"
+    },
+    "linkedin": {
+      "server": "mcp-server-linkedin",
+      "description": "LinkedIn professional network integration for B2B marketing",
+      "command": "npx mcp-server-linkedin",
+      "installation": "npm install -g mcp-server-linkedin",
+      "validation": "echo $LINKEDIN_ACCESS_TOKEN",
+      "requires": ["LINKEDIN_ACCESS_TOKEN"],
+      "enabled": false,
+      "category": "social_media",
+      "priority": 1,
+      "when_to_use": "Professional networking and B2B marketing",
+      "provides": ["professional_networking", "b2b_marketing", "linkedin_posts"],
+      "capability_mapping": "social_media"
+    },
+    "facebook": {
+      "server": "mcp-server-facebook",
+      "description": "Facebook social media integration for marketing and advertising",
+      "command": "npx mcp-server-facebook",
+      "installation": "npm install -g mcp-server-facebook",
+      "validation": "echo $FACEBOOK_ACCESS_TOKEN",
+      "requires": ["FACEBOOK_ACCESS_TOKEN"],
+      "enabled": false,
+      "category": "social_media",
+      "priority": 1,
+      "when_to_use": "Facebook social media marketing and advertising",
+      "provides": ["social_marketing", "ad_management", "facebook_analytics"],
+      "capability_mapping": "social_media"
+    }
+  },
+
+  "_specialized_services": {
+    "time": {
+      "server": "@modelcontextprotocol/server-time",
+      "description": "Time zone and date/time operations for scheduling applications",
+      "command": "npx @modelcontextprotocol/server-time",
+      "installation": "npm install -g @modelcontextprotocol/server-time",
+      "validation": "npx @modelcontextprotocol/server-time --help",
+      "enabled": false,
+      "category": "utility",
+      "priority": 1,
+      "when_to_use": "Applications dealing with time zones or scheduling",
+      "provides": ["timezone_handling", "date_operations", "scheduling"],
+      "capability_mapping": "time_operations"
+    },
+    "fastmcp": {
+      "server": "fastmcp",
+      "description": "Fast MCP server development framework for custom server creation",
+      "command": "python -m fastmcp",
+      "installation": "pip install fastmcp",
+      "validation": "python -m fastmcp --help",
+      "enabled": false,
+      "category": "development",
+      "priority": 1,
+      "when_to_use": "Custom MCP server development and prototyping",
+      "provides": ["custom_servers", "mcp_development", "server_framework"],
+      "capability_mapping": "custom_development"
+    }
+  },
+
+  "_capability_to_server_mapping": {
+    "file_operations": {
+      "primary": "filesystem",
+      "fallback": [],
+      "description": "File reading, writing, and project structure access"
+    },
+    "version_control": {
+      "primary": "git",
+      "fallback": [],
+      "description": "Git operations and change tracking"
+    },
+    "memory": {
+      "primary": "memory",
+      "fallback": [],
+      "description": "Session memory and context persistence"
+    },
+    "structured_reasoning": {
+      "primary": "sequential-thinking",
+      "fallback": [],
+      "description": "Dynamic problem-solving and structured analysis"
+    },
+    "web_search": {
+      "primary": "brave-search",
+      "fallback": ["exa", "duckduckgo"],
+      "description": "Web search and current information access"
+    },
+    "research_search": {
+      "primary": "tavily",
+      "fallback": ["brave-search"],
+      "description": "Specialized research and fact-checking"
+    },
+    "academic_research": {
+      "primary": "arxiv",
+      "fallback": ["tavily"],
+      "description": "Academic papers and scholarly research"
+    },
+    "documentation_access": {
+      "primary": "context7",
+      "fallback": ["brave-search"],
+      "description": "Current framework and library documentation"
+    },
+    "repository_management": {
+      "primary": "github",
+      "fallback": ["gitlab"],
+      "description": "Repository access and collaboration"
+    },
+    "team_communication": {
+      "primary": "slack",
+      "fallback": [],
+      "description": "Team communication and workspace integration"
+    },
+    "database_operations": {
+      "primary": "postgres",
+      "fallback": ["sqlite"],
+      "description": "Database queries and data operations"
+    },
+    "web_automation": {
+      "primary": "puppeteer",
+      "fallback": ["playwright", "browserbase"],
+      "description": "Browser automation and web scraping"
+    },
+    "testing_framework": {
+      "primary": "jest",
+      "fallback": ["pytest"],
+      "description": "Automated testing and quality assurance"
+    },
+    "file_search": {
+      "primary": "everything",
+      "fallback": [],
+      "description": "File system search and indexing"
+    },
+    "project_analysis": {
+      "primary": "nx",
+      "fallback": [],
+      "description": "Project structure and relationship analysis"
+    },
+    "container_operations": {
+      "primary": "docker",
+      "fallback": [],
+      "description": "Container management and deployment"
+    },
+    "content_extraction": {
+      "primary": "firecrawl",
+      "fallback": ["puppeteer"],
+      "description": "Advanced web content extraction"
+    },
+    "data_analysis": {
+      "primary": "excel",
+      "fallback": [],
+      "description": "Spreadsheet operations and data analysis"
+    },
+    "content_conversion": {
+      "primary": "markdownify",
+      "fallback": [],
+      "description": "Format conversion and documentation creation"
+    },
+    "design_access": {
+      "primary": "figma",
+      "fallback": [],
+      "description": "Design system integration and access"
+    },
+    "image_generation": {
+      "primary": "everart",
+      "fallback": [],
+      "description": "AI-powered visual content creation"
+    },
+    "ui_components": {
+      "primary": "magic",
+      "fallback": [],
+      "description": "Advanced UI component generation"
+    },
+    "social_media": {
+      "primary": "twitter",
+      "fallback": ["linkedin", "facebook"],
+      "description": "Social media marketing and engagement"
+    },
+    "time_operations": {
+      "primary": "time",
+      "fallback": [],
+      "description": "Time zone and scheduling operations"
+    },
+    "custom_development": {
+      "primary": "fastmcp",
+      "fallback": [],
+      "description": "Custom MCP server development"
+    }
+  }
+}

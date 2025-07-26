@@ -1,0 +1,17 @@
+{
+  "feature": "[FEATURE_NAME]",
+  "scenarios": [
+    {
+      "id": "[SCENARIO_ID]",
+      "title": "[SCENARIO_TITLE]",
+      "tags": ["@[TEST_GROUP]", "@unit-test-group:[GROUP]"],
+      "unit_tests": [
+        {
+          "file": "[UNIT_TEST_FILE]",
+          "group": "[TEST_GROUP]",
+          "test_cases": ["[TEST_CASE_DESCRIPTIONS]"]
+        }
+      ]
+    }
+  ]
+}

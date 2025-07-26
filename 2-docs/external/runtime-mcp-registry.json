@@ -1,0 +1,156 @@
+{
+  "last_updated": 1753405357.5326765,
+  "servers": {},
+  "capability_mappings": {
+    "file_operations": {
+      "primary": "filesystem",
+      "fallback": [],
+      "description": "File reading, writing, and project structure access"
+    },
+    "version_control": {
+      "primary": "git",
+      "fallback": [],
+      "description": "Git operations and change tracking"
+    },
+    "memory": {
+      "primary": "memory",
+      "fallback": [],
+      "description": "Session memory and context persistence"
+    },
+    "structured_reasoning": {
+      "primary": "sequential-thinking",
+      "fallback": [],
+      "description": "Dynamic problem-solving and structured analysis"
+    },
+    "web_search": {
+      "primary": "brave-search",
+      "fallback": [
+        "exa",
+        "duckduckgo"
+      ],
+      "description": "Web search and current information access"
+    },
+    "research_search": {
+      "primary": "tavily",
+      "fallback": [
+        "brave-search"
+      ],
+      "description": "Specialized research and fact-checking"
+    },
+    "academic_research": {
+      "primary": "arxiv",
+      "fallback": [
+        "tavily"
+      ],
+      "description": "Academic papers and scholarly research"
+    },
+    "documentation_access": {
+      "primary": "context7",
+      "fallback": [
+        "brave-search"
+      ],
+      "description": "Current framework and library documentation"
+    },
+    "repository_management": {
+      "primary": "github",
+      "fallback": [
+        "gitlab"
+      ],
+      "description": "Repository access and collaboration"
+    },
+    "team_communication": {
+      "primary": "slack",
+      "fallback": [],
+      "description": "Team communication and workspace integration"
+    },
+    "database_operations": {
+      "primary": "postgres",
+      "fallback": [
+        "sqlite"
+      ],
+      "description": "Database queries and data operations"
+    },
+    "web_automation": {
+      "primary": "puppeteer",
+      "fallback": [
+        "playwright",
+        "browserbase"
+      ],
+      "description": "Browser automation and web scraping"
+    },
+    "testing_framework": {
+      "primary": "jest",
+      "fallback": [
+        "pytest"
+      ],
+      "description": "Automated testing and quality assurance"
+    },
+    "file_search": {
+      "primary": "everything",
+      "fallback": [],
+      "description": "File system search and indexing"
+    },
+    "project_analysis": {
+      "primary": "nx",
+      "fallback": [],
+      "description": "Project structure and relationship analysis"
+    },
+    "container_operations": {
+      "primary": "docker",
+      "fallback": [],
+      "description": "Container management and deployment"
+    },
+    "content_extraction": {
+      "primary": "firecrawl",
+      "fallback": [
+        "puppeteer"
+      ],
+      "description": "Advanced web content extraction"
+    },
+    "data_analysis": {
+      "primary": "excel",
+      "fallback": [],
+      "description": "Spreadsheet operations and data analysis"
+    },
+    "content_conversion": {
+      "primary": "markdownify",
+      "fallback": [],
+      "description": "Format conversion and documentation creation"
+    },
+    "design_access": {
+      "primary": "figma",
+      "fallback": [],
+      "description": "Design system integration and access"
+    },
+    "image_generation": {
+      "primary": "everart",
+      "fallback": [],
+      "description": "AI-powered visual content creation"
+    },
+    "ui_components": {
+      "primary": "magic",
+      "fallback": [],
+      "description": "Advanced UI component generation"
+    },
+    "social_media": {
+      "primary": "twitter",
+      "fallback": [
+        "linkedin",
+        "facebook"
+      ],
+      "description": "Social media marketing and engagement"
+    },
+    "time_operations": {
+      "primary": "time",
+      "fallback": [],
+      "description": "Time zone and scheduling operations"
+    },
+    "custom_development": {
+      "primary": "fastmcp",
+      "fallback": [],
+      "description": "Custom MCP server development"
+    }
+  },
+  "connection_pool": {},
+  "health_status": "monitoring"
+}

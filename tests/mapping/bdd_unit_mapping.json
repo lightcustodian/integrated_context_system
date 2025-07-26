@@ -1,0 +1,5 @@
+{
+  "feature": "[FEATURE_NAME]",
+  "description": "Mapping between BDD scenarios and unit tests",
+  "scenarios": []
+}
