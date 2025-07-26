@@ -62,7 +62,8 @@ Emergency: database_operations
 1. **Send Capabilities Request**: Provide capabilities list to MCP Agent
 2. **Receive Tool Confirmation**: Get confirmation of available tools and any failures
 3. **Handle Capability Gaps**: Request emergency capabilities if tools fail or new needs arise
-4. **Proceed with Coordination**: Begin specialist agent coordination with confirmed tools
+4. **Verify MCP Confirmation**: Check for confirmation message from MCP Agent: "Development environment ready". If not received, STOP and request MCP coordination again.
+5. **Proceed with Coordination**: Begin specialist agent coordination with confirmed tools
 
 ### Emergency Capability Requests
 When new capabilities needed during execution:

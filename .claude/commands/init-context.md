@@ -44,7 +44,48 @@ You are coordinating project initialization. Your task:
 5. Generate project structure, configuration files, and templates
 ```
 
-### Step 2: Project Configuration Analysis
+### Step 2: REQUIRED - Capability Analysis and MCP Coordination
+**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+
+#### Capability Analysis Template (REQUIRED)
+```
+**Command**: /init-context
+**Planned Work**: 
+- Project analysis and planning document creation
+- Technology stack detection and configuration
+- Market and technical research (if required)
+- Risk assessment and mitigation planning
+- Architecture vision synthesis
+- Project structure and template generation
+
+**Required Capabilities Assessment**:
+- [ ] file_operations: Reading PLANNING.md, creating/updating planning documents, settings, and CLAUDE.md
+- [ ] web_search: Current market research and technical best practices (if research level > NONE)
+- [ ] version_control: Project initialization and change tracking
+- [ ] testing_framework: Test framework configuration based on detected tech stack
+
+**MCP Agent Coordination** (REQUIRED):
+Load MCP Agent persona: @../agents/core_mcp.md
+Request capabilities: "file_operations, version_control, web_search, testing_framework"
+
+**REQUIRED OUTPUT**: MCP Agent must respond with capability confirmation
+Expected response format: "Development environment ready: [tools] connected. X tools available."
+
+**MCP Status**: [PENDING → CONNECTED/FAILED]
+**Available Tools**: [List tools provided by MCP Agent]
+```
+
+#### MCP Coordination Failure Protocol
+If MCP Agent coordination fails:
+1. **Document Limitations**: Record which capabilities are unavailable
+2. **Modify Specialist Assignments**: Adjust specialist tasks to work with local-only capabilities
+3. **Include in Summary**: Note capability limitations in final approval gate
+4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
+
+**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+
+### Step 3: Project Configuration Analysis
+**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
 **Orchestration Task**: Analyze PLANNING.md to determine specialist agent requirements
 
 **Decision Logic**:
