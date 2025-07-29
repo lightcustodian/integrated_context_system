@@ -52,7 +52,49 @@ You are coordinating comprehensive project validation. Your task:
 5. Generate comprehensive validation report with specialist insights
 ```
 
-### Step 2: Validation Scope Determination
+### Step 2: Project Configuration Analysis
+### Step 2: REQUIRED - Capability Analysis and MCP Coordination
+**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+
+#### Capability Analysis Template (REQUIRED)
+```
+**Command**: /validate
+**Planned Work**: 
+- Comprehensive multi-level validation execution
+- Quality assessment and standards enforcement
+- Integration testing and cross-feature validation
+- Stakeholder simulation and business requirement validation
+- Documentation quality and completeness verification
+- Validation report generation and project health assessment
+
+**Required Capabilities Assessment**:
+- [ ] file_operations: Reading implementation files, test results, and creating validation reports
+- [ ] web_search: Research validation best practices and compliance standards (if needed)
+- [ ] version_control: Tracking validation results and quality metrics over time
+- [ ] testing_framework: Executing comprehensive test suites and analyzing coverage results
+
+**MCP Agent Coordination** (REQUIRED):
+Load MCP Agent persona: @../agents/core_mcp.md
+Request capabilities: "file_operations, version_control, web_search, testing_framework"
+
+**REQUIRED OUTPUT**: MCP Agent must respond with capability confirmation
+Expected response format: "Development environment ready: [tools] connected. X tools available."
+
+**MCP Status**: [PENDING → CONNECTED/FAILED]
+**Available Tools**: [List tools provided by MCP Agent]
+```
+
+#### MCP Coordination Failure Protocol
+If MCP Agent coordination fails:
+1. **Document Limitations**: Record which capabilities are unavailable
+2. **Modify Specialist Assignments**: Adjust specialist tasks to work with local-only capabilities
+3. **Include in Summary**: Note capability limitations in final approval gate
+4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
+
+**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+
+### Step 2.1: Validation Scope Determination
+**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
 **Orchestration Task**: Determine validation scope and specialist requirements
 
 **Validation Strategy Analysis**:

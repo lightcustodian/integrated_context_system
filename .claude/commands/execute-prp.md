@@ -51,7 +51,49 @@ You are coordinating feature implementation. Your task:
 5. Generate comprehensive implementation summary and validation results
 ```
 
-### Step 2: Execution Planning and Validation
+### Step 2: Project Configuration Analysis
+### Step 2: REQUIRED - Capability Analysis and MCP Coordination
+**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+
+#### Capability Analysis Template (REQUIRED)
+```
+**Command**: /execute-prp
+**Planned Work**: 
+- Feature implementation using TDD methodology
+- Code writing and test execution coordination
+- Integration testing across features
+- Quality assurance and validation
+- Progress tracking and state management
+- Cross-feature dependency resolution
+
+**Required Capabilities Assessment**:
+- [ ] file_operations: Reading feature specs, implementing code, updating test files and registries
+- [ ] web_search: Research implementation patterns and debugging solutions (if needed)
+- [ ] version_control: Committing feature implementations and tracking code changes
+- [ ] testing_framework: Executing TDD cycles, running tests, and validating coverage
+
+**MCP Agent Coordination** (REQUIRED):
+Load MCP Agent persona: @../agents/core_mcp.md
+Request capabilities: "file_operations, version_control, web_search, testing_framework"
+
+**REQUIRED OUTPUT**: MCP Agent must respond with capability confirmation
+Expected response format: "Development environment ready: [tools] connected. X tools available."
+
+**MCP Status**: [PENDING → CONNECTED/FAILED]
+**Available Tools**: [List tools provided by MCP Agent]
+```
+
+#### MCP Coordination Failure Protocol
+If MCP Agent coordination fails:
+1. **Document Limitations**: Record which capabilities are unavailable
+2. **Modify Specialist Assignments**: Adjust specialist tasks to work with local-only capabilities
+3. **Include in Summary**: Note capability limitations in final approval gate
+4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
+
+**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+
+### Step 2.1: Execution Planning and Validation
+**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
 **Orchestration Task**: Determine execution strategy and specialist requirements
 
 **Execution Strategy Analysis**:
