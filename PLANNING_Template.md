@@ -67,29 +67,43 @@
 ## Project Configuration
 
 ### Complexity Level
-- [ ] **Simple**: Basic functionality, minimal features (1-3 features)
+- [x] **Simple**: Basic functionality, minimal features (1-3 features) ✓ Default
 - [ ] **Medium**: Standard functionality, moderate features (4-8 features)
 - [ ] **Complex**: Advanced functionality, many features (9+ features)
 
 ### Planning Depth
-- [ ] **Minimal**: Basic planning documents, quick start
+- [x] **Minimal**: Basic planning documents, quick start ✓ Default
 - [ ] **Standard**: Comprehensive planning, balanced approach
 - [ ] **Comprehensive**: Extensive planning, detailed analysis
 
 ### Research Requirements
+- [x] **None**: Skip market and technical research ✓ Default
 - [ ] **Minimal**: Basic best practices research
 - [ ] **Standard**: Industry analysis and technical research
 - [ ] **Extensive**: Comprehensive market and competitive analysis
 
 ### Risk Assessment Level
+- [x] **None**: Skip formal risk management ✓ Default
 - [ ] **Basic**: Standard risk identification
 - [ ] **Detailed**: Comprehensive risk analysis and mitigation
 - [ ] **Extensive**: Advanced risk modeling and contingency planning
 
 ### Documentation Level
-- [ ] **Essential**: Core documentation only
+- [x] **Essential**: Core documentation only ✓ Default
 - [ ] **Standard**: Comprehensive documentation
 - [ ] **Extensive**: Publication-ready documentation
+
+### Technical Architecture Requirements
+- [x] **NONE**: Skip formal architecture documentation ✓ Default
+- [ ] **MINIMAL**: Basic architecture overview and component structure
+- [ ] **STANDARD**: Comprehensive architecture documentation with diagrams
+- [ ] **COMPREHENSIVE**: Full enterprise architecture framework with governance
+
+### Technical Documentation Requirements
+- [x] **NONE**: Basic code comments only ✓ Default
+- [ ] **MINIMAL**: Essential technical documentation and setup guides
+- [ ] **STANDARD**: Comprehensive technical documentation and API references
+- [ ] **COMPREHENSIVE**: Publication-ready technical documentation with examples
 
 ## Token Optimization Settings
 
@@ -151,7 +165,7 @@
 - [ ] **Performance Standards**: [Specific benchmarks]
 
 ### Testing Approach
-- [ ] **Unit Testing**: Required for all code components
+- [x] **Unit Testing**: Required for code components ✓ Default
 - [ ] **Integration Testing**: Required for feature interactions
 - [ ] **User Acceptance Testing**: Required for user-facing features
 - [ ] **Performance Testing**: Required for performance-critical features

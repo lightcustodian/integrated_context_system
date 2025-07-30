@@ -27,8 +27,13 @@
 
 ## Usage
 ```
-/init-context [--tech-stack=python|javascript|typescript] [--project-type=software|marketing|research|design|content]
+/init-context [--simple] [--tech-stack=python|javascript|typescript] [--project-type=software|marketing|research|design|content]
 ```
+
+## Arguments
+- `--simple`: Use simplified workflow with basic agents and minimal documentation
+- `--tech-stack`: Override technology stack detection
+- `--project-type`: Override project type detection
 
 ## Orchestration Agent Instructions
 
@@ -38,10 +43,18 @@ Load agent persona: @../agents/core_orchestrator.md
 
 You are coordinating project initialization. Your task:
 1. Analyze PLANNING.md configuration and determine specialist requirements
-2. Delegate planning and setup tasks to appropriate specialist agents
-3. Coordinate specialist execution and monitor progress
-4. Synthesize specialist outputs into cohesive project initialization
-5. Generate project structure, configuration files, and templates
+2. Apply --simple mode if specified (use basic agents only)
+3. Delegate planning and setup tasks to appropriate specialist agents
+4. Coordinate specialist execution and monitor progress
+5. Synthesize specialist outputs into cohesive project initialization
+6. Generate project structure, configuration files, and templates
+
+**Simple Flag Handling**:
+IF --simple flag present:
+  Reduce scope of specialist analysis (not which specialists)
+  Use streamlined documentation format
+  Focus on essential deliverables only
+  All specialist agents remain available based on technical requirements
 ```
 
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination

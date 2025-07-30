@@ -56,7 +56,7 @@
   "validation": {
     "levels": {
       "level1": "Syntax & Style",
-      "level2": "Unit Tests",
+      "level2": "Unit Tests", 
       "level3": "Integration Tests",
       "level4": "Quality Gates"
     },
@@ -71,8 +71,19 @@
       "logic": false
     }
   },
+  "workflow": {
+    "command_aliases": {
+      "design": "generate_planning_and_setup",
+      "implement": "streamlined_init_create_execute"
+    },
+    "execution_styles": {
+      "streamlined": "fewer_approval_gates",
+      "comprehensive": "step_by_step_review"
+    }
+  },
   "context_engineering": {
-    "version": "3.0",
+    "version": "4.0",
+    "enabled": true,
     "agents": {
       "assignment_rules": {
         "project_type": {
@@ -93,15 +104,65 @@
           "minimal": ["analysis_project", "content_creator"],
           "standard": ["analysis_project", "content_researcher", "content_creator"],
           "comprehensive": ["analysis_project", "content_researcher", "content_creator", "analysis_risk", "validation_designer"]
+        },
+        "technical_requirements": {
+          "research_requirements": {
+            "NONE": "skip_research_agents",
+            "MINIMAL": ["content_researcher"],
+            "STANDARD": ["content_researcher", "analysis_risk"],
+            "COMPREHENSIVE": ["content_researcher", "analysis_risk", "specialist_marketing"]
+          },
+          "risk_management": {
+            "NONE": "skip_risk_agents", 
+            "MINIMAL": ["analysis_risk"],
+            "STANDARD": ["analysis_risk", "validation_assessor"],
+            "COMPREHENSIVE": ["analysis_risk", "validation_designer", "specialist_security"]
+          },
+          "planning_depth": {
+            "NONE": "minimal_agents_only",
+            "MINIMAL": ["analysis_project", "content_creator"],
+            "STANDARD": ["analysis_project", "content_creator", "content_researcher"],
+            "COMPREHENSIVE": ["analysis_project", "content_creator", "content_researcher", "validation_designer"]
+          },
+          "visual_documentation": {
+            "NONE": "skip_visual_agents",
+            "MINIMAL": ["content_creator"],
+            "STANDARD": ["content_creator", "specialist_design"],
+            "COMPREHENSIVE": ["content_creator", "specialist_design", "content_technical_writer"]
+          },
+          "user_stories": {
+            "NONE": "skip_user_story_agents",
+            "MINIMAL": ["content_creator"],
+            "STANDARD": ["content_creator", "validation_stakeholder"],
+            "COMPREHENSIVE": ["content_creator", "validation_stakeholder", "specialist_design"]
+          },
+          "api_documentation": {
+            "NONE": "skip_api_agents",
+            "MINIMAL": ["content_technical_writer"],
+            "STANDARD": ["content_technical_writer", "code_writer"],
+            "COMPREHENSIVE": ["content_technical_writer", "code_writer", "validation_assessor"]
+          },
+          "technical_architecture": {
+            "NONE": "skip_architecture_agents",
+            "MINIMAL": ["analysis_tech_detector"],
+            "STANDARD": ["analysis_tech_detector", "content_technical_writer"],
+            "COMPREHENSIVE": ["analysis_tech_detector", "content_technical_writer", "specialist_security", "specialist_performance"]
+          },
+          "technical_documentation": {
+            "NONE": "basic_code_comments_only",
+            "MINIMAL": ["content_technical_writer"],
+            "STANDARD": ["content_technical_writer", "content_creator"],
+            "COMPREHENSIVE": ["content_technical_writer", "content_creator", "validation_assessor"]
+          }
         }
       },
       "available_agents": [
-        "core_orchestrator", "analysis_project", "analysis_tech_detector", 
-        "analysis_risk", "content_creator", "content_researcher", 
+        "core_orchestrator", "core_mcp", "analysis_project", "analysis_tech_detector", 
+        "analysis_risk", "analysis_learning", "content_creator", "content_researcher", 
         "content_summarizer", "content_technical_writer", "code_writer", 
         "code_tester", "code_test_writer", "code_integration_tester", 
         "validation_coordinator", "validation_designer", "validation_stakeholder", 
-        "validation_assessor", "specialist_marketing", "specialist_design",
+        "validation_assessor", "validation_critical_reviewer", "specialist_marketing", "specialist_design",
         "specialist_finance", "specialist_security", "specialist_performance"
       ]
     }

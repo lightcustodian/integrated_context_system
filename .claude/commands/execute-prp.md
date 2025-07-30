@@ -28,10 +28,11 @@
 
 ## Usage
 ```
-/execute-prp [--feature=FR-001,FR-002] [--auto-deps] [--force] [--single-feature=FR-001]
+/execute-prp [--simple] [--feature=FR-001,FR-002] [--auto-deps] [--force] [--single-feature=FR-001]
 ```
 
 ## Options
+- `--simple`: Use simplified implementation with basic agents and minimal validation
 - `--feature=ID1,ID2`: Execute specific features (comma-separated)
 - `--auto-deps`: Automatically include and execute dependencies
 - `--force`: Bypass dependency checks and execute anyway
@@ -45,10 +46,18 @@ Load agent persona: @../agents/core_orchestrator.md
 
 You are coordinating feature implementation. Your task:
 1. Analyze execution requirements and determine specialist needs
-2. Delegate implementation tasks to appropriate specialist agents
-3. Coordinate TDD methodology execution across specialists
-4. Monitor specialist execution and integrate results
-5. Generate comprehensive implementation summary and validation results
+2. Apply --simple mode if specified (basic agents and streamlined validation)
+3. Delegate implementation tasks to appropriate specialist agents
+4. Coordinate TDD methodology execution across specialists
+5. Monitor specialist execution and integrate results
+6. Generate comprehensive implementation summary and validation results
+
+**Simple Flag Handling**:
+IF --simple flag present:
+  Reduce scope of specialist analysis (not which specialists)
+  Use streamlined documentation format
+  Focus on essential deliverables only
+  All specialist agents remain available based on technical requirements
 ```
 
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination

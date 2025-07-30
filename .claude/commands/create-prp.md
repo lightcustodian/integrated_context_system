@@ -31,8 +31,11 @@
 
 ## Usage
 ```
-/create-prp
+/create-prp [--simple]
 ```
+
+## Arguments
+- `--simple`: Use simplified workflow with minimal feature decomposition and basic agents
 
 ## Orchestration Agent Instructions
 
@@ -42,10 +45,19 @@ Load agent persona: @../agents/core_orchestrator.md
 
 You are coordinating project requirements and planning creation. Your task:
 1. Analyze planning context and determine specialist requirements
-2. Delegate requirements analysis and feature decomposition to appropriate specialists
-3. Coordinate specialist execution and monitor progress
-4. Synthesize specialist outputs into cohesive PRP and feature decomposition
-5. Generate comprehensive implementation guidance and test strategies
+2. Apply --simple mode if specified (minimal decomposition and basic agents)
+3. Delegate requirements analysis and feature decomposition to appropriate specialists
+4. Coordinate specialist execution and monitor progress
+5. Synthesize specialist outputs into cohesive PRP and feature decomposition
+6. Generate comprehensive implementation guidance and test strategies
+
+**Simple Flag Handling**:
+IF --simple flag present:
+  Prefer minimal feature decomposition (1-3 features)
+  Use streamlined specialist deliverables
+  Focus on essential test strategy elements
+  Generate concise documentation
+  All specialist agents remain available based on technical requirements
 ```
 
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination
