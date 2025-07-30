@@ -613,6 +613,55 @@
       "primary": "fastmcp",
       "fallback": [],
       "description": "Custom MCP server development"
+    },
+    "critical_review": {
+      "primary": "ken-you-reflect",
+      "fallback": [],
+      "description": "Critical review and overconfidence detection"
+    },
+    "learning_analysis": {
+      "primary": "reflektion",
+      "fallback": [],
+      "description": "Pattern recognition and learning analysis"
+    }
+  },
+
+  "_crp_integration": {
+    "ken-you-reflect": {
+      "server": "ken-you-reflect",
+      "description": "Critical review and overconfidence detection using ken-you-reflect methodology",
+      "command": "npx -y ken-you-reflect",
+      "installation": "npx -y ken-you-reflect",
+      "validation": "npx ken-you-reflect --help",
+      "enabled": true,
+      "category": "critical_review",
+      "priority": 1,
+      "when_to_use": "Challenge overconfident claims, detect context pollution, assess critical risks",
+      "provides": ["overconfidence_detection", "critical_questioning", "risk_assessment", "context_validation"],
+      "capability_mapping": "critical_review",
+      "tools": {
+        "reflect": "Challenge overconfident claims with critical analysis",
+        "check_context": "Detect context pollution and quality issues",
+        "record_assessment": "Track high-risk findings and priority actions",
+        "search_reflections": "Access historical pattern analysis"
+      }
+    },
+    "reflektion": {
+      "server": "reflektion",
+      "description": "Pattern recognition and learning analysis using reflektion methodology",
+      "command": "npx -y reflektion",
+      "installation": "npx -y reflektion",
+      "validation": "npx reflektion --help",
+      "enabled": true,
+      "category": "learning_analysis",
+      "priority": 1,
+      "when_to_use": "Comprehensive learning analysis, pattern recognition, framework improvement",
+      "provides": ["pattern_recognition", "learning_analysis", "effectiveness_correlation", "improvement_recommendations"],
+      "capability_mapping": "learning_analysis",
+      "tools": {
+        "analyze_patterns": "Pattern recognition in project data across multiple domains",
+        "iterative_improvement": "Strategy refinement based on outcomes and evidence"
+      }
     }
   }
 }

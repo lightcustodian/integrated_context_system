@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "description": "Centralized token budget configuration for Context Engineering system",
+  "last_updated": "2025-01-29",
+  
+  "token_budgets": {
+    "TOTAL_CONTEXT_BUDGET": 16000,
+    "SPECIALIST_WORKING_CONTEXT": 12000,
+    "GOAL_REINFORCEMENT": 2000,
+    "ORCHESTRATION_OVERHEAD": 2000
+  },
+  
+  "budget_allocation": {
+    "specialist_percentage": 75,
+    "goal_reinforcement_percentage": 12.5,
+    "orchestration_percentage": 12.5
+  },
+  
+  "reference_folding": {
+    "LARGE_CONTENT_THRESHOLD": 800,
+    "SUMMARY_TOKEN_LIMIT": 150
+  },
+  
+  "optimization_levels": {
+    "CONSERVATIVE": {
+      "efficiency_target": 80,
+      "description": "Minimal optimization, maximum reliability"
+    },
+    "BALANCED": {
+      "efficiency_target": 90,
+      "description": "Moderate optimization, good balance"
+    },
+    "AGGRESSIVE": {
+      "efficiency_target": 95,
+      "description": "Maximum optimization, higher efficiency"
+    }
+  },
+  
+  "usage_notes": [
+    "All commands and agents should reference TOTAL_CONTEXT_BUDGET constant",
+    "Budget breakdown should maintain percentage allocations",
+    "Reference folding triggers at LARGE_CONTENT_THRESHOLD",
+    "Optimization level should match project PLANNING.md configuration"
+  ]
+}

@@ -45,9 +45,9 @@ You are coordinating project initialization. Your task:
 ```
 
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination
-**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+**REQUIRED ATTEMPT**: This step must be attempted before proceeding to Step 3.
 
-#### Capability Analysis Template (REQUIRED)
+#### Capability Analysis Template (REQUIRED ATTEMPT)
 ```
 **Command**: /init-context
 **Planned Work**: 
@@ -82,11 +82,36 @@ If MCP Agent coordination fails:
 3. **Include in Summary**: Note capability limitations in final approval gate
 4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
 
-**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+**REQUIREMENT**: MCP coordination must be attempted. If attempt fails, proceed with local-only capabilities and document limitations.
 
 ### Step 3: Project Configuration Analysis
-**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
-**Orchestration Task**: Analyze PLANNING.md to determine specialist agent requirements
+**PREREQUISITE**: Step 2 (MCP Coordination) must be attempted
+**Orchestration Task**: Validate file structure and analyze PLANNING.md
+
+**File Structure Validation**:
+```
+1. **Required Directory Structure Check**:
+   - Verify 2-docs/ directory exists, create if missing
+   - Verify 2-docs/planning/ exists, create if missing
+   - Verify 2-docs/planning/templates/ exists, create if missing
+   - Verify .claude/ directory exists, create if missing
+   - Verify .claude/agents/ exists, create if missing
+   - Verify .claude/state/ exists, create if missing
+   - Verify .claude/config/ exists, create if missing
+
+2. **Required File Validation**:
+   - Check PLANNING.md exists in project root
+   - If PLANNING.md missing: Create from PLANNING_Template.md and request user completion
+   - Verify template files exist in 2-docs/planning/templates/
+   - Check .claude/settings.json exists, create basic version if missing
+   - Verify .claude/config/token_budget.json exists for token configuration
+
+3. **Path Resolution**:
+   - Use absolute paths for all file operations
+   - Validate write permissions for required directories
+   - Create missing directories with appropriate permissions
+   - Log all file creation and directory operations for recovery
+```
 
 **Decision Logic**:
 ```

@@ -52,11 +52,10 @@ You are coordinating comprehensive project validation. Your task:
 5. Generate comprehensive validation report with specialist insights
 ```
 
-### Step 2: Project Configuration Analysis
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination
-**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+**REQUIRED ATTEMPT**: This step must be attempted before proceeding to Step 2.1.
 
-#### Capability Analysis Template (REQUIRED)
+#### Capability Analysis Template (REQUIRED ATTEMPT)
 ```
 **Command**: /validate
 **Planned Work**: 
@@ -91,19 +90,53 @@ If MCP Agent coordination fails:
 3. **Include in Summary**: Note capability limitations in final approval gate
 4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
 
-**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+**REQUIREMENT**: MCP coordination must be attempted. If attempt fails, proceed with local-only capabilities and document limitations.
 
 ### Step 2.1: Validation Scope Determination
-**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
-**Orchestration Task**: Determine validation scope and specialist requirements
+**PREREQUISITE**: Step 2 (MCP Coordination) must be attempted
+**Orchestration Task**: Validate environment and determine validation scope
+
+**Validation Environment Check**:
+```
+1. **Validation File Structure**:
+   - Verify 2-docs/validation/ directory exists, create if missing
+   - Check feature registry and implementation files are accessible
+   - Validate test results and coverage reports are available
+   - Ensure validation report output directory is writable
+
+2. **Required Document Validation**:
+   - Verify success criteria documents exist
+   - Check design review standards are accessible
+   - Validate validation strategy files are available
+   - Ensure project configuration files are readable
+
+3. **Validation Safety**:
+   - Use absolute paths for all validation file operations
+   - Validate read permissions for all input files
+   - Check write permissions for validation reports
+   - Create validation workspace if needed
+```
 
 **Validation Strategy Analysis**:
 ```
-Read agent assignment rules from .claude/settings.json
-Load project type from PLANNING.md and settings.json to determine appropriate standards files:
+**Project Type Detection with Fallback Logic**:
+```
+Project Type Detection Priority:
+1. PRIMARY: Read project_type from PLANNING.md
+2. SECONDARY: Read PROJECT_TYPE from .claude/settings.json
+3. FALLBACK: Default to "mixed" to ensure comprehensive coverage
+4. EMERGENCY: If all detection fails, assume "mixed" and log warning
+
+Standards File Selection Based on Detected Type:
 - "software", "web", "script" → Use software-focused validation files
 - "marketing", "research", "design" → Use non-software-focused validation files  
-- "mixed" → Use both software and non-software validation files
+- "mixed" OR detection failure → Use both software and non-software validation files
+
+Validation Agent Assignment Based on Detection:
+- Successful detection → Assign appropriate specialist agents
+- Detection failure → Assign all specialist types and let them self-filter
+- Critical failure → Use Core Validation Agents only with expanded scope
+```
 
 Determine validation approach based on arguments:
 
@@ -123,9 +156,10 @@ All features (--all):
 - Provide comprehensive project assessment
 ```
 
-### Step 3: Specialist Validation Agent Assignment
+### Step 3: Tiered Specialist Validation Agent Assignment
 
-#### Always Required Validation Specialists
+#### Tier 1: Core Validation Agents (Always Assigned)
+These agents handle basic validation regardless of project type detection success:
 
 **Validation Coordinator Agent**:
 ```
@@ -163,7 +197,8 @@ Your expected output:
 - Quality trends and metrics analysis
 ```
 
-#### Conditional Specialists Based on Project Type
+#### Tier 2: Project Type Specialists (Conditional with Fallbacks)
+These agents are assigned based on project type detection with robust fallback logic:
 
 **If project includes software components:**
 
@@ -241,7 +276,31 @@ Your expected output:
 - Documentation improvement recommendations
 ```
 
-#### Domain-Specific Specialists (as needed)
+#### Tier 3: Domain Specialists (Enhanced Assignment with Fallbacks)
+Advanced specialists assigned based on successful project analysis:
+
+**Assignment Logic with Fallbacks**:
+```
+Primary Assignment:
+1. Read project type from PLANNING.md and settings.json
+2. Assign appropriate domain specialists based on detected type
+3. Validate specialist availability and capability
+
+Fallback Assignment (if primary fails):
+1. Default to "mixed" project type assumption
+2. Assign all domain specialist types to ensure coverage
+3. Allow specialists to self-filter based on applicable work
+
+Emergency Assignment (if tier 2 specialists unavailable):
+1. Expand Core Validation Agents scope to cover domain work
+2. Use Validation Coordinator with enhanced domain expertise
+3. Document limitations and recommend manual specialist review
+
+Critical Fallback (if all specialist assignment fails):
+1. Use Validation Coordinator Agent only with comprehensive scope
+2. Perform single-agent validation across all domains
+3. Generate detailed report noting validation limitations
+```
 
 **If project includes marketing components:**
 
@@ -283,34 +342,60 @@ Your expected output:
 - Design improvement and optimization recommendations
 ```
 
-### Step 4: Multi-Level Validation Strategy Execution
-**Orchestration Task**: Coordinate systematic multi-level validation
+### Step 4: Efficient Multi-Level Validation Strategy Execution
+**Orchestration Task**: Coordinate systematic validation using efficient coordination patterns
 
-**Task-Level Validation (Granular) - Coordinated across specialists:**
+**Parallel Validation Execution Pattern**:
 ```
-Individual deliverable quality assessment:
-- Code Tester Agent: Code tests (Happy Path, Edge Case, Negative Case)
-- Validation Stakeholder Agent: Content validation (quality standards, brand compliance)
-- Specialist Design Agent: Design validation (accessibility, usability standards)
-- Validation Assessor Agent: Quality standards enforcement across all domains
+1. **Independent Validation Tracks** (Run Simultaneously):
+   
+   Track A - Technical Validation:
+   - Code Tester Agent: Execute code tests (Happy Path, Edge Case, Negative Case)
+   - Code Integration Tester Agent: Integration and system testing
+   - Report to Validation Coordinator upon completion
+   
+   Track B - Content Validation:
+   - Validation Stakeholder Agent: Content and business logic validation
+   - Content Technical Writer Agent: Documentation quality assessment
+   - Report to Validation Coordinator upon completion
+   
+   Track C - Domain Validation:
+   - Specialist Design Agent: Design and UX validation (if applicable)
+   - Specialist Marketing Agent: Marketing deliverable validation (if applicable)
+   - Report to Validation Coordinator upon completion
+
+2. **Coordinator-Hub Integration**:
+   - Validation Coordinator receives all specialist results
+   - Synthesizes findings and identifies conflicts
+   - Coordinates resolution of cross-domain issues
+   - Validation Assessor performs final quality assessment
 ```
 
-**Feature-Level Validation (Comprehensive) - Integrated specialist validation:**
+**Structured Synchronization Points**:
 ```
-Complete feature functionality validation:
-- Validation Coordinator Agent: Feature acceptance criteria verification
-- Code Integration Tester Agent: Integration tests with dependent features
-- Validation Stakeholder Agent: Business logic and stakeholder approval simulation
-- Specialist Agents: Domain-specific feature validation
+3. **Initial Checkpoint** (Validation Start):
+   - All specialists receive context and begin parallel work
+   - Validation Coordinator tracks progress and availability
+   - Emergency escalation if any specialist fails to start
+
+4. **Midpoint Checkpoint** (Progress Sync):
+   - Quick status sync to identify conflicts early
+   - Cross-domain issue identification and resolution
+   - Resource reallocation if needed
+
+5. **Final Checkpoint** (Result Integration):
+   - All specialist results collected by Validation Coordinator
+   - Conflict resolution and quality assessment
+   - Comprehensive validation report generation
 ```
 
-**Project-Level Validation (Exhaustive) - Full specialist coordination:**
+**Emergency Coordination Protocol**:
 ```
-System-wide validation and integration:
-- All Validation Agents: Cross-domain integration and user journey validation
-- Code Integration Tester Agent: Full system integration testing
-- Validation Stakeholder Agent: End-to-end workflow and business value validation
-- Validation Assessor Agent: Complete project acceptance criteria assessment
+6. **Coordination Failure Handling**:
+   - If specialist coordination fails: Escalate to Orchestration Agent
+   - If multiple specialists fail: Switch to Core Validation Agents only
+   - If all coordination fails: Use single Validation Coordinator with expanded scope
+   - Document coordination issues and recommend system improvements
 ```
 
 ### Step 5: Validation Execution Coordination

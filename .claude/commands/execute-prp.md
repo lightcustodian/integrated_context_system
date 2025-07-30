@@ -51,11 +51,10 @@ You are coordinating feature implementation. Your task:
 5. Generate comprehensive implementation summary and validation results
 ```
 
-### Step 2: Project Configuration Analysis
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination
-**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+**REQUIRED ATTEMPT**: This step must be attempted before proceeding to Step 2.1.
 
-#### Capability Analysis Template (REQUIRED)
+#### Capability Analysis Template (REQUIRED ATTEMPT)
 ```
 **Command**: /execute-prp
 **Planned Work**: 
@@ -90,11 +89,35 @@ If MCP Agent coordination fails:
 3. **Include in Summary**: Note capability limitations in final approval gate
 4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
 
-**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+**REQUIREMENT**: MCP coordination must be attempted. If attempt fails, proceed with local-only capabilities and document limitations.
 
 ### Step 2.1: Execution Planning and Validation
-**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
-**Orchestration Task**: Determine execution strategy and specialist requirements
+**PREREQUISITE**: Step 2 (MCP Coordination) must be attempted
+**Orchestration Task**: Validate execution environment and determine strategy
+
+**Execution Environment Validation**:
+```
+1. **Implementation Directory Check**:
+   - Verify 1-main/ directory exists, create if missing
+   - Verify tests/ directory exists with proper structure
+   - Check feature registry exists and is readable
+   - Validate PRP documents are accessible
+   - Ensure .claude/config/ directory exists for token configuration
+
+2. **Required File Validation**:
+   - Verify feature specifications exist for all planned features
+   - Check design review standards files are available
+   - Validate validation strategy files exist
+   - Ensure test framework configuration is accessible
+   - Verify token budget configuration file is readable
+
+3. **Execution Safety**:
+   - Use absolute paths for all code and test file operations
+   - Validate write permissions for implementation directories
+   - Check version control accessibility if required
+   - Create backup/recovery points before major operations
+   - Log all file operations for debugging and recovery
+```
 
 **Execution Strategy Analysis**:
 ```
@@ -230,55 +253,111 @@ Your expected output:
 5. Assign appropriate specialists based on feature type
 ```
 
-**Execute Coordinated TDD Workflow**:
+**Execute Coordinated RED-GREEN-REFACTOR TDD Workflow**:
 
 **RED PHASE - Coordinated by Code Tester Agent:**
 ```
-Task Assignment: Execute pre-created tests to establish baseline
+Task Assignment: Execute pre-created tests to establish failing baseline
 For each test group (Happy Path → Edge Case → Negative Case):
 1. Load pre-created test files from /create-prp using flat naming convention
-2. Run tests (should fail initially)
-3. Verify tests fail for correct reasons
-4. Report test failure analysis to Orchestration Agent
+2. Run tests to verify they fail initially (establishing RED state)
+3. Analyze and document specific failure reasons and expected behaviors
+4. Validate that test failures are for correct reasons (not syntax errors)
+5. Report detailed test failure analysis to Orchestration Agent
+6. Provide failure context to Code Writer Agent for implementation guidance
+
+RED Phase Success Criteria:
+- All tests fail for expected functional reasons (not syntax/setup errors)
+- Test failure messages clearly indicate what functionality is missing
+- Test infrastructure is working correctly
 ```
 
 **GREEN PHASE - Coordinated by Code Writer Agent:**
 ```
 Task Assignment: Implement minimal code to make tests pass
 For each test group:
-1. Implement minimal code to make tests pass
-2. Focus on making tests green, not perfect code
-3. Coordinate with Code Tester Agent for validation
-4. Enter Focused Mode if tests still fail:
+1. Receive test failure analysis from Code Tester Agent
+2. Implement minimal code to make specific failing tests pass
+3. Focus on making tests green with simplest possible solution
+4. Coordinate with Code Tester Agent for immediate validation
+5. Enter Focused Mode if tests still fail:
    - Analyze specific test failures with Code Tester Agent
-   - Implement targeted fixes
-   - Re-run failed tests only
-   - Maximum 3 focused attempts before escalation to Orchestration Agent
+   - Implement targeted fixes based on failure analysis
+   - Re-run only the failed tests for faster feedback
+   - Maximum 3 focused attempts before escalation using token-efficient protocol:
+     
+   **Token-Efficient Escalation Protocol**:
+   - **Attempts 1-3**: Direct implementation attempts with immediate test feedback
+   - **After 3 failures**: Single comprehensive analysis gathering:
+     * Complete failure analysis and error patterns
+     * Test expectations and acceptance criteria review
+     * Missing context or requirements identification  
+     * Implementation approach validation
+   - **Final attempt**: One informed retry with all gathered information
+   - **Human escalation**: If final attempt fails, provide complete context:
+     * Summary of all attempts and specific failures
+     * Analysis of root cause and blocking factors
+     * Specific information needed to resolve issue
+     * Recommended next steps for human intervention
+6. Verify all tests in current group are GREEN before proceeding
+
+GREEN Phase Success Criteria:
+- All tests in current group pass consistently
+- Implementation is minimal and focused on test requirements
+- No regression in previously passing tests
 ```
 
 **REFACTOR PHASE - Coordinated by Code Writer Agent:**
 ```
-Task Assignment: Improve code quality while maintaining test success
+Task Assignment: Improve code quality while maintaining GREEN test status
 For each test group:
-1. Improve code quality while keeping tests green
-2. Apply design patterns and best practices
-3. Ensure code meets design review standards
-4. Coordinate with Code Tester Agent to verify tests still pass
-5. If tests fail, revert refactoring and try different approach
+1. Improve code quality, structure, and maintainability
+2. Apply design patterns and best practices from design review standards
+3. Ensure code meets all quality standards and conventions
+4. Coordinate with Code Tester Agent to verify tests remain GREEN after each refactoring step
+5. If any tests fail during refactoring, immediately revert changes
+6. Continue refactoring only when tests remain consistently GREEN
+7. Document refactoring decisions and trade-offs
+
+REFACTOR Phase Success Criteria:
+- Code quality meets design review standards
+- All tests remain GREEN throughout refactoring
+- Code is maintainable and follows established patterns
+- No functionality changes, only quality improvements
 ```
 
-### Step 5: Feature-Level Validation Coordination
-**Orchestration Task**: Coordinate comprehensive feature validation
+### Step 5: Sequential Feature Validation Coordination
+**Orchestration Task**: Coordinate individual feature validation with progressive integration
 
 **After completing all task-level TDD cycles:**
 
-**Feature Testing Coordination**:
+**Individual Feature Validation** (Isolation Testing):
 ```
-Coordinate between Code Tester Agent and other specialists:
-- Execute validation strategy from appropriate validation strategy files
-- Run integration tests for this feature using flat naming convention
-- Validate feature meets all acceptance criteria
-- Verify feature integrates properly with dependencies
+1. **Isolated Feature Testing**:
+   - Execute validation strategy from appropriate validation strategy files
+   - Run feature tests in isolation using mocks for dependencies
+   - Validate feature meets all acceptance criteria independently
+   - Verify feature boundary definitions and interface contracts
+
+2. **Dependency Interface Validation**:
+   - Test feature interfaces with mock implementations of dependencies
+   - Validate data contracts and communication protocols
+   - Ensure feature can operate with dependency abstractions
+   - Document interface requirements for integration testing
+```
+
+**Progressive Integration Testing** (Available Dependencies Only):
+```
+3. **Available Integration Testing**:
+   - Identify which dependent features are already completed
+   - Run integration tests only with completed dependencies
+   - Use mocks/stubs for incomplete dependencies
+   - Document integration test results and pending integrations
+
+4. **Integration Queue Management**:
+   - Add feature to integration testing queue for future completed features
+   - Schedule re-integration testing when dependencies become available
+   - Track integration test debt and completion status
 ```
 
 **Stakeholder Validation** (for non-code components):
@@ -290,25 +369,45 @@ If Validation Stakeholder Agent assigned:
 - Document any issues or recommendations for improvement
 ```
 
-### Step 6: Integration Validation Coordination
-**Orchestration Task**: Coordinate cross-feature integration validation
+### Step 6: Progressive Integration Validation Coordination
+**Orchestration Task**: Coordinate progressive cross-feature integration as dependencies become available
 
 **After each feature completion:**
 ```
-Coordinate integration testing between specialists:
-- Code Integration Tester Agent: Run integration tests between features using flat naming
-- Code Tester Agent: Validate data flow and state consistency
-- Validation Stakeholder Agent: Test business workflow integration (if applicable)
-- Update integration test results in feature registry
+1. **Immediate Integration Testing**:
+   - Code Integration Tester Agent: Run integration tests with all completed features
+   - Test newly possible feature combinations and workflows
+   - Validate data flow and state consistency across completed feature set
+   - Update integration test matrix with new integration coverage
+
+2. **Regression Testing**:
+   - Re-run integration tests for previously completed features
+   - Ensure new feature doesn't break existing integrations
+   - Validate system stability with expanded feature set
+   - Update regression test results in feature registry
 ```
 
-**Cross-Feature Validation**:
+**Dynamic Integration Validation**:
 ```
-Orchestrate comprehensive cross-feature testing:
-- Test interactions between completed features
-- Validate system behavior with multiple features
-- Ensure no regressions in previously completed features
-- Document integration test outcomes with specialist input
+3. **Integration Opportunity Detection**:
+   - Analyze feature dependency graph for newly satisfied dependencies
+   - Identify integration tests that can now run with real implementations
+   - Replace mocks with actual implementations where dependencies are complete
+   - Schedule integration testing for newly available feature combinations
+
+4. **Business Workflow Testing** (if applicable):
+   - Validation Stakeholder Agent: Test business workflows spanning completed features
+   - Identify partial workflows that are now testable end-to-end
+   - Document workflow coverage and remaining integration gaps
+```
+
+**Final System Integration** (All Features Complete):
+```
+5. **Complete System Integration**:
+   - Remove all mocks and test real integrations across entire system
+   - Run comprehensive end-to-end integration test suite
+   - Validate complete system behavior and performance
+   - Generate final integration validation report
 ```
 
 ### Step 7: Progress Tracking and State Management
@@ -332,27 +431,69 @@ Synthesize specialist progress:
 - Update session state with current progress and specialist contributions
 ```
 
-### Step 8: Project-Level Testing Coordination (if all features complete)
-**Orchestration Task**: Coordinate comprehensive project validation
+### Step 8: Progressive Project-Level Testing Coordination
+**Orchestration Task**: Coordinate project validation at appropriate milestones
 
-**When all features are implemented:**
+**Continuous Integration Testing** (After Each Feature):
+```
+1. **Completed Feature Set Testing**:
+   - Test workflows that span currently completed features
+   - Validate partial system behavior and user workflows
+   - Identify integration issues early in development cycle
+   - Update project-level test coverage metrics
 
-**Test Writer Agent Enhancement**:
-```
-If Code Test Writer Agent assigned:
-- Review Validation Strategy files created by /create-prp (software or non-software versions)
-- Analyze implemented code and feature interactions
-- Identify gaps in integration testing
-- Create additional tests using flat naming convention for comprehensive coverage
+2. **Workflow Milestone Testing**:
+   - Detect when core user workflows become testable end-to-end
+   - Run project-level tests for workflows spanning completed features
+   - Test partial system functionality that provides user value
+   - Document workflow coverage and completion status
 ```
 
-**Comprehensive Testing Execution**:
+**Milestone-Based Testing** (At Logical Completion Points):
 ```
-Coordinate final validation across all specialists:
-- Code Tester Agent: Execute all tests using validation strategy guidelines
-- Code Integration Tester Agent: Run comprehensive integration test suite
-- Validation Stakeholder Agent: Execute end-to-end user journey validation
-- Validate complete system functionality across all domains
+3. **Core Feature Milestone**:
+   - Trigger when all core features complete (even if enhancements pending)
+   - Run core workflow testing and primary use case validation
+   - Test fundamental system functionality and basic user journeys
+   - Generate milestone validation report
+
+4. **Feature Category Completion**:
+   - Trigger after each major feature category completion
+   - Test category-specific workflows and functionality
+   - Validate feature category integration and consistency
+   - Update overall project completion assessment
+```
+
+**Complete System Testing** (All Features Implemented):
+
+**Conditional Test Selection** (Based on Completion Status):
+```
+5. **Smart Test Execution**:
+   - Core workflow tests: Run when core features complete
+   - Enhancement tests: Run when enhancement features complete  
+   - Integration tests: Run when feature dependencies are satisfied
+   - Full system tests: Run only when everything complete
+   - Performance tests: Run at milestones and final completion
+```
+
+**Test Writer Agent Enhancement** (All Features Complete):
+```
+6. **Comprehensive Test Coverage**:
+   - Code Test Writer Agent: Review all implemented code and interactions
+   - Analyze Validation Strategy files for complete coverage requirements
+   - Identify gaps in integration testing across full system
+   - Create additional tests using flat naming convention for comprehensive coverage
+   - Generate final test coverage report
+```
+
+**Final System Testing Execution** (Complete Implementation):
+```
+7. **Complete System Validation**:
+   - Code Tester Agent: Execute all tests using validation strategy guidelines
+   - Code Integration Tester Agent: Run comprehensive integration test suite
+   - Validation Stakeholder Agent: Execute end-to-end user journey validation
+   - Validate complete system functionality across all domains
+   - Generate final project-level testing report
 ```
 
 ### Step 9: Quality Assurance and Validation Coordination

@@ -48,11 +48,10 @@ You are coordinating project requirements and planning creation. Your task:
 5. Generate comprehensive implementation guidance and test strategies
 ```
 
-### Step 2: Project Configuration Analysis
 ### Step 2: REQUIRED - Capability Analysis and MCP Coordination
-**BLOCKING STEP**: This step must complete before proceeding to Step 3.
+**REQUIRED ATTEMPT**: This step must be attempted before proceeding to Step 2.1.
 
-#### Capability Analysis Template (REQUIRED)
+#### Capability Analysis Template (REQUIRED ATTEMPT)
 ```
 **Command**: /create-prp
 **Planned Work**: 
@@ -87,11 +86,56 @@ If MCP Agent coordination fails:
 3. **Include in Summary**: Note capability limitations in final approval gate
 4. **Recommend Manual Setup**: Suggest manual tool configuration for missing capabilities
 
-**FAILURE CONDITION**: If MCP coordination is not attempted, STOP and request MCP coordination before proceeding.
+**REQUIREMENT**: MCP coordination must be attempted. If attempt fails, proceed with local-only capabilities and document limitations.
 
-### Step 2.1: Context Analysis and Validation
-**PREREQUISITE**: Step 2 (MCP Coordination) must be completed
-**Orchestration Task**: Analyze project context and determine specialist requirements
+### Step 2.1: Initialization Validation and Recovery
+**PREREQUISITE**: Step 2 (MCP Coordination) must be attempted
+**Orchestration Task**: Validate that init-context completed successfully
+
+**Validation Logic**:
+```
+Check initialization completion status:
+- Verify .claude/state/session.json exists and contains "commands_completed": ["/init-context"]
+- Verify all required planning documents exist in 2-docs/planning/
+- Verify .claude/settings.json is populated with project configuration
+- Verify agent assignment rules are loaded
+
+IF initialization validation FAILS:
+  EXECUTE /init-context automatically
+  WAIT for init-context completion
+  VALIDATE initialization again
+  PROCEED to Step 2.2 only after successful initialization
+
+IF initialization validation SUCCEEDS:
+  PROCEED directly to Step 2.2
+```
+
+### Step 2.2: Context Analysis and Validation
+**PREREQUISITE**: Step 2.1 (Initialization Validation) must pass
+**Orchestration Task**: Validate project structure and analyze context
+
+**Project Structure Validation**:
+```
+1. **Essential Directory Check**:
+   - Verify 2-docs/features/ exists, create if missing
+   - Verify 2-docs/PRPs/ exists, create if missing
+   - Verify 2-docs/context/ exists, create if missing
+   - Verify 2-docs/validation/ exists, create if missing
+   - Verify tests/ directory exists, create if missing
+
+2. **Required File Validation**:
+   - Verify all initialization files exist (from Step 2.1)
+   - Check feature registry location is writable
+   - Validate template file availability
+   - Ensure PRP template exists and is accessible
+   - Verify token budget configuration is available
+
+3. **Path Safety**:
+   - Use absolute paths for all file operations
+   - Validate directory permissions before file creation
+   - Create missing parent directories as needed
+   - Log all directory creation for troubleshooting
+```
 
 **Decision Logic**:
 ```
@@ -189,6 +233,7 @@ Your expected output: Enhanced test strategy including:
 - Feature-level testing and integration approach
 - Project-level testing and validation procedures
 - Test scaffolding and templates
+- 2-docs/validation/success-criteria.md (if not created during init-context)
 ```
 
 **If project_type is "marketing", "research", "design", or "mixed":**
@@ -252,30 +297,87 @@ For each identified feature boundary:
 ### Step 5: Test Strategy Implementation
 **Orchestration Task**: Coordinate comprehensive test strategy creation
 
-**Delegate test scaffolding creation:**
+**Create executable test files for each task:**
 ```
 Using Validation Designer Agent output and specialist recommendations:
 
-Task-Level Testing (Happy Path, Edge Case, Negative Case):
-- Create test files using naming convention: FR-[XXX]_task_[task-description].[extension]
-- For coding projects: Create in tests/ directory with appropriate file extension
-- For non-coding projects: Create validation checklists with .md extension
+**CRITICAL REQUIREMENT**: Create actual executable test files that will initially fail, not just scaffolding.
 
-Feature-Level Testing with manual validation:
-- Create test files using naming convention: FR-[XXX]_feature_[feature-description].[extension]
-- For coding projects: Create in tests/ directory with appropriate file extension
-- For non-coding projects: Create stakeholder review workflows with .md extension
+**Task-Level Test Creation (Per Individual Task)**:
+For each task within each feature:
+1. Create executable test file using naming convention: FR-[XXX]_task_[task-description].[extension]
+2. Include the test file content directly in the feature document under each task
+3. Tests must be syntactically valid and executable
+4. Tests must initially fail with meaningful error messages
+5. Tests must validate the specific task functionality
 
-Project-Level Testing:
-- Create test files using naming convention: FR-[XXX]_project_[project-description].[extension]
-- For coding projects: Create in tests/ directory with appropriate file extension
-- For non-coding projects: Create final deliverable validation with .md extension
+**Test Content Requirements**:
+- **For coding projects**: Create actual unit tests with appropriate assertions
+  ```python
+  # Example: FR-001_task_submit-button.py
+  def test_submit_button_exists():
+      """Test that submit button exists in the interface"""
+      # This should fail initially - button not implemented yet
+      assert False, "Submit button not implemented - create submit button element"
+  
+  def test_submit_button_click_functionality():
+      """Test that submit button performs expected action when clicked"""
+      # This should fail initially - functionality not implemented
+      assert False, "Submit button click functionality not implemented"
+  ```
 
-File naming examples:
-- Task test: FR-001_task_submit-button.py
-- Feature test: FR-002_feature_user-login.py  
-- Project test: FR-003_project_full-workflow.py
-- Non-coding validation: FR-001_task_content-review.md
+- **For non-coding projects**: Create validation checklists with specific criteria
+  ```markdown
+  # FR-001_task_content-review.md
+  ## Content Review Validation Checklist
+  - [ ] Brand compliance verified (FAIL: Brand guidelines not applied)
+  - [ ] Grammar and style checked (FAIL: Content not reviewed for grammar)
+  - [ ] Accuracy validated (FAIL: Fact-checking not completed)
+  ```
+
+**Feature Document Integration**:
+For each task in FR-XXX-[feature-name].md, include:
+```markdown
+### Task: [TASK_NAME]
+**Description**: [TASK_DESCRIPTION]
+**Acceptance Criteria**: [CRITERIA]
+
+**Test File**: FR-XXX_task_[task-name].[ext]
+```
+[COMPLETE_TEST_FILE_CONTENT]
+```
+
+**Test File Creation Process**:
+1. **Happy Path Test**: Test the primary success scenario (should fail initially)
+2. **Edge Case Test**: Test boundary conditions and edge cases (should fail initially)  
+3. **Negative Case Test**: Test error handling and validation (should fail initially)
+4. **Copy test content into task section of feature document for human review**
+5. **Save separate test file in tests/ directory for execution**
+
+**File Structure Created**:
+- `tests/FR-001_task_submit-button.py` - Executable test file
+- `2-docs/features/FR-001-user-interface.md` - Feature document containing copy of test for human review
+- Both locations must have identical test content
+
+**Validation Requirements**:
+- All tests must be executable in their target framework
+- All tests must fail initially with descriptive error messages
+- Test failure messages must indicate what needs to be implemented
+- Tests must be specific to the task, not generic placeholders
+
+**Feature-Level Test Creation**:
+Create integration tests using naming convention: FR-[XXX]_feature_[feature-description].[extension]
+- Test interactions between tasks within the feature
+- Test feature as complete unit of functionality
+- Include copy of test in feature document for human review
+- Save executable test file in tests/ directory
+
+**Project-Level Test Creation**:
+Create end-to-end tests using naming convention: FR-[XXX]_project_[project-description].[extension]
+- Test workflows that span multiple features
+- Test complete user journeys and system integration
+- Include copy of test in feature document for human review
+- Save executable test file in tests/ directory
 ```
 
 ### Step 6: Feature Registry and Documentation Creation
@@ -319,29 +421,39 @@ Create 2-docs/features/feature-registry.json with specialist input:
 
 **Create Required Standards Files**:
 ```
-Determine required standards files based on project type from PLANNING.md:
+Determine required standards files based on project type from PLANNING.md with fallback logic:
 
-Project Type Mapping:
+Project Type Detection with Fallbacks:
+1. READ project type from PLANNING.md
+2. IF project type detection fails OR project type is undefined:
+   DEFAULT to "mixed" (ensures all required files are created)
+3. IF PLANNING.md is missing or corrupted:
+   DEFAULT to "mixed" and log warning
+
+Project Type Mapping with Guaranteed Coverage:
 - "software", "web", "script" → Software-focused project
 - "marketing", "research", "design" → Non-software-focused project  
-- "mixed" → Both software and non-software components
+- "mixed" OR detection failure → Both software and non-software components
 
-For Software-focused projects (software/web/script):
-- 2-docs/context/design_review_standards_software.md (from Validation Designer Agent or create basic version)
-- 2-docs/context/validation_strategy_software.md (from Validation Designer Agent or create basic version)
+Required Files Creation Logic (Guaranteed Execution):
 
-For Non-software-focused projects (marketing/research/design):
-- 2-docs/context/design_review_standards_non_software.md (from Validation Designer Agent or create basic version)
-- 2-docs/context/validation_strategy_non_software.md (from Validation Designer Agent or create basic version)
+IF project type is Software-focused OR Mixed OR detection failed:
+- CREATE 2-docs/context/design_review_standards_software.md (from Validation Designer Agent or basic template)
+- CREATE 2-docs/context/validation_strategy_software.md (from Validation Designer Agent or basic template)
 
-For Mixed projects:
-- Create BOTH software and non-software versions:
-  - 2-docs/context/design_review_standards_software.md
-  - 2-docs/context/design_review_standards_non_software.md
-  - 2-docs/context/validation_strategy_software.md
-  - 2-docs/context/validation_strategy_non_software.md
+IF project type is Non-software-focused OR Mixed OR detection failed:
+- CREATE 2-docs/context/design_review_standards_non_software.md (from Validation Designer Agent or basic template)
+- CREATE 2-docs/context/validation_strategy_non_software.md (from Validation Designer Agent or basic template)
 
-These files are required by /execute-prp for proper agent coordination based on project components.
+Fallback File Creation (if Validation Designer Agent unavailable):
+- Copy from existing templates in 2-docs/context/ directory
+- Use basic default templates if no templates exist
+- Log which files were created via fallback method
+
+Validation Check:
+- VERIFY all required files exist before proceeding to Step 8
+- IF any files missing, RETRY creation with basic templates
+- These files are REQUIRED by /execute-prp for proper agent coordination
 ```
 
 ### Step 8: Main PRP Creation

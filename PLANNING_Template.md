@@ -91,6 +91,38 @@
 - [ ] **Standard**: Comprehensive documentation
 - [ ] **Extensive**: Publication-ready documentation
 
+## Token Optimization Settings
+
+### Optimization Level
+- [ ] **CONSERVATIVE**: Minimal optimization, maximum reliability (80% token efficiency)
+- [ ] **BALANCED** ✓: Moderate optimization, good balance (90% token efficiency)  
+- [ ] **AGGRESSIVE**: Maximum optimization, higher efficiency (95% token efficiency)
+
+### Context Strategy
+- [ ] **REFERENCE_HEAVY** ✓: Aggressive use of artifact folding for large documents
+- [ ] **PACKAGE_FOCUSED**: Emphasis on context packages for reused content
+- [ ] **PROGRESSIVE**: Incremental context loading based on task needs
+
+### Batch Processing
+- [ ] **LIMITED** ✓: Batch only low-risk, highly compatible tasks (max 2 per batch)
+- [ ] **ANALYSIS_FOCUS**: Batch analysis and documentation tasks, individual implementation  
+- [ ] **DISABLED**: No batch processing, individual tasks only
+
+### Agent Coordination
+- [ ] **DYNAMIC_SEGMENTS** ✓: Build agent segments based on project needs and compatibility
+- [ ] **INDIVIDUAL**: Traditional individual agent approach for maximum quality control
+- [ ] **MIXED**: Use segments for planning, individual agents for implementation
+
+### Memory Management
+- [ ] **BOUNDARY_RESET** ✓: Clear memory boundaries between features and major tasks
+- [ ] **PROGRESSIVE**: Gradual memory management based on context usage
+- [ ] **MINIMAL**: Basic memory management, preserve most context
+
+### Quality Assurance
+- [ ] **EMBEDDED_GATES** ✓: Quality validation within optimized workflows
+- [ ] **CHECKPOINT_HEAVY**: Frequent quality validation points throughout execution
+- [ ] **TRADITIONAL**: Separate quality validation phases
+
 ## Team and Timeline
 
 ### Team Composition
