@@ -1,288 +1,329 @@
-# /design - Unified Project Design and Planning
+# Design Command
 
-**Purpose**: Create project planning configuration and analyze design documents for both general development and Context Engineering workflows
-**Function**: Generate PLANNING.md, analyze provided documents, and configure system based on project requirements
+## Purpose
+Create project understanding and basic configuration for coding projects through structured analysis and approval phases
 
-## Usage
-```
-/design "project description" [--ce] [--convert existing-file] [--file external-file]
-```
+## Key Features
+- Three-phase process with two human approval gates
+- Comprehensive project analysis and understanding demonstration
+- Simplified template processing focused on essential information
+- System configuration and finalization
+- Support for existing project analysis with --existing flag
+- Multiple input methods: direct description, --file, --folder, --existing
+- Intelligent external documentation gathering
 
-## Arguments
-- `"project description"`: Natural language description of the project
-- `--ce`: Enable Context Engineering mode with comprehensive planning
-- `--convert existing-file`: Convert existing planning file to CE format
-- `--file external-file`: Use external file as project requirements input
+## Inputs
+- User project description or requirements document (provided in command)
+- `--file <requirements_file>` flag if analyzing single requirements file
+- `--folder <folder_path>` flag if analyzing entire folder of requirements
+- `--existing` flag if analyzing existing project codebase
+- `.claude/templates/DESIGN_PLAN_Template.md` (template structure)
 
-## Files Created
-- `PLANNING.md` - Project configuration with appropriate defaults
-- `response_[timestamp].md` - Analysis and understanding verification
+## Implementation
 
-## Files Updated
-- `.claude/settings.json` - Updated based on project complexity and mode
-- Project structure initialized as needed
+### Phase 1: Input Analysis and Project Understanding
 
-## User Response File
-Please provide your response in: `response_[timestamp].md`
+#### Step 1: Load Agents and MCP Integration
+**Purpose**: Initialize agents and establish MCP connections for project analysis
 
-Include:
-- Confirmation that my understanding is correct
-- Any corrections to my analysis
-- Additional requirements or constraints
-- Approval to proceed with next steps
+**Inputs**: 
+- Command initialization request
 
-**Chat Response**: "I've created response_[timestamp].md with my project analysis. Please review and respond in that file."
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_command="design", current_step=1, step_name="load_agents"
+2. Load STATE_MANAGER agent
+3. Load PROJECT_MANAGER agent
+4. Load CONTENT_SUMMARIZER agent
+5. Establish MCP connections for documentation and research capabilities
+6. Request: "Need: file_operations, web_research, documentation_tools"
 
-## Orchestration Agent Instructions
+**Outputs**: 
+- Active agents ready for project analysis
+- MCP connections established
+- Updated `.claude/state/session.json` with step progress
 
-### Step 1: Load Orchestration Agent
-```
-Load agent persona: @../agents/core_orchestrator.md
+**Success Criteria**: 
+- All required agents loaded successfully
+- MCP connections established for research
+- System ready for project analysis
 
-You are coordinating project design and planning. Your task:
-1. Analyze provided input (description, file, or conversion request)
-2. Generate comprehensive project understanding and analysis
-3. Create appropriate PLANNING.md with smart defaults
-4. Configure system for chosen workflow mode
-5. Provide design analysis with mistake identification and better methods
-```
+#### Step 2: Documentation Review
+**Purpose**: Review internal and external documentation to establish context
 
-### Step 2: Input Analysis and Document Processing
+**Inputs**: 
+- docs/internal/ directory contents
+- docs/external/ directory contents
 
-#### If --file flag present:
-```
-**Read and Analyze External File**:
-1. Read the provided file completely
-2. Extract project goals, requirements, and constraints
-3. Identify project type, complexity, and technical needs
-4. Analyze the approach and identify any design issues
-5. Generate project understanding based on file content
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=2, step_name="documentation_review"
+2. **Internal Documentation**: 
+   - Fully ingest all files in docs/internal/
+   - Load existing_project.md if present (from --existing flag analysis)
+3. **External Documentation**:
+   - Read docs/external/.index.md for documentation overview
+   - Identify relevant external docs based on project context
+   - Note available documentation for selective loading
+4. Document available context and knowledge base
 
-**Standard Analysis Framework**:
-- What are the goals as stated in the document?
-- What help/implementation is requested?
-- Are there questions about the goals or methods?
-- Will the proposed approach achieve the stated goals?
-- What additional information is needed?
-- What mistakes can be identified in the design?
-- What better methods could accomplish the goals?
-```
+**Outputs**: 
+- Internal documentation fully loaded
+- External documentation index reviewed
+- Context established for project analysis
 
-#### If --convert flag present:
-```
-**Convert Existing Planning**:
-1. Read the existing planning file
-2. Analyze current format and content
-3. Convert to Context Engineering PLANNING.md format
-4. Add missing technical requirement sections
-5. Apply appropriate defaults for CE mode
-6. Preserve all existing project information
-```
+**Success Criteria**: 
+- All internal documentation ingested
+- External documentation cataloged
+- Context base established
 
-#### If description only:
-```
-**Generate from Description**:
-1. Parse the project description
-2. Infer project type, complexity, and requirements
-3. Generate comprehensive project analysis
-4. Apply appropriate defaults based on inferred characteristics
-5. Create PLANNING.md with smart defaults
-```
+#### Step 3: Input Analysis and Document Processing
+**Purpose**: Process user input based on provided flags and extract project requirements
 
-### Step 3: Comprehensive Project Analysis
+**Inputs**: 
+- User project description OR
+- `--file <requirements_file>` single file OR
+- `--folder <folder_path>` entire folder OR
+- `--existing` flag for existing project
 
-**Always perform this analysis regardless of input type:**
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=3, step_name="input_analysis"
+2. **Direct Description**: Process user-provided project description
+3. **--file Flag**: Read and analyze single requirements file
+4. **--folder Flag**: 
+   - Read all files in specified folder
+   - Apply 1000-line limit per file
+   - **CONTENT_SUMMARIZER**: Create summaries for files >1000 lines
+5. **--existing Flag**:
+   - Copy project_summary.py and .project_summary.config.json from .claude/utils/ to root
+   - Execute: `python ./project_summary.py`
+   - Review project_summary.json output
+   - Identify and read relevant project files based on relevance scoring
+   - **CONTENT_SUMMARIZER**: Create docs/internal/existing_project.md with comprehensive analysis
+6. Extract key project information and requirements
+7. Identify project type, scope, and technology stack
 
-```
-**Project Understanding Verification**:
-Generate comprehensive analysis covering:
+**Outputs**: 
+- Processed requirements documentation
+- existing_project.md (if --existing flag used)
+- Project structure understanding
+- Updated state with analysis results
 
-1. **Goals Analysis**:
-   - Primary project objectives
-   - Success criteria and outcomes
-   - Stakeholder value and benefits
-   - Scope and boundaries
+**Success Criteria**: 
+- All input sources processed appropriately
+- Key requirements extracted and documented
+- Project structure and technology understood
+- Large files handled with 1000-line splitting
 
-2. **Technical Analysis**:
-   - Technology stack requirements
-   - Complexity assessment
-   - Integration needs
-   - Quality standards required
+#### Step 4: Comprehensive Project Analysis and Understanding Demonstration
+**Purpose**: Analyze project comprehensively and demonstrate understanding to user
 
-3. **Implementation Analysis**:
-   - Approach feasibility
-   - Resource requirements
-   - Timeline considerations
-   - Risk factors
+**Inputs**: 
+- Processed requirements from Step 3
+- Project scope and goals
+- Documentation context from Step 2
 
-4. **Design Review** (if applicable):
-   - Mistakes identified in proposed approach
-   - Better methods to accomplish goals
-   - Alternative strategies worth considering
-   - Implementation improvements recommended
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=4, step_name="project_analysis"
+2. Analyze project complexity and requirements
+3. Demonstrate understanding of project goals and scope
+4. Ask clarifying questions about ambiguous requirements
+5. Confirm project is coding-focused and suitable for prototype-based development
+6. Identify initial technology stack considerations
 
-5. **Questions and Clarifications**:
-   - What additional information is needed?
-   - Are there ambiguities in requirements?
-   - What assumptions need validation?
-   - Are there conflicting requirements?
-```
+**Outputs**: 
+- Comprehensive project analysis
+- Clarification questions for user
+- Updated state with analysis results
 
-### Step 4: PLANNING.md Generation
+**Success Criteria**: 
+- Project scope clearly understood and coding-focused
+- All requirements clarified with user
+- Project confirmed suitable for prototype-based development
+- Technology considerations identified
 
-```
-**Create PLANNING.md with Smart Defaults**:
+#### Step 5: Phase 1 Approval
+**Purpose**: Get human approval before proceeding to template processing
 
-IF --ce flag present OR complex project detected:
-  **Context Engineering Mode**:
-  - Set complexity to Medium or Complex
-  - Enable appropriate technical requirements (MINIMAL/STANDARD)
-  - Include comprehensive planning options
-  - Add all CE-specific sections
+**Inputs**: 
+- Project analysis from Steps 1-4
+- User clarifications and feedback
 
-ELSE:
-  **General Development Mode**:
-  - Set complexity to Simple (default)
-  - Set all technical requirements to NONE (default)
-  - Use minimal planning approach
-  - Focus on implementation essentials
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=5, step_name="phase_1_approval"
+2. Generate `response_[date]_[time]_design_phase1.md` with:
+   - Project analysis summary
+   - Requirements understanding
+   - Technology considerations
+   - Phase 1 approval request
+3. **STOP** - Wait for human approval in `approval_[date]_[time]_design_phase1.md`
 
-**Template Population**:
-1. Fill project name, type, and description
-2. Set appropriate complexity level
-3. Apply smart defaults for technical requirements
-4. Configure token optimization settings
-5. Set quality and testing standards appropriately
-6. Include inferred user stories and requirements
-```
+**Outputs**: 
+- `response_[date]_[time]_design_phase1.md` for human review
+- **PAUSE** - Phase 2 does not begin until Phase 1 approved by user
 
-### Step 5: System Configuration
+**Success Criteria**: 
+- Human approves project analysis and understanding
+- All clarifications resolved
+- Permission granted to proceed to Phase 2
 
-```
-**Configure System Based on Mode**:
+### Phase 2: Template Processing and File Generation
 
-**General Mode Configuration**:
-- Update settings.json with simple mode defaults
-- Set workflow mode to "simple"
-- Configure basic agent assignments
-- Apply streamlined quality standards
+#### Step 6: External Documentation Gathering
+**Purpose**: Gather relevant external documentation based on project requirements
 
-**Context Engineering Mode Configuration**:
-- Update settings.json with CE capabilities
-- Set workflow mode to "comprehensive"
-- Enable full agent assignment rules
-- Apply comprehensive quality frameworks
-```
+**Inputs**: 
+- Approved project analysis from Phase 1
+- Technology stack and integration requirements
 
-### Step 6: Response File Generation
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=6, step_name="external_documentation"
+2. **CONTENT_SUMMARIZER**: Analyze project for documentation needs:
+   - Technologies mentioned → fetch framework/library docs
+   - Integration points → fetch API documentation
+   - Business concepts → research and summarize best practices
+   - Security features → fetch security guidelines
+3. **Documentation Fetching Process**:
+   - Use MCP web research capabilities
+   - Apply 1000-line limit per document
+   - Split large docs into focused topic files
+   - Create executive summaries for all fetched docs
+4. **Organization**:
+   - Store in docs/external/technologies/, docs/external/concepts/, docs/external/apis/
+   - Update docs/external/.index.md with 2-3 line summaries
 
-```
-**Create response_[timestamp].md with:**
+**Outputs**: 
+- External documentation in docs/external/ organized by category
+- Executive summaries for all documentation
+- Updated .index.md with documentation catalog
 
-# Project Analysis Response - [timestamp]
+**Success Criteria**: 
+- All relevant external documentation gathered
+- Documentation properly categorized and summarized
+- 1000-line limit enforced with appropriate splitting
+- Index file updated with all documentation
 
-## My Understanding
+#### Step 7: Template Processing and File Generation
+**Purpose**: Create DESIGN_PLAN.md using simplified template focused on essential information
 
-### Project Goals
-[Detailed understanding of what the project aims to achieve]
+**Inputs**: 
+- Approved project analysis from Phase 1
+- `.claude/templates/DESIGN_PLAN_Template.md`
+- External documentation from Step 6
+- Default technical requirements
 
-### Implementation Requirements
-[What specific help/implementation is needed]
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=7, step_name="template_processing"
+2. Load simplified DESIGN_PLAN_Template.md from .claude/templates/
+3. Apply Smart Defaults based on project analysis:
+   - Analyze keywords and project type
+   - Set appropriate technical requirement levels
+   - Adjust defaults based on project complexity
+4. Create DESIGN_PLAN.md with essential information:
+   - **Tech Stack**: Complete technology stack selection
+   - **Basic Architecture**: High-level system architecture
+   - Project goals and success criteria
+   - Smart default technical requirements applied
+   - Cross-references to external documentation
+5. Focus on information needed by other commands
 
-### Success Criteria
-[How success will be measured]
+**Outputs**: 
+- `DESIGN_PLAN.md` in project root with essential project configuration
+- Updated state with template processing completion
 
-## Project Analysis
+**Success Criteria**: 
+- DESIGN_PLAN.md contains Tech Stack and Basic Architecture
+- Smart defaults appropriately applied
+- External documentation referenced
+- Cross-references properly established
 
-### Project Type and Complexity
-- **Type**: [software/web/marketing/research/design/mixed]
-- **Complexity**: [Simple/Medium/Complex]
-- **Technical Requirements**: [Summary of needs]
+#### Step 8: Phase 2 Approval
+**Purpose**: Get human approval of DESIGN_PLAN.md before system finalization
 
-### Technology and Implementation
-- **Tech Stack**: [Recommended/detected technology choices]
-- **Key Features**: [Primary functionality to implement]
-- **Integration Points**: [External systems/APIs needed]
+**Inputs**: 
+- Completed `DESIGN_PLAN.md` from Step 7
+- Template processing results
+- External documentation gathered
 
-## Design Review (if applicable)
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=8, step_name="phase_2_approval"
+2. Generate `response_[date]_[time]_design_phase2.md` with:
+   - DESIGN_PLAN.md summary
+   - Tech stack and architecture decisions
+   - External documentation summary
+   - Phase 2 approval request
+3. **STOP** - Wait for human approval in `approval_[date]_[time]_design_phase2.md`
 
-### Mistakes Identified
-[Specific issues found in proposed approach with explanations]
+**Outputs**: 
+- `response_[date]_[time]_design_phase2.md` for human review
+- **PAUSE** - Phase 3 does not begin until Phase 2 approved by user
 
-### Better Methods Recommended
-[Alternative approaches that would better achieve goals]
+**Success Criteria**: 
+- Human approves DESIGN_PLAN.md content
+- Tech stack and architecture decisions validated
+- External documentation approved
+- Permission granted to proceed to Phase 3
 
-### Implementation Improvements
-[Specific enhancements to proposed design]
+### Phase 3: System Configuration and Finalization
 
-## Questions and Clarifications
+#### Step 9: System Configuration and Finalization
+**Purpose**: Initialize project state management and finalize system setup
 
-### About Goals
-[Any questions about project objectives]
+**Inputs**: 
+- Approved `DESIGN_PLAN.md` from Phase 2
+- Project technology stack and requirements
+- System configuration needs
 
-### About Implementation
-[Questions about technical approach]
+**Implementation**: 
+1. **STATE_MANAGER**: Update state - current_step=9, step_name="system_finalization"
+2. Initialize project state management structure
+3. Configure MCP capabilities based on approved technology stack
+4. Set up project structure expectations
+5. Create docs/internal/ and docs/external/ if not existing
+6. Finalize system configuration
+7. Generate final approval file for command completion
 
-### About Requirements
-[Clarifications needed on specifications]
+**Outputs**: 
+- `.claude/state/session.json` fully initialized with project context
+- System configured for approved technology stack
+- Directory structure established
+- `response_[date]_[time]_design_final.md` for human approval
 
-## Recommended Next Steps
+**Success Criteria**: 
+- State management fully initialized
+- MCP capabilities configured for technology stack
+- Documentation directories established
+- System ready for plan command
+- Human approves final configuration
 
-### Immediate Actions
-1. [First step recommendation]
-2. [Second step recommendation]
-
-### Workflow Recommendation
-- **For Simple Projects**: Use /implement for streamlined development
-- **For Complex Projects**: Use /init-context → /create-prp → /execute-prp workflow
-- **For Design Analysis**: Address identified issues before implementation
-
-### Additional Information Needed
-[Specific details required to proceed effectively]
-
-## Configuration Applied
-
-### PLANNING.md Created
-- **Mode**: [General/Context Engineering]
-- **Defaults Applied**: [Summary of smart defaults]
-- **Next Command**: [Recommended next step]
-
-### System Configuration
-- **Settings Updated**: [Changes made to system configuration]
-- **Workflow Mode**: [Simple/Comprehensive]
-- **Agent Assignment**: [Planned specialist coordination]
-```
+## Outputs
+- `DESIGN_PLAN.md` with complete project configuration including Tech Stack and Basic Architecture
+- `docs/internal/existing_project.md` (if --existing flag used)
+- `docs/external/` populated with relevant documentation
+- `.claude/state/session.json` fully initialized with project context
+- Three approval files: phase1, phase2, and final
+- System configured and ready for plan command
 
 ## Success Criteria
-- [ ] Input thoroughly analyzed and understood
-- [ ] PLANNING.md created with appropriate defaults
-- [ ] System configured for chosen workflow mode
-- [ ] Comprehensive analysis provided in response file
-- [ ] Design issues identified and better methods recommended (if applicable)
-- [ ] Clear next steps provided
+- All three phases completed with human approval at gates
+- Project scope clearly defined and confirmed coding-focused
+- Technology stack and basic architecture approved by user
+- External documentation appropriately gathered and organized
+- DESIGN_PLAN.md contains essential information for other commands
+- System properly initialized and ready for planning phase
+- Two formal approval points successfully navigated
 
-## Workflow Integration
-
-### General Development Path
-```
-/design "description" → /implement → /validate
-```
-
-### Context Engineering Path
-```
-/design "description" --ce → /init-context → /create-prp → /execute-prp → /validate
-```
-
-### Document Analysis Path
-```
-/design --file document.md → [Review response file] → [Choose appropriate workflow]
-```
-
-### Conversion Path
-```
-/design --convert existing-planning.md --ce → /create-prp → /execute-prp → /validate
-```
-
----
-*Generated by Context Engineering v4.0 Unified System*
-*Bridges general development and comprehensive Context Engineering workflows*
+## Recovery Support
+If command interrupted:
+- Check `.claude/state/session.json` for last completed step (1-9)
+- Resume from interrupted step with STATE_MANAGER context restoration
+- Validate previous work before proceeding:
+  - Step 1: Verify agent loading and MCP connections
+  - Step 2: Check documentation review status
+  - Step 3: Review input analysis and existing project processing
+  - Step 4: Check project analysis completeness
+  - Step 5: Review Phase 1 approval status
+  - Step 6: Check external documentation gathering progress
+  - Step 7: Verify DESIGN_PLAN.md creation
+  - Step 8: Review Phase 2 approval status
+  - Step 9: Check system finalization status
+- Re-load required agents and restore project context
+- Continue from exact interruption point without repeating completed work

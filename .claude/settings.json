@@ -1,14 +1,14 @@
 {
   "version": "1.0.0",
-  "PROJECT_NAME": "[PROJECT_NAME]",
-  "PROJECT_TYPE": "[PROJECT_TYPE]", 
-  "TECH_STACK": "[TECH_STACK]",
+  "PROJECT_NAME": "Token Usage Data Capture Implementation",
+  "PROJECT_TYPE": "Context Engineering Enhancement", 
+  "TECH_STACK": "python_javascript_html_css",
   "TECH_DETECTION": {
-    "primary": "[TECH_STACK]",
-    "confidence": "[DETECTION_CONFIDENCE]",
-    "ALL_DETECTED": "[ALL_DETECTED_STACKS]"
+    "primary": "python",
+    "confidence": "high",
+    "ALL_DETECTED": ["python", "javascript", "html", "css", "json"]
   },
-  "created": "[GENERATED_DATE]",
+  "created": "2025-07-31",
   "features": {
     "TDD_INTEGRATION": {
       "enabled": true,
@@ -52,6 +52,16 @@
       "enabled": true,
       "AUTO_CONFIG": true
     }
+  },
+  "technical_requirements": {
+    "market_research": "MINIMAL",
+    "risk_management": "MINIMAL", 
+    "planning_depth": "MINIMAL",
+    "visual_documentation": "NONE",
+    "user_stories": "MINIMAL",
+    "api_documentation": "MINIMAL",
+    "technical_architecture": "STANDARD",
+    "technical_documentation": "STANDARD"
   },
   "validation": {
     "levels": {

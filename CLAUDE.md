@@ -1,447 +1,301 @@
-# CLAUDE.md - AI Agent Instructions
+# CLAUDE.md - Simple Context Engineering Instructions
 
-## Project Context
+## Primary Goals (In Order of Importance)
+1. Deliver working prototypes quickly for coding projects
+2. Maintain quality through testing and essential documentation
+3. Enable recovery from any failure point through state management
+4. Keep the system as simple as possible while achieving results
 
-### Project Name
-[PROJECT_NAME]
+## Response File Requirements
+**MANDATORY**: All responses to commands must be provided in a file named:
+`response_[date]_[time]_[command_name].md`
 
-### Project Type
-[PROJECT_TYPE]
+Example: `response_2025-08-05_1902_implement.md`
 
-### Project Description
-[PROJECT_DESCRIPTION]
+This file must follow the standard approval format and be generated before command completion.
 
-### Current Phase
-[CURRENT_PHASE: initialization|planning|execution|validation|complete]
+## Project Classification System
 
-## Context Engineering System Instructions
+### Project Focus
+- **Coding Projects Only**: System supports software development, APIs, scripts, and applications
+- **Prototype-Based Development**: Each prototype is a complete, deployable deliverable
+- **No Multi-Domain**: Does not support marketing, research, or design projects
 
-You are working within a **Context Engineering system** that provides systematic, high-quality development workflows. This is a **child project** that uses the Context Engineering framework for structured development.
+### Technical Requirements Defaults
+- **Market Research**: NONE (coding projects don't need market analysis)
+- **Technical Research**: MINIMAL (basic research when needed) 
+- **Risk Management**: NONE (keep complexity low)
+- **System Architecture**: MINIMAL (basic architecture documentation)
 
-### Core Principles
-- **Structure Over Intuition**: Follow systematic processes rather than ad-hoc decisions
-- **Quality Gates**: Maintain quality at every stage through validation
-- **Specialized Roles**: Use appropriate agent specialization for different tasks
-- **Documentation-Driven**: Create comprehensive documentation throughout
-- **Test-First Approach**: Implement TDD methodology for all code components
+**User Override**: These defaults can be manually adjusted for specific project needs
 
-## Multi-Agent Orchestration System
+### Enhanced Input Methods
+**Design command supports multiple input sources**:
+- **Direct Description**: User provides project description in command
+- **--file [filename]**: Analyze single requirements or documentation file
+- **--folder [folder_path]**: Ingest entire folder of requirements/documentation
+- **--existing**: Analyze existing project codebase using project_summary.py
 
-### Enhanced Orchestration Pattern
-All commands use the **Orchestration Agent → Specialist Agent → Orchestration Agent** pattern with intelligent external capability access:
+**Smart Defaults Enhancement**:
+- **Context-Aware**: Technical requirements adjusted based on project keywords
+- **Project Type Detection**: Banking/financial → elevated security requirements
+- **Technology Stack Analysis**: API/service projects → elevated architecture requirements
+- **Internal Tools**: Simple scripts maintain minimal requirements
 
-1. **Command Initiation**: Each .claude command initiates an Orchestration Agent
-2. **Capability Planning**: Orchestration Agent analyzes all planned work and identifies required external capabilities
-3. **External Tool Access**: MCP Agent provides necessary external capabilities transparently
-4. **Specialist Assignment**: Orchestration Agent determines which specialist agents are needed based on project type, complexity, and requirements
-5. **Task Delegation**: Orchestration Agent assigns specific tasks to appropriate specialist agents with clear context and expected outputs
-6. **Specialist Execution**: Specialist agents perform domain-specific work using available tools and report results back to the Orchestration Agent
-7. **Integration and Synthesis**: Orchestration Agent combines specialist outputs into cohesive project deliverables
-8. **Quality Control**: Orchestration Agent ensures all specialist work integrates properly and meets quality standards
+## Success Criteria Framework
 
-### Agent Architecture
-```
-.claude/agents/
-├── core_orchestrator.md           # Main orchestrator for all commands
-├── core_mcp.md                    # MCP server management and coordination
-├── analysis_project.md            # Project analysis and complexity assessment
-├── analysis_tech_detector.md      # Technology stack detection
-├── analysis_risk.md               # Risk assessment and mitigation
-├── content_creator.md             # Documentation and content creation
-├── content_researcher.md          # Market and technical research
-├── content_summarizer.md          # Progress summaries and reports
-├── content_technical_writer.md    # Technical documentation specialist
-├── code_writer.md                 # TDD implementation agent
-├── code_tester.md                 # Test execution agent
-├── code_test_writer.md            # Additional test creation
-├── code_integration_tester.md     # Cross-feature testing
-├── validation_coordinator.md      # General validation coordinator
-├── validation_designer.md         # Validation strategy creation
-├── validation_stakeholder.md      # Stakeholder simulation
-├── validation_assessor.md         # Quality standards enforcement
-├── specialist_marketing.md        # Marketing strategy and content
-├── specialist_design.md           # UI/UX and visual design
-├── specialist_finance.md          # Financial analysis and planning
-├── specialist_security.md         # Security assessment
-└── specialist_performance.md      # Performance optimization
-```
+### Project Success Measurement
+**Primary Validation Gate**: Working prototypes that provide tangible user value
 
-### Agent Assignment Rules
-Agent assignment is determined by:
-- **Project Type**: Software, marketing, research, design, mixed
-- **Complexity Level**: Simple, medium, complex
-- **Planning Depth**: Minimal, standard, comprehensive
-- **Capability Requirements**: External tools and services needed
+**Universal Standards**:
+- All prototypes are independently deployable and functional
+- All tests pass for each prototype
+- Basic documentation enables understanding and building upon work
+- Success criteria documented in DESIGN_PLAN.md achieved
 
-Configuration stored in: `.claude/settings.json`
+### Command Success Measurement
+- Each command must deliver working results (not just planning artifacts)
+- Success criteria validated through testing and human approval
+- State management tracks progress for recovery capability
+- Response files generated for human review and approval
 
-### Agent Delegation Pattern
-```markdown
-# Standard delegation pattern in commands:
+## Process Compliance Standards
 
-## Step X: Load Orchestration Agent
-Load agent persona: @../agents/core_orchestrator.md
+### MANDATORY Execution Protocol
+**State Management Requirements**:
+- (MANDATORY) Update .claude/state/session.json at beginning of each step
+- Track progress at command, step, prototype, feature, and task levels
+- Maintain complete context for recovery from any failure point
 
-## Step Y: Capability Analysis and MCP Coordination
-Orchestration Agent analyzes all planned work and requests capabilities:
-"Need capabilities: file_operations, version_control, web_search, testing_framework"
+**Agent Coordination Requirements**:
+- Use simple, direct handoffs between PROJECT_MANAGER, CODER, TESTER, REVIEWER
+- Load appropriate agents for each command as specified
+- Generate response files for human approval before command completion
 
-MCP Agent coordination: @../agents/core_mcp.md
-Returns: "Development environment ready: filesystem, git, brave-search, jest connected."
+### Command Requirements
+Every command must:
+- **Load Required Agents**: Specific agents defined for each command
+- **Update State**: Granular state tracking throughout execution
+- **Deliver Results**: Working prototypes or functional enhancements
+- **Generate Approval**: Response file for human review and approval
 
-## Step Z: Determine Required Specialists
-Based on project configuration and available capabilities, assign:
-- Required agents per project type and complexity
-- Specialist agents for domain-specific tasks
-
-## Step AA: Delegate to Specialist Agents
-For each required specialist:
-Create subagent with persona: @../agents/[agent_name].md
-
-Your specific task: [CLEAR_TASK_DESCRIPTION]
-Your input context: [RELEVANT_PROJECT_INFO]
-Your expected output: [SPECIFIC_DELIVERABLE]
-Available tools: [TOOLS_FROM_MCP_AGENT]
-```
-
-### Template System
-All planning documents use templates from: `2-docs/planning/templates/`
-- **Templates**: Define structure and required sections
-- **Agents**: Focus on analysis and content creation using templates
-- **Output**: Consistent document structure across all projects
-
-## Intelligent External Capability Access
-
-### MCP Agent Integration
-The **MCP Agent** (`core_mcp.md`) manages all external tool access through capability-based requests:
-
-#### Capability-Based Tool Access
-- **File Operations**: Reading, writing, and managing project files
-- **Version Control**: Git operations for change tracking and collaboration
-- **Web Search**: Current information and documentation access
-- **Database**: Data storage and retrieval operations
-- **Testing**: Automated testing and quality assurance
-- **Social Media**: Marketing and communication tools
-- **Design**: Visual content creation and manipulation
-- **Collaboration**: Team communication and project management
-
-#### Efficient Request Pattern
-```
-Orchestration Agent: "Need capabilities: file_operations, version_control, testing_framework"
-MCP Agent: "Development environment ready: filesystem, git, jest connected. 18 tools available."
-Specialists: Work with tools transparently throughout execution
-```
-
-### Supported External Capabilities
-
-#### Essential Capabilities (Always Available)
-- **Filesystem**: File operations with configurable access controls
-- **Git**: Version control operations and repository management
-- **Memory**: Knowledge graph-based persistent memory system
-- **Sequential Thinking**: Dynamic problem-solving through structured reasoning
-
-#### Development Capabilities
-- **GitHub/GitLab**: Repository management, issues, and collaboration
-- **Database**: PostgreSQL, SQLite for data operations
-- **Testing**: Jest, pytest, Playwright for automated testing
-- **Docker**: Container management and orchestration
-
-#### Research and Content Capabilities
-- **Web Search**: Brave Search, Exa, DuckDuckGo for current information
-- **Documentation**: Context7, Firecrawl for up-to-date documentation
-- **Content Creation**: Excel, Markdownify for data and content manipulation
-- **Academic Research**: arXiv, PubMed for scholarly information
-
-#### Marketing and Social Capabilities
-- **Social Media**: Twitter, LinkedIn, Facebook integration
-- **Design**: Figma, EverArt for visual content creation
-- **Analytics**: Google Analytics for performance tracking
-- **Communication**: Slack for team coordination
-
-## Agent Responsibilities
-
-### Orchestration Agent Handles
-- Command workflow coordination and execution
-- Capability analysis and MCP Agent coordination
-- Agent delegation and task assignment
-- Specialist output integration and synthesis
-- Quality control and validation coordination
-- User communication and approval gates
-
-### MCP Agent Handles
-- External tool connection management
-- Capability-to-server mapping
-- Connection health monitoring and fallback
-- Tool availability reporting to Orchestration Agent
-- Transparent tool access for specialist agents
-
-### Specialist Agents Handle
-- Domain-specific analysis and content creation
-- Technical implementation within their expertise using available tools
-- Quality assessment within their domain
-- Integration with other specialist outputs
-
-### Python Utilities Handle (Minimal)
-- Network timeout management (MCP integration only)
-- File operations (only when necessary for reliability)
-- JSON read/write operations (only when necessary)
-
-**Default Approach**: Handle everything through AI agent capabilities with external tool access unless specific reliability issues require Python utilities.
-
-## Command Structure with Enhanced Orchestration
+## Simple Context Engineering Commands
 
 ### Available Commands
-- `/init-context` - Initialize project structure with orchestrated planning and tool setup
-- `/create-prp` - Create Project Requirements with specialist decomposition and research tools
-- `/execute-prp` - Implement features with orchestrated TDD methodology and development tools
-- `/validate` - Quality assurance with comprehensive agent validation and testing tools
-- `/help` - User guidance and system status
+1. **design**: Create project understanding and basic configuration (one time: beginning)
+2. **plan**: Break project into usable prototypes and configure system (one time: beginning)
+3. **implement**: Build working prototypes using TDD methodology (iterative)
+4. **optimize**: Improve performance, code quality, and architecture (iterative)
+5. **document**: Generate comprehensive documentation (iterative)  
+6. **qa**: Production readiness validation (one time: end)
+7. **ce-update**: Update simple_context system itself (one time: end, framework projects only)
 
-### Enhanced Command Execution Pattern
-Each command follows this pattern:
-1. **Load Orchestration Agent**: Primary coordinator
-2. **Capability Analysis**: Determine all external tools needed for entire command
-3. **MCP Agent Coordination**: Request and establish all required tool connections
-4. **Analyze Requirements**: Determine specialist needs based on project and available tools
-5. **Delegate to Specialists**: Assign specific tasks with clear context and tool access
-6. **Monitor Execution**: Track specialist progress and outputs
-7. **Integrate Results**: Synthesize specialist outputs
-8. **Present for Approval**: Comprehensive summary and user approval
+### Command Execution Requirements
+- Read command file from .claude/commands/[command_name].md for detailed instructions
+- Follow state management protocol with granular tracking
+- Use specified agents for each command
+- Generate response files for human approval
+- Maintain MCP integration for external tool access
 
-### Current State
-**Last Completed Command**: [LAST_COMMAND]
-**Next Recommended Command**: [NEXT_COMMAND]
-**Recovery Point**: [RECOVERY_POINT if interrupted]
-**External Tool Status**: [TOOL_STATUS]
+## Agent System
 
-## Project Configuration
+### 6-Agent Workflow
+1. **STATE_MANAGER**: State management, progress tracking, recovery operations
+2. **PROJECT_MANAGER**: Simple coordination, MCP integration
+3. **CODER**: Writing code, following patterns, implementing features  
+4. **TESTER**: Running tests, validation, debugging
+5. **REVIEWER**: Quality checks, critical review (used in implement and QA commands)
+6. **CONTENT_SUMMARIZER**: Documentation management, external docs fetching, 1000-line file splitting
 
-### Technology Stack
-**Primary Stack**: [TECH_STACK]
-**Framework**: [FRAMEWORK]
-**Testing Framework**: [TEST_FRAMEWORK]
-**Code Style**: [CODE_STYLE]
+*Note: All existing agents are preserved but only these 6 are used in standard workflow*
 
-### Quality Standards
-**Test Coverage**: Minimum 80% for all code components
-**Documentation**: Comprehensive documentation required
-**Code Quality**: [QUALITY_STANDARDS]
-**Validation**: Multi-level validation required
+### Context Loading Standards
+- **DESIGN_PLAN.md**: Contains project configuration and context (created by design command)
+- **Command Files**: Read .claude/commands/[command_name].md for detailed command instructions
+- **State File**: .claude/state/session.json tracks progress and enables recovery
+- Always read DESIGN_PLAN.md first for project context before executing commands (except design command which creates it)
 
-### Feature Decomposition
-**Feature Count**: [FEATURE_COUNT]
-**Complexity Level**: [COMPLEXITY_LEVEL]
-**Current Features**: [FEATURE_LIST]
+### File Organization Standards
+**Everything stored in ROOT or .claude/ folder only**:
+```
+Root/
+├── DESIGN_PLAN.md (project configuration)
+├── [generated project files]
+├── docs/
+│   ├── internal/        # Project-specific documentation (fully ingested)
+│   └── external/        # External documentation (selectively loaded)
+│       ├── technologies/# Framework and library documentation
+│       ├── concepts/    # Business and technical concepts
+│       ├── apis/        # Third-party API documentation
+│       └── .index.md    # Master index with 2-3 line summaries
+└── .claude/
+    ├── commands/        # 7 command files
+    ├── agents/          # All agent files (6 active + existing preserved)  
+    ├── state/           # session.json, progress tracking, backups
+    ├── utils/           # project_summary.py and utilities
+    ├── templates/       # DESIGN_PLAN_Template.md and other templates
+    ├── planning/        # Planning documents (when technical requirements > defaults)
+    │   └── templates/   # Planning document templates
+    ├── mcp/            # MCP integration code and configuration
+    └── docs/           # CE.md, system documentation
+```
 
-### External Tool Configuration
-**Available Capabilities**: [AVAILABLE_CAPABILITIES]
-**Active Connections**: [ACTIVE_CONNECTIONS]
-**Tool Health Status**: [TOOL_HEALTH]
+### MCP Integration Standards
+**PROJECT_MANAGER handles all MCP server coordination**:
+- **MCP Code Location**: `.claude/mcp/` directory
+- **Context Storage**: External information from MCP servers stored in `docs/external/`
+- **Capability Requests**: "Need: file_operations, version_control, testing_framework, [specific_tools]"
+- **Health Monitoring**: MCP connection status and fallback procedures
+- **Configuration**: MCP server settings and capability mappings in `.claude/mcp/`
 
-## Agent Role Assignments
+### Documentation Management Standards
 
-### When Acting as Orchestration Agent
-- Coordinate overall workflow and command execution
-- Analyze capability requirements and coordinate with MCP Agent
-- Manage user interaction and approval gates
-- Track progress and maintain project state
-- Delegate to specialized agents as needed
+#### Step 2 Universal Documentation Review
+**All commands (except Design) must include Step 2: Documentation Review**:
+- **Internal Documentation**: Fully ingest all files in docs/internal/
+- **External Documentation**: Read docs/external/.index.md and selectively load relevant docs
+- **Context Establishment**: Document available resources and patterns
 
-### When Acting as MCP Agent
-- Analyze capability requests and map to appropriate servers
-- Establish and maintain external tool connections
-- Handle connection failures with automatic fallback
-- Provide transparent tool access to specialist agents
-- Monitor tool health and optimize connections
+#### 1000-Line File Limit
+**CONTENT_SUMMARIZER enforces file size limits**:
+- **Maximum Size**: 1000 lines per documentation file
+- **Automatic Splitting**: Large files split into focused topic files
+- **Executive Summaries**: Overview documents with references to detailed files
+- **Cross-References**: Maintain navigation between split documents
 
-### When Acting as Specialized Agents
+#### External Documentation Structure
+```
+docs/external/
+├── technologies/        # Framework and library docs (mautic.md, django.md)
+├── concepts/           # Business concepts (lead_scoring.md, lead_nurturing.md)
+├── apis/              # API documentation (payment_gateway.md)
+└── .index.md          # Master index with 2-3 line summaries
+```
 
-#### Analysis and Research Agents
-- **Analysis Project Agent**: Project analysis, requirement gathering, complexity assessment
-- **Content Researcher Agent**: Market research, technical research, best practice identification (uses web_search capabilities)
-- **Analysis Tech Detector Agent**: Technology stack detection and configuration
-- **Analysis Risk Agent**: Risk assessment and mitigation planning
+#### Smart Documentation Fetching
+**Design command Phase 2 automatically gathers**:
+- **Technologies**: Framework/library documentation based on project keywords
+- **Integration Points**: API docs for external services
+- **Business Concepts**: Research-based summaries for domain-specific needs
+- **Security Features**: Guidelines for authentication, encryption, compliance
 
-#### Implementation and Code Agents
-- **Code Writer Agent**: Code implementation, TDD methodology execution (uses file_operations, version_control)
-- **Code Tester Agent**: Test execution, validation, quality assurance (uses testing capabilities)
-- **Code Test Writer Agent**: Additional test creation, comprehensive coverage analysis
-- **Code Integration Tester Agent**: Cross-feature testing and system integration
+### Command and Step Structure Requirements
 
-#### Validation and Quality Agents
-- **Validation Coordinator Agent**: Multi-level validation coordination
-- **Validation Designer Agent**: Validation strategy creation and framework design
-- **Validation Stakeholder Agent**: Stakeholder simulation and approval processes
-- **Validation Assessor Agent**: Quality standards enforcement and assessment
+**Every Command Must Include**:
+1. **Purpose**: Clear statement of command objectives
+2. **Key Features**: List of main capabilities and functionality
+3. **Inputs**: Exact file locations and required information sources
+4. **Implementation**: Step-by-step process with agent coordination
+5. **Outputs**: Specific file locations and deliverable specifications  
+6. **Success Criteria**: Measurable completion validation standards
 
-#### Content and Documentation Agents
-- **Content Creator Agent**: Documentation creation, user guides, technical writing (uses file_operations)
-- **Content Summarizer Agent**: Progress summaries, documentation synthesis, report generation
-- **Content Technical Writer Agent**: Technical documentation and API documentation
+**Every Step Must Include**:
+1. **Purpose**: Clear statement of step objectives
+2. **Inputs**: Exact sources of required information
+3. **Implementation**: Detailed process including STATE_MANAGER updates
+4. **Outputs**: Specific deliverable locations and formats
+5. **Success Criteria**: Measurable completion validation for this step
 
-#### Domain Specialist Agents
-- **Specialist Marketing Agent**: Marketing strategy, campaigns, content marketing (uses social_media capabilities)
-- **Specialist Design Agent**: UI/UX design, user experience optimization (uses design capabilities)
-- **Specialist Finance Agent**: Financial modeling, budget analysis, cost optimization
-- **Specialist Security Agent**: Security architecture, vulnerability assessment, compliance
-- **Specialist Performance Agent**: Performance optimization, scalability analysis, monitoring
+## State Management Standards
 
-## Project-Specific Context
+### Multi-Level State Tracking
+Essential for recovery from any failure point:
 
-### Business Requirements
-[PROJECT_REQUIREMENTS]
+```json
+{
+  "current_command": "implement",
+  "current_step": 4,
+  "step_name": "coding_loop",
+  "current_prototype": "P2-email-management", 
+  "current_feature": "F1-template-engine",
+  "current_task": "T2-variable-substitution",
+  "completed_prototypes": ["P1-deployment"],
+  "last_updated": "2025-08-05T19:30:00Z"
+}
+```
 
-### Technical Requirements
-[TECHNICAL_REQUIREMENTS]
+### Recovery Capability
+- System can resume from any step, prototype, feature, or task level
+- Complete context preserved for recovery from failures
+- Rollback capability at each tracking level
+## Error Handling Standards
 
-### Success Criteria
-[SUCCESS_CRITERIA]
+### Enhanced 3-Attempt Recovery Pattern
+1. **Attempt 1**: [specific_approach_tried] → [specific_failure_reason]
+2. **Attempt 2**: [research_conducted] → [alternative_approach] → [result]
+3. **Attempt 3**: [simplified_requirements] → [final_result]
+4. **Human Escalation**: "Tried X, Y, Z. Specific problem: [problem]. Need guidance on: [specific_questions]"
 
-### Constraints and Limitations
-[CONSTRAINTS]
+**Error Context Requirements**:
+- Document specific approach tried in each attempt
+- Explain exact failure reason, not generic errors
+- Show research conducted and alternative approaches
+- Present simplified requirements and final results
+- Provide specific context and questions for human escalation
 
-### Stakeholder Information
-[STAKEHOLDER_INFO]
+### State File Management
+- **Session State**: `.claude/state/session.json` tracks current progress and context
+- **Recovery Points**: System can resume from any failure point
+- **Complete Context**: All necessary information preserved for recovery
 
-## Implementation Guidelines
+## Approval File System
 
-### Enhanced TDD Methodology with External Tools
-1. **Capability Setup**: Orchestration Agent coordinates tool access for development workflow
-2. **Orchestrated Testing**: Coordinate Red-Green-Refactor cycles across specialists using testing tools
-3. **Code Writer Agent**: Implement minimum code to pass tests using file operations and version control
-4. **Code Tester Agent**: Execute comprehensive test validation using testing frameworks
-5. **Integration**: Ensure all components work together using integration testing tools
+### Human Review Protocol
+- Every command generates `response_[date]_[time]_[command_name].md` for human review
+- Commands wait for explicit human approval before proceeding
+- Approval files serve as audit trail and decision documentation
 
-### Multi-Level Testing with Tool Integration
-- **Task Testing**: Code Tester Agent validates individual functions using testing frameworks (Happy Path, Edge Case, Negative Case)
-- **Feature Testing**: Integration Tester Agent validates complete features using integration testing tools
-- **Project Testing**: Validation Coordinator orchestrates full system validation using comprehensive testing suite
+### Standard Approval File Format
+```markdown
+# [Command Name] Approval - [Date] [Time]
 
-### Quality Gates with Enhanced Coordination
-Each command includes orchestrated approval gates with tool integration:
-1. **Capability Summary**: MCP Agent reports tool availability and connection status
-2. **Specialist Summary Generation**: Each specialist provides detailed output summary including tool usage
-3. **Integration Summary**: Orchestration Agent synthesizes all specialist work and tool interactions
-4. **Quality Assessment**: Validation agents assess overall quality using validation tools
-5. **File Listing**: Complete list of files created/modified by all agents using file operations
-6. **Next Steps**: Clear description of subsequent orchestrated actions and required capabilities
-7. **User Approval**: Explicit approval required before proceeding
+## Progress Summary
+[What was accomplished in this command]
 
-### Documentation Standards with Enhanced Template System
-- **Template-Driven**: All planning documents use templates from 2-docs/planning/templates/
-- **Agent-Generated**: Specialists create content following template structure using documentation tools
-- **Tool-Enhanced**: External tools provide current information and validation for documentation
-- **Consistent Output**: Standardized documentation across all projects with tool integration
+## Deliverables  
+[Working prototypes or enhancements created]
 
-## File Structure and Organization
+## Testing Results
+[Test coverage and validation outcomes]
 
-### Core Directories
-- `1-main/` - Primary implementation code
-- `2-docs/` - All project documentation
-  - `planning/templates/` - Document templates for agents
-  - `context/` - Quality standards and validation procedures
-  - `external/` - MCP configuration and external tool setup
-- `tests/` - All test files and validation
-- `.claude/agents/` - Specialist agent persona files
-- `.claude/utils/` - MCP health monitoring and setup utilities
+## Next Steps
+[What should happen next]
 
-### Enhanced Agent Template System
-- `2-docs/planning/templates/` - Templates for all planning documents
-- Agents read templates for structure, create actual documents with project content
-- External tools provide current information and validation
-- Ensures consistent output format across all projects
+## Human Approval Required
+- [ ] Results meet expectations
+- [ ] Quality is appropriate  
+- [ ] Ready to proceed
 
-### State Management with Tool Integration
-- `.claude/state/session.json` - Current project state, progress, and tool status
-- `.claude/settings.json` - Project configuration, agent assignment rules, and capability preferences
-- `.claude/logs/` - Operation logs, execution history, and tool interaction logs
-- `2-docs/external/mcp_index.json` - External tool configuration and capability mappings
-- `2-docs/external/runtime-mcp-registry.json` - Dynamic tool status and health monitoring
+## Comments/Modifications
+[Human feedback and corrections]
+```
 
-## Current Project Status
+## MCP Integration
 
-### Completed Activities
-[COMPLETED_ACTIVITIES]
+### Capability-Based Tool Access
+**Request Pattern**: `"Need: file_operations, version_control, testing_framework, [specific_tools]"`
 
-### In Progress
-[IN_PROGRESS_ACTIVITIES]
+**Common Tool Sets**:
+- **Web Projects**: file_operations, version_control, testing_framework, web_framework, database
+- **API Projects**: file_operations, version_control, testing_framework, database, api_tools
+- **Scripts**: file_operations, version_control, testing_framework
 
-### Pending
-[PENDING_ACTIVITIES]
+**Benefits**: Powerful external tool access with simple coordination
 
-### Known Issues
-[KNOWN_ISSUES]
+## Quality Standards
 
-### Tool Status
-[TOOL_STATUS]
+### Testing Requirements
+- **Implement/Optimize**: Focus on working functionality
+- **QA Command**: Appropriate test coverage for production
+- **TDD Methodology**: Red-Green-Refactor cycles
+- **Validation Gate**: Working prototype (primary quality measure)
 
-## External Integrations
-
-### MCP Configuration
-**Configuration File**: `2-docs/external/mcp_index.json`
-**Runtime Registry**: `2-docs/external/runtime-mcp-registry.json`
-**Health Monitoring**: `.claude/utils/mcp_health.py`
-
-### Available External Tools
-[AVAILABLE_TOOLS]
-
-### Tool Health Status
-[TOOL_HEALTH_STATUS]
-
-### Required API Keys
-[REQUIRED_API_KEYS]
-
-## Recovery Information
-
-### Last Successful State
-**Command**: [LAST_SUCCESSFUL_COMMAND]
-**Timestamp**: [TIMESTAMP]
-**Files Created**: [FILES_CREATED]
-**Validation Status**: [VALIDATION_STATUS]
-**Tool Connections**: [TOOL_CONNECTIONS]
-
-### Recovery Instructions
-[RECOVERY_INSTRUCTIONS]
-
-## Communication Guidelines
-
-### User Interaction
-- Provide clear, actionable guidance from orchestration perspective
-- Explain specialist assignments, tool usage, and rationale
-- Request approval at defined gates with comprehensive summaries including tool status
-- Communicate progress transparently across all specialist activities and tool interactions
-
-### Error Handling
-- Identify issues clearly across all specialist domains and tool connections
-- Coordinate resolution between multiple specialists and tool failures when needed
-- Handle tool failures with automatic fallback through MCP Agent
-- Document lessons learned for future reference
-- Maintain positive, solution-focused communication
-
-### Progress Reporting
-- Regular status updates during long orchestrated operations including tool usage
-- Clear milestone completion notifications from all specialists and tool interactions
-- Proactive identification of potential issues across domains and tool availability
-- Transparent communication about challenges, specialist coordination, and tool status
+### Documentation Standards
+**Core Principle**: Enable new Claude Code instance to understand what was built and build upon it
+- **Basic Level**: Essential documentation (implement command)  
+- **Comprehensive Level**: Full documentation (document command)
 
 ---
 
-## Instructions Summary
-
-1. **Follow Enhanced Orchestration Pattern**: Use systematic Orchestration → MCP → Specialist → Integration approach
-2. **Coordinate Tool Access**: Ensure appropriate external capabilities are available for all specialist work
-3. **Delegate Appropriately**: Assign tasks to most appropriate specialist agents with proper tool access
-4. **Maintain Documentation**: Use template system for consistent output enhanced with external tools
-5. **Coordinate Quality**: Ensure specialist outputs integrate cohesively with tool validation
-6. **Validate Continuously**: Use specialist validation agents and testing tools at appropriate levels
-7. **Communicate Clearly**: Provide transparent progress reporting across all specialist activities and tool usage
-8. **Preserve State**: Maintain project state and tool status for recovery and continuity
-9. **Seek Approval**: Use approval gates with comprehensive specialist and tool summaries
-
-**Remember**: You are part of a sophisticated multi-agent orchestration system with intelligent external tool access designed to consistently produce high-quality results through specialist expertise, systematic coordination, and powerful external capabilities.
-
----
-
-**Context Engineering Version**: v4.0 with Enhanced Multi-Agent Orchestration and Intelligent External Tool Access
-**Generated**: [TIMESTAMP]
-**Last Updated**: [LAST_UPDATED]
+*Simple Context Engineering Instructions*
+*Streamlined system focused on delivering working prototypes quickly*

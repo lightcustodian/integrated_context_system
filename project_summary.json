@@ -1,0 +1,187 @@
+{
+  "project_type": "generic",
+  "root_path": "C:\\Users\\John\\Documents\\Development\\simple_context",
+  "platform_info": {
+    "platform": "Windows",
+    "windows_attributes_available": true,
+    "checking_windows_attributes": true
+  },
+  "summary": {
+    "target_files": [
+      "Dockerfile",
+      "LICENSE",
+      "README.rst",
+      "README.txt",
+      ".gitignore",
+      "README.md",
+      "Makefile"
+    ],
+    "found_important_files": [
+      ".gitignore"
+    ],
+    "important_dirs": [
+      ".claude",
+      "docs"
+    ],
+    "hidden_dirs": [
+      ".claude"
+    ],
+    "z_old_files": [],
+    "excluded_dirs": [
+      "__pycache__",
+      ".git",
+      ".venv",
+      "venv",
+      "env",
+      "node_modules",
+      "dist",
+      "build",
+      ".idea",
+      ".vscode",
+      "migrations",
+      "staticfiles",
+      "media",
+      ".pytest_cache",
+      ".tox",
+      ".coverage",
+      ".mypy_cache",
+      "htmlcov"
+    ],
+    "total_files": 416,
+    "total_dirs": 222
+  },
+  "directory_tree": {
+    ".claude": {
+      "MODULES.md": "file",
+      "agents": {
+        "1-claude_folder_structure.md": "file",
+        "2-agent_templates_config.md": "file",
+        "analysis_learning.md": "file",
+        "analysis_project.md": "file",
+        "analysis_risk.md": "file",
+        "analysis_tech_detector.md": "file",
+        "code_integration_tester.md": "file",
+        "code_test_writer.md": "file",
+        "code_tester.md": "file",
+        "code_writer.md": "file",
+        "content_creator.md": "file",
+        "content_researcher.md": "file",
+        "content_summarizer.md": "file",
+        "content_technical_writer.md": "file",
+        "core_mcp.md": "file",
+        "core_orchestrator.md": "file",
+        "project_manager.md": "file",
+        "specialist_design.md": "file",
+        "specialist_finance.md": "file",
+        "specialist_marketing.md": "file",
+        "specialist_performance.md": "file",
+        "specialist_security.md": "file",
+        "state_manager.md": "file",
+        "validation_assessor.md": "file",
+        "validation_coordinator.md": "file",
+        "validation_critical_reviewer.md": "file",
+        "validation_designer.md": "file",
+        "validation_stakeholder.md": "file"
+      },
+      "commands": {
+        "ce-update.md": "file",
+        "design.md": "file",
+        "document.md": "file",
+        "implement.md": "file",
+        "optimize.md": "file",
+        "plan.md": "file",
+        "qa.md": "file"
+      },
+      "config": {
+        "token_budget.json": "file"
+      },
+      "context": {
+        "packages": {
+          "coding_package.md": "file",
+          "integration_package.md": "file",
+          "planning_package.md": "file",
+          "validation_package.md": "file"
+        }
+      },
+      "docs": {
+        "type": "directory"
+      },
+      "learning": {
+        "analysis_template.md": "file"
+      },
+      "logs": {
+        "mcp_health.log": "file",
+        "migration.log": "file"
+      },
+      "mcp": {
+        ".env": "file",
+        ".env.example": "file",
+        "README.md": "file",
+        "mcp_index.json": "file",
+        "runtime-mcp-registry.json": "file",
+        "scripts": {
+          "setup-mcp.sh": "file"
+        }
+      },
+      "planning": {
+        "templates": {
+          "market_research_template.md": "file",
+          "mcp_health.log": "file",
+          "migration.log": "file",
+          "risk_management_template.md": "file",
+          "system_architecture_template.md": "file",
+          "technical_research_template.md": "file"
+        }
+      },
+      "settings.json": "file",
+      "settings.local.json": "file",
+      "state": {
+        "session.json": "file"
+      },
+      "templates": {
+        "DESIGN_PLAN_Template.md": "file"
+      },
+      "utils": {
+        ".project_summary.config.json": "file",
+        "error_recovery.md": "file",
+        "mcp_health.py": "file",
+        "project_summary.py": "file",
+        "smart_defaults.md": "file",
+        "state_manager.py": "file",
+        "test_mcp_integration.py": "file",
+        "validation_consistency.md": "file",
+        "validation_gates.md": "file"
+      }
+    },
+    ".gitignore": "file",
+    ".project_summary.config.json": "file",
+    "CE.md": "file",
+    "CLAUDE.md": "file",
+    "docs": {
+      "external": {
+        "type": "directory"
+      }
+    },
+    "project_summary.py": "file",
+    "response_2025-08-05_2306_work_completed.md": "file",
+    "response_2025-08-05_2337_final_updates_complete.md": "file",
+    "response_2025-08-05_2340_all_work_complete.md": "file",
+    "response_2025-08-05_2350_improvement_details.md": "file",
+    "z.md": "file"
+  },
+  "file_samples": {
+    ".gitignore": {
+      "path": ".gitignore",
+      "content_preview": "# Context Engineering Project .gitignore\n\n# Python\n__pycache__/\n*.py[cod]\n*$py.class\n*.so\n.Python\nbuild/\ndevelop-eggs/\ndist/\ndownloads/\neggs/\n.eggs/\nlib/\nlib64/\nparts/\nsdist/\nvar/\nwheels/\nshare/python-wheels/\n*.egg-info/\n.installed.cfg\n*.egg\nMANIFEST\n\n# Virtual Environments\n.env\n.venv\nenv/\nvenv/\nENV/\nenv.bak/\nvenv.bak/\n\n# Logs and Temporary Files\n*.log\n*.tmp\n*.temp\n.cache/\n.pytest_cache/\n\n# IDE and Editor Files\n.vscode/settings.json\n.vscode/launch.json\n.vscode/extensions.json\n.vscode/.ropeprojec",
+      "size": 1504,
+      "lines": 114
+    },
+    "README.md": {
+      "path": ".claude\\mcp\\README.md",
+      "content_preview": "# External Integrations for Context Engineering\n\nThis directory contains configuration and setup for external integrations used by the Context Engineering system.\n\n## MCP Servers\n\nThe Context Engineering system uses Model Context Protocol (MCP) servers to enhance AI capabilities with external services.\n\n### Essential MCP Servers\n\nThese servers are required for basic functionality:\n\n- **filesystem**: File system access for the AI agent\n- **git**: Git operations for version control\n- **memory**: S",
+      "size": 1659,
+      "lines": 62
+    }
+  },
+  "project_metadata": {}
+}
