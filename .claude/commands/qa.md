@@ -54,8 +54,9 @@ Production readiness validation for the complete project
 **Implementation**:
 1. Request comprehensive testing capabilities
 2. Request: "Need: file_operations, testing_framework, security_tools, performance_tools, version_control"
-3. Add specific tools for security scanning, load testing, code analysis
-4. Confirm all required tools are available
+3. **For Web Projects**: Add "web_automation" capability for comprehensive browser testing
+4. Add specific tools for security scanning, load testing, code analysis
+5. Confirm all required tools are available
 
 ### Step 4: Security Audit
 **State Update**: Update .claude/state/session.json:
@@ -64,13 +65,18 @@ Production readiness validation for the complete project
 - last_updated: [TIMESTAMP]
 
 **Implementation**:
-1. **Vulnerability Scanning**: Automated security vulnerability detection
-2. **Dependency Audit**: Check for known security issues in dependencies
-3. **Input Validation**: Verify all user inputs are properly validated
-4. **Authentication/Authorization**: Validate access controls and permissions
-5. **Data Protection**: Ensure sensitive data is properly protected
-6. **Security Best Practices**: Code review for security anti-patterns
-7. **REVIEWER**: Critical review of security assumptions and implementations
+1. **Git Safety**: Create pre-audit commit
+   - Run `git status` and `git diff` to understand current state
+   - Create commit: "[QA]: Pre-security audit checkpoint - Baseline preserved"
+2. **Vulnerability Scanning**: Automated security vulnerability detection
+3. **Dependency Audit**: Check for known security issues in dependencies
+4. **Input Validation**: Verify all user inputs are properly validated
+5. **Authentication/Authorization**: Validate access controls and permissions
+6. **Data Protection**: Ensure sensitive data is properly protected
+7. **Security Best Practices**: Code review for security anti-patterns
+8. **REVIEWER**: Critical review of security assumptions and implementations
+9. **Git Security**: Commit any security fixes
+   - Create commit: "[QA]: Security audit fixes - Vulnerabilities addressed"
 
 ### Step 5: Performance Validation
 **State Update**: Update .claude/state/session.json:
@@ -83,8 +89,18 @@ Production readiness validation for the complete project
 2. **Stress Testing**: Determine breaking points and failure modes
 3. **Resource Usage**: Monitor memory, CPU, and storage usage
 4. **Response Time**: Validate acceptable response times for all operations
-5. **Scalability Testing**: Ensure system can handle growth
-6. **Performance Benchmarks**: Establish baseline metrics for future comparison
+5. **Comprehensive Web Performance Testing** (for web projects):
+   - Full user journey testing with Puppeteer
+   - Cross-browser compatibility checks (Chrome, Firefox, Safari, Edge)
+   - Mobile responsiveness verification across device sizes
+   - Accessibility validation and screen reader compatibility
+   - Performance metrics capture (Core Web Vitals, LCP, FID, CLS)
+   - Error handling and edge case testing in browser environment
+   - Load testing through browser automation
+   - Network throttling tests (slow 3G, fast 3G, 4G)
+   - JavaScript error detection and handling validation
+6. **Scalability Testing**: Ensure system can handle growth
+7. **Performance Benchmarks**: Establish baseline metrics for future comparison
 
 ### Step 6: Integration Testing
 **State Update**: Update .claude/state/session.json:
@@ -99,6 +115,8 @@ Production readiness validation for the complete project
 4. **Error Propagation**: Ensure errors are handled properly across boundaries
 5. **Transaction Testing**: Validate ACID properties and rollback scenarios
 6. **End-to-End Workflows**: Test complete user journeys across all prototypes
+7. **Git Integration**: Commit any integration fixes
+   - Create commit: "[QA]: Integration fixes - Cross-component issues resolved"
 
 ### Step 7: Test Coverage Analysis
 **State Update**: Update .claude/state/session.json:
@@ -154,7 +172,9 @@ Production readiness validation for the complete project
 2. **Risk Assessment**: Identify and document remaining risks
 3. **Go-Live Checklist**: Create final deployment checklist
 4. **Success Metrics**: Define post-deployment success criteria
-5. Generate response_[date]_[time]_qa.md with:
+5. **Git Production Ready**: Final production-ready commit
+   - Create commit: "[QA]: Production ready - All QA validation complete"
+6. Generate response_[date]_[time]_qa.md with:
    - Security audit results
    - Performance validation results
    - Test coverage metrics
@@ -191,6 +211,13 @@ Production readiness validation for the complete project
 - Performance meets requirements under expected load
 - All integration points function correctly
 - Test coverage meets production standards
+- Git commits created for all major validation checkpoints
+- Comprehensive web validation completed successfully (for web projects):
+  - Full user journey testing across all browsers
+  - Mobile responsiveness verified on multiple device sizes
+  - Accessibility compliance validated
+  - Core Web Vitals meet performance standards
+  - No critical JavaScript errors in production scenarios
 - Documentation enables successful deployment and operation
 - System is ready for production deployment
 - Human approves production readiness

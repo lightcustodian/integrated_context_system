@@ -79,6 +79,97 @@ Every command must:
 - **Deliver Results**: Working prototypes or functional enhancements
 - **Generate Approval**: Response file for human review and approval
 
+## Version Control Safety Protocol
+
+### Automatic Git Commit Requirements
+**MANDATORY**: Create git commits at these checkpoints to prevent work loss and enable recovery:
+
+**Universal Application**: This protocol applies to ALL development work, including:
+- Command-based development (implement, optimize, qa)
+- Ad-hoc assistance outside of commands 
+- Bug fixes and troubleshooting
+- Feature enhancements and modifications
+
+**Required Commit Points**:
+1. **Before Each Feature**: Commit current state before starting new feature implementation
+2. **After Feature Success**: Commit working feature implementation with passing tests
+3. **Before Major Refactoring**: Safety checkpoint before optimization or code restructuring
+4. **After Test Suite Creation**: Preserve test baseline and coverage improvements
+5. **Before Debugging**: Commit working state before attempting to fix bugs
+6. **After Bug Resolution**: Commit successful bug fixes with verification
+
+### Commit Message Format
+```
+[Context]: [Feature/Task] - [Status]
+
+- What: [Brief description of changes]
+- Why: [Purpose/goal of changes]
+- Tests: [Pass/Fail status and coverage info]
+
+🤖 Generated with Claude Code
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+### Recovery and Rollback Protocol
+- **Before Changes**: Always run `git status` and `git diff` to understand current state
+- **After Failures**: Use `git diff` to show modifications since last commit
+- **Emergency Recovery**: `git reset --hard HEAD` to return to last working state
+- **Commit Tracking**: Maintain commit hashes in state file for progress tracking
+
+## Web Frontend Validation Protocol
+
+### Puppeteer Integration Requirements
+**For All Web Projects**: Validation must include browser-based verification
+
+**MCP Server Setup**:
+- Request `web_automation` capability to access Puppeteer MCP server
+- Primary server: `@modelcontextprotocol/server-puppeteer`
+- Fallback options: Playwright, Browserbase (see .claude/mcp/mcp_index.json)
+
+### Validation Checkpoints by Context
+
+**Implement Command - Basic Functionality**:
+1. Launch browser to target URL (typically `http://localhost:[port]`)
+2. Capture screenshot for visual verification
+3. Check browser console for JavaScript errors
+4. Verify key page elements are present and rendered
+5. Test basic user interactions (clicks, form inputs)
+
+**Optimize Command - Performance Validation**:
+1. Measure page load time and performance metrics
+2. Check for console warnings about performance issues
+3. Verify optimizations don't break functionality
+4. Capture before/after performance comparisons
+
+**QA Command - Comprehensive Testing**:
+1. Full user journey testing with Puppeteer
+2. Cross-browser compatibility checks (if applicable)
+3. Accessibility validation and screen reader compatibility
+4. Mobile responsiveness verification
+5. Error handling and edge case testing
+
+### Validation Success Criteria
+**Completion Requirements**:
+- Page loads without critical errors (4xx/5xx HTTP errors, JS exceptions)
+- Core functionality is interactive and responsive
+- Visual elements render correctly (no broken layouts, missing images)
+- User workflows complete successfully end-to-end
+
+### Fallback Strategy
+**If Puppeteer Unavailable**:
+1. Use `curl` or `wget` for HTTP response validation
+2. Parse HTML response for required elements and structure
+3. Check API endpoints directly if applicable
+4. **Request human visual verification** with specific checklist
+5. Document fallback approach used in response file
+
+### Integration with Development Context
+**Technology Stack Considerations**:
+- **React/TypeScript/Tailwind**: Focus on component rendering and responsive design
+- **Python APIs with frontend**: Validate API responses and frontend integration
+- **Full-stack applications**: Test both backend functionality and frontend UX
+
 ## Simple Context Engineering Commands
 
 ### Available Commands

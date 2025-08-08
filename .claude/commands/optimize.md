@@ -83,9 +83,10 @@ Improve performance, code quality, and architecture of completed prototypes
 1. **STATE_MANAGER**: Update state - current_step=3, step_name="mcp_integration"
 2. Request optimization-specific capabilities
 3. Request: "Need: file_operations, version_control, testing_framework, performance_tools"
-4. Add profiling and analysis tools based on technology stack
-5. Establish connections to optimization and monitoring tools
-6. Confirm all required tools are available
+4. **For Web Projects**: Add "web_automation" capability for performance validation
+5. Add profiling and analysis tools based on technology stack
+6. Establish connections to optimization and monitoring tools
+7. Confirm all required tools are available
 
 **Outputs**: 
 - MCP connections established for optimization work
@@ -143,10 +144,17 @@ Improve performance, code quality, and architecture of completed prototypes
 
 **Implementation**: 
 1. **STATE_MANAGER**: Update state - current_step=5, step_name="optimization_implementation"
-2. For each optimization in priority order:
+2. **Git Safety**: Create pre-optimization commit
+   - Run `git status` and `git diff` to understand current state
+   - Create commit: "[Optimize]: Pre-optimization checkpoint - Baseline preserved"
+3. For each optimization in priority order:
+   - **Git Checkpoint**: Commit before optimization
+     - Create commit: "[Optimize]: Starting [OPTIMIZATION_NAME] - Pre-change checkpoint"
    - **CODER**: Implement optimization
    - **TESTER**: Verify functionality preserved
    - **TESTER**: Measure performance improvement
+   - **Git Success**: Commit successful optimization
+     - Create commit: "[Optimize]: [OPTIMIZATION_NAME] - Completed with [X%] improvement"
    - Document optimization changes
 3. **Optimization Types**:
    - Algorithm improvements
@@ -186,13 +194,22 @@ Improve performance, code quality, and architecture of completed prototypes
    - Run performance tests
    - Compare with baseline metrics
    - Document improvement percentages
-4. **Load Testing** (if applicable):
+4. **Web Performance Validation** (for web projects):
+   - Launch browser and measure page load times
+   - Capture performance metrics (First Contentful Paint, Largest Contentful Paint, etc.)
+   - Test user interactions for response times
+   - Check for console warnings about performance issues
+   - Verify optimizations don't break functionality in browser
+   - Compare before/after browser performance metrics
+5. **Load Testing** (if applicable):
    - Test under expected load
    - Verify scalability improvements
-5. **User Experience Testing**:
+6. **User Experience Testing**:
    - Measure response times
    - Validate UI responsiveness
-6. Create optimization report
+7. **Git Final**: Commit completed optimizations
+   - Create commit: "[Optimize]: All optimizations complete - [X%] overall improvement"
+8. Create optimization report
 
 **Outputs**: 
 - Complete test results
@@ -244,6 +261,11 @@ Improve performance, code quality, and architecture of completed prototypes
 - Measurable performance improvements in key metrics
 - Code quality enhanced without breaking functionality
 - All tests passing with improved performance
+- Git commits created for all optimization checkpoints (minimum 2 per optimization)
+- Web performance validation completed successfully (for web projects):
+  - Faster page load times measured and documented
+  - Improved browser performance metrics
+  - No functionality regression in browser environment
 - Documentation updated with optimization details
 - Human approval received for optimizations
 - State properly tracks optimization progress

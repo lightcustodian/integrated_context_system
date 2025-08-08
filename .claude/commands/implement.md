@@ -57,7 +57,8 @@ Focus on next incomplete prototype if no prototype_name specified
 1. Request capabilities based on current prototype needs
 2. Typical request: "Need: file_operations, version_control, testing_framework"
 3. Add specific capabilities for prototype (e.g., database, web_framework)
-4. Confirm all required tools are available
+4. **For Web Projects**: Add "web_automation" capability for Puppeteer validation
+5. Confirm all required tools are available
 
 ### Step 4: Prototype Analysis
 **State Update**: Update .claude/state/session.json:
@@ -86,11 +87,20 @@ Focus on next incomplete prototype if no prototype_name specified
 For each feature in features list:
 
 #### TDD Red-Green-Refactor Cycle:
-1. **TESTER**: Create tests for current task (RED phase)
-2. **CODER**: Write minimal code to pass tests (GREEN phase)
-3. **TESTER**: Run tests - if fail, return to CODER (max 3 attempts)
-4. **CODER**: Refactor code while maintaining test success (REFACTOR phase)
-5. **Mark Task Complete**: Update state with task completion
+1. **Git Safety**: Commit current state before starting feature work
+   - Run `git status` and `git diff` to understand current state
+   - Create commit: "[Implement]: Starting [FEATURE_NAME] - Pre-development checkpoint"
+2. **TESTER**: Create tests for current task (RED phase)
+3. **Git Checkpoint**: Commit test creation
+   - Create commit: "[Implement]: [FEATURE_NAME] tests - Test baseline created"
+4. **CODER**: Write minimal code to pass tests (GREEN phase)
+5. **TESTER**: Run tests - if fail, return to CODER (max 3 attempts)
+6. **Git Success**: Commit working feature implementation
+   - Create commit: "[Implement]: [FEATURE_NAME] - Working implementation with passing tests"
+7. **CODER**: Refactor code while maintaining test success (REFACTOR phase)
+8. **Git Refactor**: Commit refactored code
+   - Create commit: "[Implement]: [FEATURE_NAME] - Refactored implementation"
+9. **Mark Task Complete**: Update state with task completion
 
 #### Error Handling Per Task:
 - Attempt 1: Try different approach
@@ -108,8 +118,15 @@ For each feature in features list:
 **Implementation**:
 1. **TESTER**: Run complete feature test suite
 2. **TESTER**: Validate feature integration with existing code
-3. **TESTER**: Perform basic user acceptance testing
-4. Mark feature complete in state
+3. **Web Validation** (for web projects):
+   - Launch browser to target URL (typically `http://localhost:[port]`)
+   - Capture screenshot for visual verification
+   - Check browser console for JavaScript errors
+   - Verify key page elements are present and rendered
+   - Test basic user interactions (clicks, form inputs)
+   - Document validation results
+4. **TESTER**: Perform basic user acceptance testing
+5. Mark feature complete in state
 
 ### Step 7: Prototype Validation
 **Purpose**: Validate prototype completeness, deployability, and quality before marking complete
@@ -127,13 +144,24 @@ For each feature in features list:
 **Implementation**:
 1. **TESTER**: Run full prototype test suite
 2. **TESTER**: Validate all features work together
-3. **REVIEWER** (important agent addition): 
+3. **Comprehensive Web Validation** (for web projects):
+   - Launch full application in browser
+   - Test complete user workflows end-to-end
+   - Verify all features work together in browser environment
+   - Check for responsive design on different screen sizes (if applicable)
+   - Validate error handling and edge cases in browser
+   - Capture comprehensive screenshots and console logs
+   - Document complete validation results
+4. **REVIEWER** (important agent addition): 
    - Critical review of implementation
    - Code quality assessment
    - Architectural compliance check
    - Security and performance review
-4. **TESTER**: Create deployment test to verify prototype runs standalone
-5. Mark prototype complete in state
+   - Review web validation results (for web projects)
+5. **TESTER**: Create deployment test to verify prototype runs standalone
+6. **Git Final**: Commit completed prototype
+   - Create commit: "[Implement]: [PROTOTYPE_NAME] - Complete working prototype"
+7. Mark prototype complete in state
 
 ### Step 8: Iteration Loop (if not approved)
 **State Update**: Update .claude/state/session.json:
@@ -171,6 +199,12 @@ For each feature in features list:
 ## Success Criteria
 - All tests pass (100% of defined tests)
 - Prototype runs independently
+- Git commits created at all checkpoints (minimum 4 commits per feature)
+- Web validation completed successfully (for web projects):
+  - Page loads without critical errors
+  - Core functionality is interactive and responsive
+  - Visual elements render correctly
+  - User workflows complete successfully
 - REVIEWER approval received
 - Human approval received for prototype
 - State properly tracks all progress
