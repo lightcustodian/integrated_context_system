@@ -33,8 +33,9 @@ const PORT = process.env.PORT || 3003;
 app.use(cors());
 app.use(express.json());
 
-// Initialize database
-await initDatabase();
+// Initialize database (temporarily disabled for development)
+// await initDatabase();
+logger.info('Database initialization skipped for development');
 
 // Initialize JSON learning storage
 await jsonLearningStorage.initialize();

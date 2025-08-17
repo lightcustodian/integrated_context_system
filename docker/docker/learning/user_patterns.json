@@ -1,0 +1,18 @@
+{
+  "approval_patterns": {
+    "frequent_approvals": [],
+    "frequent_rejections": [],
+    "approval_time_patterns": {},
+    "setting_preferences": {}
+  },
+  "workflow_patterns": {
+    "preferred_prototype_sizes": "medium",
+    "typical_validation_depth": "standard",
+    "error_handling_preferences": "detailed_feedback"
+  },
+  "learning_preferences": {
+    "auto_apply_threshold": 0.85,
+    "suggestion_frequency": "moderate",
+    "adaptation_aggressiveness": "conservative"
+  }
+}

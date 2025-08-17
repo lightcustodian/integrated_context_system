@@ -32,7 +32,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   methodologyConfig = { bmad_enabled: true, sage_enabled: true, archon_enabled: true }
 }) => {
   const dispatch = useDispatch();
-  const tasks = useSelector((state: RootState) => state.tasks.tasks[projectId] || []);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks[projectId] || [], 
+    (left, right) => JSON.stringify(left) === JSON.stringify(right)
+  );
   const cliStatus = useSelector((state: RootState) => state.ui.cliStatus);
   const connectionStatus = useSelector((state: RootState) => state.ui.connectionStatus);
   const [showTaskForm, setShowTaskForm] = useState(false);
@@ -257,7 +259,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   const getTasksForColumn = (columnId: string) => {
     return tasks
       .filter(task => task.status === columnId)
-      .sort((a, b) => a.column_order - b.column_order);
+      .sort((a, b) => (a.column_order || 0) - (b.column_order || 0));
   };
 
   const getMethodologyIcon = (methodologyFocus: string) => {
@@ -362,7 +364,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
                   )}
                 </div>
                 
-                <Droppable droppableId={column.id}>
+                <Droppable droppableId={column.id} key={`droppable-${column.id}`}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}

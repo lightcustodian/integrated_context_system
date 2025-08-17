@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   bmad-context:
     build: .
     container_name: bmad-context-engineering
     ports:
-      - "3000:3000"
+      - "3010:3000"
     volumes:
       # Mount the parent directory for multi-project access
       - ../:/workspace:rw
@@ -25,7 +23,7 @@ services:
       - DATABASE_PATH=/app/data/bmad.db
       - WORKSPACE_PATH=/workspace
       - PORT=3000
-      - SOCKET_CORS_ORIGIN=http://localhost:3000
+      - SOCKET_CORS_ORIGIN=http://localhost:3011,http://localhost:3010
     restart: unless-stopped
     networks:
       - bmad-network

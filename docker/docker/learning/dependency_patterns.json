@@ -1,0 +1,75 @@
+{
+  "common_dependencies": {
+    "react_components": {
+      "typical_dependents": [
+        "parent_components",
+        "story_files",
+        "test_files"
+      ],
+      "impact_factors": [
+        "prop_changes",
+        "component_rename",
+        "export_changes"
+      ],
+      "validation_actions": [
+        "check_imports",
+        "run_component_tests",
+        "verify_stories"
+      ]
+    },
+    "api_endpoints": {
+      "typical_dependents": [
+        "frontend_calls",
+        "documentation",
+        "test_files"
+      ],
+      "impact_factors": [
+        "response_schema_change",
+        "endpoint_rename",
+        "authentication_change"
+      ],
+      "validation_actions": [
+        "update_api_calls",
+        "check_documentation",
+        "run_integration_tests"
+      ]
+    },
+    "utility_functions": {
+      "typical_dependents": [
+        "calling_functions",
+        "test_files",
+        "documentation"
+      ],
+      "impact_factors": [
+        "signature_change",
+        "return_type_change",
+        "function_rename"
+      ],
+      "validation_actions": [
+        "check_all_usages",
+        "update_tests",
+        "verify_documentation"
+      ]
+    }
+  },
+  "change_impact_rules": [
+    {
+      "condition": "component_prop_change",
+      "impact_scope": "all_parent_components",
+      "required_validations": [
+        "type_checking",
+        "integration_tests"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "condition": "api_response_change",
+      "impact_scope": "all_frontend_consumers",
+      "required_validations": [
+        "contract_tests",
+        "frontend_integration"
+      ],
+      "confidence": 0.95
+    }
+  ]
+}
