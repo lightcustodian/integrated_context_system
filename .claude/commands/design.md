@@ -12,6 +12,14 @@ Create project understanding and basic configuration for coding projects through
 - Multiple input methods: direct description, --file, --folder, --existing
 - Intelligent external documentation gathering
 
+## Usage
+```
+/design "Project description"
+/design --file path/to/requirements.md
+/design --folder path/to/requirements/folder
+/design --existing
+```
+
 ## Inputs
 - User project description or requirements document (provided in command)
 - `--file <requirements_file>` flag if analyzing single requirements file
@@ -23,26 +31,58 @@ Create project understanding and basic configuration for coding projects through
 
 ### Phase 1: Input Analysis and Project Understanding
 
-#### Step 1: Load Agents and MCP Integration
-**Purpose**: Initialize agents and establish MCP connections for project analysis
+#### Step 1: Input Parsing and Agent Loading
+**Purpose**: Parse design command inputs, determine project name, and initialize agents
 
 **Inputs**: 
-- Command initialization request
+- Command with one of three formats:
+  - `/design "Project description"`
+  - `/design --file path/to/requirements.md`
+  - `/design --folder path/to/requirements/folder`
+  - `/design --existing`
 
 **Implementation**: 
-1. **STATE_MANAGER**: Update state - current_command="design", current_step=1, step_name="load_agents"
-2. Load STATE_MANAGER agent
-3. Load PROJECT_MANAGER agent
-4. Load CONTENT_SUMMARIZER agent
-5. Establish MCP connections for documentation and research capabilities
-6. Request: "Need: file_operations, web_research, documentation_tools"
+1. **STATE_MANAGER**: Update state - current_command="design", current_step=1, step_name="input_parsing"
+2. **Parse Input Method**:
+   ```javascript
+   const args = process.argv.slice(2);
+   let inputMethod, inputSource, projectDescription;
+   
+   if (args[0] === '--file') {
+     inputMethod = 'file';
+     inputSource = args[1];
+   } else if (args[0] === '--folder') {
+     inputMethod = 'folder';
+     inputSource = args[1];
+   } else if (args[0] === '--existing') {
+     inputMethod = 'existing';
+     inputSource = process.cwd();
+   } else {
+     inputMethod = 'direct';
+     projectDescription = args[0];
+   }
+   ```
+3. **Determine Project Name**: Use current working directory name
+   ```javascript
+   const path = require('path');
+   const projectName = path.basename(process.cwd());
+   ```
+4. Load STATE_MANAGER agent
+5. Load PROJECT_MANAGER agent  
+6. Load CONTENT_SUMMARIZER agent
+7. Establish MCP connections for documentation and research capabilities
+8. Request: "Need: file_operations, web_research, documentation_tools"
 
 **Outputs**: 
+- Input method and source identified
+- Project name determined from current directory
 - Active agents ready for project analysis
 - MCP connections established
-- Updated `.claude/state/session.json` with step progress
+- Updated `.claude/state/session.json` with input method and project name
 
 **Success Criteria**: 
+- Input method correctly parsed and validated
+- Project name extracted from current directory
 - All required agents loaded successfully
 - MCP connections established for research
 - System ready for project analysis
@@ -76,27 +116,47 @@ Create project understanding and basic configuration for coding projects through
 - Context base established
 
 #### Step 3: Input Analysis and Document Processing
-**Purpose**: Process user input based on provided flags and extract project requirements
+**Purpose**: Process user input based on parsed input method and extract project requirements
 
 **Inputs**: 
-- User project description OR
-- `--file <requirements_file>` single file OR
-- `--folder <folder_path>` entire folder OR
-- `--existing` flag for existing project
+- Input method and source from Step 1 parsing
+- Project name from current directory
 
 **Implementation**: 
 1. **STATE_MANAGER**: Update state - current_step=3, step_name="input_analysis"
-2. **Direct Description**: Process user-provided project description
-3. **--file Flag**: Read and analyze single requirements file
-4. **--folder Flag**: 
-   - Read all files in specified folder
-   - Apply 1000-line limit per file
-   - **CONTENT_SUMMARIZER**: Create summaries for files >1000 lines
-5. **--existing Flag**:
-   - Copy project_summary.py and .project_summary.config.json from .claude/utils/ to root
-   - Execute: `python ./project_summary.py`
-   - Review project_summary.json output
-   - Identify and read relevant project files based on relevance scoring
+2. **Process based on inputMethod from Step 1**:
+   ```javascript
+   switch (inputMethod) {
+     case 'direct':
+       // Process user-provided project description
+       projectDescription = args[0];
+       break;
+       
+     case 'file':
+       // Read and analyze single requirements file
+       const fileContent = await fs.readFile(inputSource, 'utf8');
+       projectDescription = fileContent;
+       break;
+       
+     case 'folder':
+       // Read all files in specified folder
+       const folderContents = await readFolderRecursively(inputSource);
+       // Apply 1000-line limit per file
+       // CONTENT_SUMMARIZER: Create summaries for files >1000 lines
+       projectDescription = combineAllRequirements(folderContents);
+       break;
+       
+     case 'existing':
+       // Copy project_summary.py and .project_summary.config.json from .claude/utils/ to root
+       // Execute: python ./project_summary.py
+       // Review project_summary.json output
+       // Identify and read relevant project files based on relevance scoring
+       const existingAnalysis = await analyzeExistingProject();
+       projectDescription = existingAnalysis.summary;
+       break;
+   }
+   ```
+3. Store extracted project description and requirements
    - **CONTENT_SUMMARIZER**: Create docs/internal/existing_project.md with comprehensive analysis
 6. Extract key project information and requirements
 7. Identify project type, scope, and technology stack
@@ -265,7 +325,7 @@ Create project understanding and basic configuration for coding projects through
 ### Phase 3: System Configuration and Finalization
 
 #### Step 9: System Configuration and Finalization
-**Purpose**: Initialize project state management and finalize system setup
+**Purpose**: Initialize project state management, finalize system setup, and create Kanban project
 
 **Inputs**: 
 - Approved `DESIGN_PLAN.md` from Phase 2
@@ -278,17 +338,42 @@ Create project understanding and basic configuration for coding projects through
 3. Configure MCP capabilities based on approved technology stack
 4. Set up project structure expectations
 5. Create docs/internal/ and docs/external/ if not existing
-6. Finalize system configuration
-7. Generate final approval file for command completion
+6. **PROJECT CREATION**: Call unified project creation to establish project state
+   ```javascript
+   // Use centralized project creation utility (single source of truth)
+   const { createProject } = require('../utils/project-create');
+   
+   console.log(`📋 Calling unified project creation for: ${projectName}`);
+   
+   try {
+     // Call unified project creation - handles Kanban + session state
+     const project = await createProject(projectName, projectDescription, 'hybrid');
+     
+     if (project) {
+       console.log(`✅ Project ready: ${projectName}`);
+       console.log(`📋 Project ID: ${project.id}`);
+       console.log(`🌐 Kanban Board: http://localhost:3011`);
+     } else {
+       console.log(`⚠️ Kanban system unavailable - continuing with local state only`);
+     }
+   } catch (error) {
+     console.error(`❌ Project creation failed: ${error.message}`);
+     console.log(`⚠️ Continuing without Kanban integration`);
+   }
+   ```
+7. Finalize system configuration
+8. Generate final approval file for command completion
 
 **Outputs**: 
-- `.claude/state/session.json` fully initialized with project context
+- `.claude/state/session.json` fully initialized with project context and Kanban integration
+- Kanban project created and linked to session
 - System configured for approved technology stack
 - Directory structure established
 - `response_[date]_[time]_design_final.md` for human approval
 
 **Success Criteria**: 
 - State management fully initialized
+- Kanban project created and linked
 - MCP capabilities configured for technology stack
 - Documentation directories established
 - System ready for plan command

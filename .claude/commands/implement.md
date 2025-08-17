@@ -74,6 +74,40 @@ Focus on next incomplete prototype if no prototype_name specified
    - Each feature gets own task list
    - Each feature gets own test suite
    - Features are sequential and build on each other
+4. **PROJECT SETUP**: Ensure project exists and get current project info
+   ```javascript
+   const { createProject } = require('../utils/project-create');
+   const { createKanbanAPI } = require('../utils/kanban-api');
+   const path = require('path');
+   
+   // Get project name from current directory
+   const projectName = path.basename(process.cwd());
+   
+   console.log(`📋 Ensuring project exists: ${projectName}`);
+   
+   // Call unified project creation (creates if missing, reuses if exists)
+   const project = await createProject(projectName, `Implementation for ${projectName}`, 'hybrid');
+   
+   if (project) {
+     console.log(`✅ Project ready for implementation: ${project.id}`);
+     
+     // Create implementation tasks for each feature
+     const kanban = createKanbanAPI();
+     const implementationTasks = await kanban.createImplementationTasks(
+       project.id,
+       featuresList.map(feature => ({
+         name: feature.name,
+         description: feature.description,
+         priority: feature.priority || 'medium',
+         estimatedHours: feature.estimatedHours
+       }))
+     );
+     
+     console.log(`📋 Created ${implementationTasks.length} implementation tasks in Kanban`);
+   } else {
+     console.log(`⚠️ Continuing with local implementation only (no Kanban integration)`);
+   }
+   ```
 
 ### Step 5: Coding Loop (Per Feature)
 **State Update**: Update .claude/state/session.json:
@@ -100,7 +134,16 @@ For each feature in features list:
 7. **CODER**: Refactor code while maintaining test success (REFACTOR phase)
 8. **Git Refactor**: Commit refactored code
    - Create commit: "[Implement]: [FEATURE_NAME] - Refactored implementation"
-9. **Mark Task Complete**: Update state with task completion
+9. **KANBAN UPDATE**: Move task to in-progress and eventually to done
+   ```javascript
+   // Move task to in-progress when starting
+   await kanban.updateTask(currentTaskId, { status: 'in-progress' });
+   
+   // When feature is complete, move to done
+   await kanban.completeTask(currentTaskId, actualHours);
+   console.log(`✅ Task "${featureName}" marked complete in Kanban`);
+   ```
+10. **Mark Task Complete**: Update state with task completion
 
 #### Error Handling Per Task:
 - Attempt 1: Try different approach

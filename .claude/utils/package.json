@@ -1,0 +1,9 @@
+{
+  "name": "claude-kanban-utils",
+  "version": "1.0.0",
+  "description": "Kanban API utilities for Context Engineering commands",
+  "main": "kanban-api.js",
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
+}

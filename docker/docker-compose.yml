@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  bmad-context:
+    build: .
+    container_name: bmad-context-engineering
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount the parent directory for multi-project access
+      - ../:/workspace:rw
+      # Persist SQLite database
+      - ./data:/app/data:rw
+      # Persistent learning data across all projects
+      - learning_data:/app/docker/learning:rw
+      # Persistent approval files
+      - approval_files:/app/docker/approvals:rw
+      # Persistent knowledge base
+      - knowledge_base:/app/docker/knowledge:rw
+      # Development volumes for hot-reload
+      - ./server/src:/app/server/src:ro
+      - ./client/src:/app/client/src:ro
+    environment:
+      - NODE_ENV=development
+      - DATABASE_PATH=/app/data/bmad.db
+      - WORKSPACE_PATH=/workspace
+      - PORT=3000
+      - SOCKET_CORS_ORIGIN=http://localhost:3000
+    restart: unless-stopped
+    networks:
+      - bmad-network
+
+volumes:
+  learning_data:
+    driver: local
+  approval_files:
+    driver: local
+  knowledge_base:
+    driver: local
+
+networks:
+  bmad-network:
+    driver: bridge

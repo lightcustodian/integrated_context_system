@@ -191,7 +191,86 @@ Break project into usable prototypes and configure system for implementation
 - Each prototype independently valuable and testable
 - Prototype sequence supports incremental delivery
 
-### Step 7: Command Approval: Response File Generation
+### Step 7: Kanban Planning Tasks Creation
+**Purpose**: Create planning and prototype tasks in Kanban system for project tracking
+
+**Inputs**: 
+- Prototype breakdown from Step 6
+- Project context from session state
+
+**Implementation**: 
+```javascript
+const { createProject } = require('../utils/project-create');
+const { createKanbanAPI } = require('../utils/kanban-api');
+const path = require('path');
+
+// Ensure project exists and get current project info
+const projectName = path.basename(process.cwd());
+console.log(`📋 Creating planning tasks for: ${projectName}`);
+
+// Call unified project creation (should reuse existing project from /design)
+const project = await createProject(projectName, `Planning phase for ${projectName}`, 'hybrid');
+
+if (project) {
+  console.log(`✅ Project ready for planning tasks: ${project.id}`);
+  
+  // Create prototype tasks in Kanban
+  const kanban = createKanbanAPI();
+  const planningTasks = [];
+  
+  // Create a task for each prototype
+  for (const prototype of prototypesList) {
+    const task = await kanban.createTask(
+      project.id,
+      `Prototype: ${prototype.name}`,
+      `${prototype.description}\n\nFeatures:\n${prototype.features.map(f => `- ${f}`).join('\n')}`,
+      {
+        status: 'todo',
+        priority: 'high',
+        command: 'plan',
+        estimatedHours: prototype.estimatedHours || 8,
+        metadata: { 
+          type: 'prototype',
+          prototype_name: prototype.name,
+          feature_count: prototype.features.length
+        }
+      }
+    );
+    planningTasks.push(task);
+  }
+  
+  // Create overall project planning task
+  const overviewTask = await kanban.createTask(
+    project.id,
+    'Project Planning Complete',
+    'All prototypes defined and ready for implementation',
+    {
+      status: 'in-progress',
+      priority: 'high', 
+      command: 'plan',
+      metadata: { type: 'planning_overview' }
+    }
+  );
+  
+  console.log(`📋 Created ${planningTasks.length} prototype tasks + 1 planning overview task`);
+  console.log(`🌐 View progress at: http://localhost:3011`);
+} else {
+  console.log(`⚠️ Continuing with local planning only (no Kanban integration)`);
+}
+```
+
+**Outputs**: 
+- Planning tasks created in Kanban for each prototype
+- Project overview task showing planning completion
+- Session state updated with task creation info
+
+**Success Criteria**: 
+- Kanban tasks created for each defined prototype
+- Tasks include detailed descriptions and feature lists
+- Planning progress visible in web interface
+- Tasks properly categorized and prioritized
+
+### Step 8: Command Approval: Response File Generation
 **Purpose**: Generate approval file and wait for human approval before proceeding
 
 **Inputs**: 

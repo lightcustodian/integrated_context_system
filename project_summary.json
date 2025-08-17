@@ -1,6 +1,6 @@
 {
-  "project_type": "generic",
-  "root_path": "C:\\Users\\John\\Documents\\Development\\simple_context",
+  "project_type": "node",
+  "root_path": "C:\\Users\\John\\Documents\\Development\\integrated_context_system",
   "platform_info": {
     "platform": "Windows",
     "windows_attributes_available": true,
@@ -8,16 +8,22 @@
   },
   "summary": {
     "target_files": [
-      "Dockerfile",
-      "LICENSE",
-      "README.rst",
-      "README.txt",
+      "app.js",
       ".gitignore",
+      "LICENSE",
+      "Dockerfile",
+      "server.js",
+      "README.txt",
+      "index.js",
+      "README.rst",
+      "package.json",
       "README.md",
+      "main.js",
       "Makefile"
     ],
     "found_important_files": [
-      ".gitignore"
+      ".gitignore",
+      "package.json"
     ],
     "important_dirs": [
       ".claude",
@@ -47,8 +53,8 @@
       ".mypy_cache",
       "htmlcov"
     ],
-    "total_files": 416,
-    "total_dirs": 222
+    "total_files": 4677,
+    "total_dirs": 630
   },
   "directory_tree": {
     ".claude": {
@@ -157,16 +163,29 @@
     ".project_summary.config.json": "file",
     "CE.md": "file",
     "CLAUDE.md": "file",
+    "PUPPETEER_TROUBLESHOOTING.md": "file",
     "docs": {
       "external": {
+        ".index.md": "file",
+        "apis": {
+          "type": "directory"
+        },
+        "concepts": {
+          "type": "directory"
+        },
+        "technologies": {
+          "type": "directory"
+        }
+      },
+      "internal": {
         "type": "directory"
       }
     },
+    "package-lock.json": "file",
+    "package.json": "file",
+    "project_summary.json": "file",
     "project_summary.py": "file",
-    "response_2025-08-05_2306_work_completed.md": "file",
-    "response_2025-08-05_2337_final_updates_complete.md": "file",
-    "response_2025-08-05_2340_all_work_complete.md": "file",
-    "response_2025-08-05_2350_improvement_details.md": "file",
+    "test_puppeteer.js": "file",
     "z.md": "file"
   },
   "file_samples": {
@@ -176,6 +195,15 @@
       "size": 1504,
       "lines": 114
     },
+    "package.json": {
+      "path": "package.json",
+      "content_preview": "{\n  \"devDependencies\": {\n    \"puppeteer\": \"^24.16.0\"\n  }\n}\n",
+      "size": 59,
+      "lines": 6,
+      "json_keys": [
+        "devDependencies"
+      ]
+    },
     "README.md": {
       "path": ".claude\\mcp\\README.md",
       "content_preview": "# External Integrations for Context Engineering\n\nThis directory contains configuration and setup for external integrations used by the Context Engineering system.\n\n## MCP Servers\n\nThe Context Engineering system uses Model Context Protocol (MCP) servers to enhance AI capabilities with external services.\n\n### Essential MCP Servers\n\nThese servers are required for basic functionality:\n\n- **filesystem**: File system access for the AI agent\n- **git**: Git operations for version control\n- **memory**: S",
@@ -183,5 +211,13 @@
       "lines": 62
     }
   },
-  "project_metadata": {}
+  "project_metadata": {
+    "name": null,
+    "version": null,
+    "dependencies": [],
+    "devDependencies": [
+      "puppeteer"
+    ],
+    "scripts": []
+  }
 }

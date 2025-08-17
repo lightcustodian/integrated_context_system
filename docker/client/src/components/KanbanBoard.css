@@ -1,0 +1,222 @@
+.kanban-board {
+  height: calc(100vh - 150px);
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.kanban-columns {
+  display: flex;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.kanban-column {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.column-header {
+  padding: 1rem;
+  border-top: 3px solid;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+
+.column-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.column-indicators {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.methodology-indicator {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.methodology-indicator:hover {
+  opacity: 1;
+}
+
+.column-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.task-count {
+  background: #ecf0f1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #7f8c8d;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.column-content {
+  flex: 1;
+  padding: 0.5rem;
+  overflow-y: auto;
+  min-height: 200px;
+}
+
+.column-content.dragging-over {
+  background: #f0f8ff;
+}
+
+.add-task-btn {
+  margin: 0.5rem;
+  padding: 0.75rem;
+  background: transparent;
+  border: 2px dashed #bdc3c7;
+  border-radius: 4px;
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-task-btn:hover {
+  background: #ecf0f1;
+  border-color: #95a5a6;
+  color: #2c3e50;
+}
+
+/* CLI Status Banner */
+.cli-status-banner {
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cli-status-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+}
+
+.cli-indicator.active {
+  font-size: 1.25rem;
+  animation: pulse 2s infinite;
+}
+
+.cli-pulse {
+  position: absolute;
+  right: 1rem;
+  width: 8px;
+  height: 8px;
+  background: #27ae60;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.connection-status-banner {
+  background: #f39c12;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.connection-status-banner.warning {
+  background: #e74c3c;
+}
+
+/* Drag Validation */
+.drag-validation {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+}
+
+.validation-indicator {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.validation-indicator.allowed {
+  color: #27ae60;
+}
+
+.validation-indicator.blocked {
+  color: #e74c3c;
+}
+
+/* Task Wrapper */
+.task-wrapper {
+  margin-bottom: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-wrapper.dragging {
+  transform: rotate(5deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Enhanced Column Interactions */
+.kanban-column:hover .methodology-indicator {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+.column-content.dragging-over {
+  background: #f0f8ff;
+  border: 2px dashed #3498db;
+  border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .kanban-columns {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .kanban-column {
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .cli-status-banner,
+  .connection-status-banner {
+    margin: -1rem -1rem 1rem -1rem;
+    padding: 0.5rem 1rem;
+  }
+}

@@ -224,17 +224,20 @@
 
   "_development_tools": {
     "puppeteer": {
-      "server": "@modelcontextprotocol/server-puppeteer",
-      "description": "Web scraping and browser automation. Primary browser automation tool.",
-      "command": "npx @modelcontextprotocol/server-puppeteer",
-      "installation": "npm install -g @modelcontextprotocol/server-puppeteer",
-      "validation": "npx @modelcontextprotocol/server-puppeteer --help",
+      "server": "@modelcontextprotocol/server-puppeteer [DEPRECATED]",
+      "description": "DEPRECATED - Use direct Puppeteer npm package instead. Web scraping and browser automation.",
+      "command": "# DEPRECATED - Use: npm install puppeteer --save-dev",
+      "installation": "npm install puppeteer --save-dev",
+      "validation": "node -e \"require('puppeteer')\"",
       "enabled": false,
+      "deprecated": true,
+      "deprecation_note": "MCP server deprecated. Use direct Puppeteer npm package for web frontend projects only.",
       "category": "automation",
       "priority": 1,
-      "when_to_use": "Web scraping, testing, or browser automation",
+      "when_to_use": "Web frontend projects requiring browser automation, testing, or validation",
       "provides": ["web_scraping", "browser_automation", "testing"],
-      "capability_mapping": "web_automation"
+      "capability_mapping": "web_automation",
+      "alternative_approach": "Direct Node.js integration with Puppeteer npm package"
     },
     "playwright": {
       "server": "mcp-server-playwright",

@@ -58,25 +58,67 @@ Production readiness validation for the complete project
 4. Add specific tools for security scanning, load testing, code analysis
 5. Confirm all required tools are available
 
-### Step 4: Security Audit
+### Step 4: QA Task Creation and Security Audit
 **State Update**: Update .claude/state/session.json:
 - current_step: 4
-- step_name: "security_audit"
+- step_name: "qa_task_creation_and_security_audit"
 - last_updated: [TIMESTAMP]
 
 **Implementation**:
-1. **Git Safety**: Create pre-audit commit
+1. **PROJECT SETUP**: Ensure project exists and create QA tasks
+   ```javascript
+   const { createProject } = require('../utils/project-create');
+   const { createKanbanAPI } = require('../utils/kanban-api');
+   const path = require('path');
+   
+   // Get project name from current directory
+   const projectName = path.basename(process.cwd());
+   
+   console.log(`📋 Ensuring project exists for QA: ${projectName}`);
+   
+   // Call unified project creation (creates if missing, reuses if exists)
+   const project = await createProject(projectName, `QA testing for ${projectName}`, 'hybrid');
+   
+   if (project) {
+     console.log(`✅ Project ready for QA: ${project.id}`);
+     
+     // Create QA tasks for comprehensive testing
+     const kanban = createKanbanAPI();
+     const qaTasks = await kanban.createQATasks(
+       project.id,
+       ['security', 'performance', 'integration', 'user_acceptance']
+     );
+     
+     console.log(`📋 Created ${qaTasks.length} QA tasks in Kanban`);
+     
+     // Update the security audit task to in-progress
+     const securityTask = qaTasks.find(t => t.title.includes('Security'));
+     if (securityTask) {
+       await kanban.updateTask(securityTask.id, { status: 'in-progress' });
+     }
+   } else {
+     console.log(`⚠️ Continuing with local QA only (no Kanban integration)`);
+   }
+   ```
+2. **Git Safety**: Create pre-audit commit
    - Run `git status` and `git diff` to understand current state
    - Create commit: "[QA]: Pre-security audit checkpoint - Baseline preserved"
-2. **Vulnerability Scanning**: Automated security vulnerability detection
-3. **Dependency Audit**: Check for known security issues in dependencies
-4. **Input Validation**: Verify all user inputs are properly validated
-5. **Authentication/Authorization**: Validate access controls and permissions
-6. **Data Protection**: Ensure sensitive data is properly protected
-7. **Security Best Practices**: Code review for security anti-patterns
-8. **REVIEWER**: Critical review of security assumptions and implementations
-9. **Git Security**: Commit any security fixes
-   - Create commit: "[QA]: Security audit fixes - Vulnerabilities addressed"
+3. **Vulnerability Scanning**: Automated security vulnerability detection
+4. **Dependency Audit**: Check for known security issues in dependencies
+5. **Input Validation**: Verify all user inputs are properly validated
+6. **Authentication/Authorization**: Validate access controls and permissions
+7. **Data Protection**: Ensure sensitive data is properly protected
+8. **Security Best Practices**: Code review for security anti-patterns
+9. **REVIEWER**: Critical review of security assumptions and implementations
+10. **Git Security**: Commit any security fixes
+    - Create commit: "[QA]: Security audit fixes - Vulnerabilities addressed"
+11. **KANBAN UPDATE**: Complete security audit task
+    ```javascript
+    if (securityTask) {
+      await kanban.completeTask(securityTask.id);
+      console.log(`✅ Security audit task marked complete in Kanban`);
+    }
+    ```
 
 ### Step 5: Performance Validation
 **State Update**: Update .claude/state/session.json:

@@ -120,11 +120,12 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Web Frontend Validation Protocol
 
 ### Puppeteer Integration Requirements
-**For All Web Projects**: Validation must include browser-based verification
+**For Web Frontend Projects Only**: Browser-based validation for web UI projects
 
-**MCP Server Setup**:
-- Request `web_automation` capability to access Puppeteer MCP server
-- Primary server: `@modelcontextprotocol/server-puppeteer`
+**Direct Puppeteer Usage** (MCP server deprecated):
+- Install via npm: `npm install puppeteer --save-dev`
+- Use direct Node.js integration for browser automation
+- Primary method: Direct Puppeteer npm package
 - Fallback options: Playwright, Browserbase (see .claude/mcp/mcp_index.json)
 
 ### Validation Checkpoints by Context
