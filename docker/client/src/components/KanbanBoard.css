@@ -145,6 +145,16 @@
   background: #e74c3c;
 }
 
+.loading-banner {
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  text-align: center;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+}
+
 /* Drag Validation */
 .drag-validation {
   position: absolute;

@@ -43,7 +43,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
   const [dragValidation, setDragValidation] = useState<Record<string, { allowed: boolean; reason: string }>>({});
 
   // Load tasks
-  const { data: taskData, refetch: refetchTasks } = trpc.task.listByProject.useQuery(
+  const { data: taskData, refetch: refetchTasks, isLoading } = trpc.task.listByProject.useQuery(
     { projectId },
     { enabled: !!projectId }
   );
@@ -322,6 +322,14 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
         </div>
       )}
       
+      {/* Loading State */}
+      {isLoading && (
+        <div className="loading-banner">
+          <span>Loading tasks...</span>
+        </div>
+      )}
+      
+      {!isLoading && (
       <DragDropContext 
         onDragEnd={(result) => { handleDragEnd(result); onDragEnd(result); }} 
         onDragStart={onDragStart}
@@ -331,7 +339,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
             const columnTasks = getTasksForColumn(column.id);
             
             return (
-              <div key={column.id} className="kanban-column">
+              <div key={`column-${column.id}`} className="kanban-column">
                 <div 
                   className="column-header"
                   style={{ borderTopColor: column.color }}
@@ -364,7 +372,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
                   )}
                 </div>
                 
-                <Droppable droppableId={column.id} key={`droppable-${column.id}`}>
+                <Droppable droppableId={column.id}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -424,6 +432,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
           })}
         </div>
       </DragDropContext>
+      )}
       
       {showTaskForm && (
         <TaskForm

@@ -6,12 +6,9 @@ export function seedSampleData() {
   try {
     const db = getDatabase();
     
-    // Check if data already exists
-    const existingProjects = db.prepare('SELECT COUNT(*) as count FROM projects').get();
-    if (existingProjects.count > 0) {
-      logger.info('Sample data already exists, skipping seed');
-      return;
-    }
+    // Clear existing data and reseed
+    db.exec('DELETE FROM tasks; DELETE FROM projects;');
+    logger.info('Cleared existing data for fresh seed');
     
     logger.info('Seeding sample data...');
     
@@ -22,7 +19,7 @@ export function seedSampleData() {
         name: 'Simple Todo Application',
         description: 'A basic todo application for testing drag functionality',
         status: 'active',
-        methodology: 'general'
+        methodology: 'hybrid'
       },
       {
         id: 'integrated_context_system',
@@ -52,7 +49,7 @@ export function seedSampleData() {
         project.description,
         project.status,
         project.methodology,
-        JSON.stringify({ seeded: true })
+        null
       );
     }
     
@@ -144,8 +141,8 @@ export function seedSampleData() {
     const insertTask = db.prepare(`
       INSERT INTO tasks (
         id, project_id, title, description, status, priority, assigned_to,
-        column_order, methodology_type, validation_status, metadata
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        column_order, metadata
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
     tasks.forEach((task, index) => {
@@ -158,13 +155,16 @@ export function seedSampleData() {
         task.priority,
         'human',
         index,
-        task.methodology_type || 'general',
-        'pending',
-        JSON.stringify({ seeded: true })
+        null
       );
     });
     
     logger.info(`Seeded ${projects.length} projects and ${tasks.length} tasks`);
+    
+    // Update sequence counters
+    const taskCount = db.prepare('SELECT COUNT(*) as count FROM tasks').get();
+    const projectCount = db.prepare('SELECT COUNT(*) as count FROM projects').get();
+    logger.info(`Database now contains ${projectCount.count} projects and ${taskCount.count} tasks`);
     
   } catch (error) {
     logger.error('Failed to seed sample data:', error);

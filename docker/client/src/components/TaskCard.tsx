@@ -120,12 +120,22 @@ const TaskCard: React.FC<TaskCardProps> = ({
     }
   };
 
-  const parseMetadata = (metadata: string | undefined) => {
-    if (!metadata) return null;
+  const parseMetadata = (metadata: string | undefined | null) => {
+    // Handle all possible null/undefined/empty cases
+    if (!metadata || typeof metadata !== 'string') return null;
+    
+    const trimmed = metadata.trim();
+    if (trimmed === '' || trimmed === '{}' || trimmed === 'null') return null;
+    
     try {
-      return JSON.parse(metadata);
+      const parsed = JSON.parse(trimmed);
+      // Return null if it's an empty object
+      if (typeof parsed === 'object' && parsed !== null && Object.keys(parsed).length === 0) {
+        return null;
+      }
+      return parsed;
     } catch (error) {
-      console.warn('Failed to parse task metadata:', metadata, error);
+      // Silently handle invalid JSON for legacy compatibility
       return null;
     }
   };
