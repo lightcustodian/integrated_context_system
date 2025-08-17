@@ -1,7 +1,7 @@
 import { initTRPC } from '@trpc/server';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
-import { getDb, logTransaction } from '../db/sqlite.js';
+import { getDatabase } from '../db/simple_init.js';
 import { logger } from '../utils/logger.js';
 
 const t = initTRPC.context().create();
@@ -22,7 +22,7 @@ const publicProcedure = t.procedure;
 const projectRouter = router({
   list: publicProcedure
     .query(async () => {
-      const db = getDb();
+      const db = getDatabase();
       const projects = db.prepare(`
         SELECT p.*, ps.current_phase, ps.context 
         FROM projects p
@@ -40,7 +40,7 @@ const projectRouter = router({
   get: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
-      const db = getDb();
+      const db = getDatabase();
       const project = db.prepare(`
         SELECT p.*, ps.current_phase, ps.context, ps.history 
         FROM projects p
@@ -66,7 +66,7 @@ const projectRouter = router({
       metadata: z.record(z.any()).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const id = uuidv4();
       
       db.prepare(`
@@ -79,7 +79,7 @@ const projectRouter = router({
         VALUES (?, ?, ?, ?)
       `).run(id, 'planning', '{}', '[]');
 
-      await logTransaction('create', 'project', id, null, input, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('project:created', { id, ...input });
@@ -96,7 +96,7 @@ const projectRouter = router({
       metadata: z.record(z.any()).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const { id, ...updates } = input;
       
       const oldProject = db.prepare('SELECT * FROM projects WHERE id = ?').get(id);
@@ -110,7 +110,7 @@ const projectRouter = router({
       
       db.prepare(`UPDATE projects SET ${fields} WHERE id = ?`).run(...values, id);
       
-      await logTransaction('update', 'project', id, oldProject, updates, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('project:updated', { id, ...updates });
@@ -121,12 +121,12 @@ const projectRouter = router({
   delete: publicProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       
       const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(input.id);
       db.prepare('DELETE FROM projects WHERE id = ?').run(input.id);
       
-      await logTransaction('delete', 'project', input.id, project, null, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('project:deleted', { id: input.id });
@@ -140,7 +140,7 @@ const taskRouter = router({
   listByProject: publicProcedure
     .input(z.object({ projectId: z.string() }))
     .query(async ({ input }) => {
-      const db = getDb();
+      const db = getDatabase();
       const tasks = db.prepare(`
         SELECT * FROM tasks 
         WHERE project_id = ? 
@@ -165,7 +165,7 @@ const taskRouter = router({
       metadata: z.record(z.any()).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const id = uuidv4();
       
       // Get max column order for the status
@@ -183,7 +183,7 @@ const taskRouter = router({
       `).run(id, input.projectId, input.title, input.description, input.status, input.priority, 
           input.assignedTo, columnOrder, input.estimatedHours, JSON.stringify(input.metadata || {}));
 
-      await logTransaction('create', 'task', id, null, input, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('task:created', { id, ...input });
@@ -204,7 +204,7 @@ const taskRouter = router({
       metadata: z.record(z.any()).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const { id, ...updates } = input;
       
       const oldTask = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id);
@@ -229,7 +229,7 @@ const taskRouter = router({
       
       db.prepare(`UPDATE tasks SET ${fields} WHERE id = ?`).run(...values, id);
       
-      await logTransaction('update', 'task', id, oldTask, updates, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('task:updated', { id, projectId: oldTask.project_id, ...updates });
@@ -240,12 +240,12 @@ const taskRouter = router({
   delete: publicProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       
       const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(input.id);
       db.prepare('DELETE FROM tasks WHERE id = ?').run(input.id);
       
-      await logTransaction('delete', 'task', input.id, task, null, ctx.userSource);
+      // Transaction logging disabled for simple setup
       
       // Emit socket event
       ctx.io?.emit('task:deleted', { id: input.id, projectId: task.project_id });
@@ -260,7 +260,7 @@ const taskRouter = router({
       newOrder: z.number()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       
       const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(input.taskId);
       
@@ -299,7 +299,7 @@ const stateRouter = router({
   get: publicProcedure
     .input(z.object({ projectId: z.string() }))
     .query(async ({ input }) => {
-      const db = getDb();
+      const db = getDatabase();
       const state = db.prepare('SELECT * FROM project_state WHERE project_id = ?').get(input.projectId);
       
       if (!state) return null;
@@ -323,7 +323,7 @@ const stateRouter = router({
       }).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const { projectId, addToHistory, ...updates } = input;
       
       if (addToHistory) {
@@ -364,7 +364,7 @@ const stateRouter = router({
 const agentRouter = router({
   list: publicProcedure
     .query(async () => {
-      const db = getDb();
+      const db = getDatabase();
       const agents = db.prepare('SELECT * FROM agents WHERE active = 1 ORDER BY name').all();
       
       return agents.map(a => ({
@@ -383,7 +383,7 @@ const agentRouter = router({
       configuration: z.record(z.any()).optional()
     }))
     .mutation(async ({ input, ctx }) => {
-      const db = getDb();
+      const db = getDatabase();
       const id = uuidv4();
       
       db.prepare(`
@@ -420,7 +420,7 @@ const syncRouter = router({
       since: z.string().optional()
     }))
     .query(async ({ input }) => {
-      const db = getDb();
+      const db = getDatabase();
       
       // Get recent changes
       let query = 'SELECT * FROM transaction_log WHERE 1=1';

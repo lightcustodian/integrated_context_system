@@ -8,7 +8,8 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 import { appRouter, createContext } from './trpc/router.js';
-import { initDatabase } from './db/sqlite.js';
+import { initSimpleDatabase } from './db/simple_init.js';
+import { seedSampleData } from './db/seed_data.js';
 import { setupSocketHandlers } from './socket/handlers.js';
 import { logger } from './utils/logger.js';
 import { jsonLearningStorage } from './utils/json_learning_storage.js';
@@ -33,9 +34,15 @@ const PORT = process.env.PORT || 3003;
 app.use(cors());
 app.use(express.json());
 
-// Initialize database (temporarily disabled for development)
-// await initDatabase();
-logger.info('Database initialization skipped for development');
+// Initialize simple database for development
+try {
+  await initSimpleDatabase();
+  seedSampleData();
+  logger.info('Database initialized successfully');
+} catch (error) {
+  logger.error('Failed to initialize database:', error);
+  process.exit(1);
+}
 
 // Initialize JSON learning storage
 await jsonLearningStorage.initialize();

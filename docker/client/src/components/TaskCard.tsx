@@ -120,8 +120,19 @@ const TaskCard: React.FC<TaskCardProps> = ({
     }
   };
 
-  const isPrototypeTask = task.metadata && JSON.parse(task.metadata)?.type === 'prototype';
-  const prototypeNumber = task.metadata ? JSON.parse(task.metadata)?.prototype_number : null;
+  const parseMetadata = (metadata: string | undefined) => {
+    if (!metadata) return null;
+    try {
+      return JSON.parse(metadata);
+    } catch (error) {
+      console.warn('Failed to parse task metadata:', metadata, error);
+      return null;
+    }
+  };
+
+  const metadata = parseMetadata(task.metadata);
+  const isPrototypeTask = metadata?.type === 'prototype';
+  const prototypeNumber = metadata?.prototype_number || null;
 
   return (
     <div className={`task-card ${isDragging ? 'dragging' : ''} ${isPrototypeTask ? 'prototype-task' : ''}`}>
@@ -219,7 +230,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             <div className="task-detail-item">
               <span className="detail-label">Type:</span>
               <span className="detail-value">
-                {JSON.parse(task.metadata)?.type || 'standard'}
+                {metadata?.type || 'standard'}
               </span>
             </div>
           )}
