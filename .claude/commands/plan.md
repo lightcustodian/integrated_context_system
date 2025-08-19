@@ -1,326 +1,267 @@
 # Enhanced PLAN Command - BMAD+SAGE+Archon Integration (Updated)
 
+## MANDATORY EXECUTION PROTOCOL
+**ALL STEPS AND SUB-STEPS ARE MANDATORY REQUIREMENTS, NOT SUGGESTIONS**
+- Every step MUST be executed in exact order
+- NO steps may be skipped or simplified
+- All file paths and API endpoints are EXPLICIT REQUIREMENTS
+- Web interface integration is MANDATORY for user visibility
+- Failure to execute any step is a command failure
+
 ## Purpose
 Create comprehensive project plan integrating BMAD validation gates, SAGE adaptive learning, and Archon agent generation with two-stage understanding validation and cross-project intelligence.
 
-## Key Features
-- **Two-Stage Understanding**: Quick validation followed by detailed analysis-based improvements
-- **BMAD Integration**: Structured validation gates with stakeholder identification and quality thresholds
-- **SAGE Integration**: Adaptive planning based on cross-project learning patterns and failure prevention
-- **Archon Integration**: Dynamic agent generation for specialized planning tasks and knowledge base access
-- **Options-Based Recommendations**: Present alternatives with AI-recommended solutions
-- **Interactive Approval Workflow**: Web-based approval for understanding, settings, and plan validation
-- **Cross-Project Learning**: Pattern recognition and adaptive planning based on historical project data
+## MANDATORY Inputs (Exact Locations)
+- **User Project Context**: Project description from command arguments
+- **Learning Patterns**: MUST read `../docker/learning/global_patterns.json`
+- **Database**: MUST connect to `../docker/server/data/bmad.db`
+- **Web API**: MUST use `http://localhost:3010/trpc/` for all operations
+- **Session State**: MUST update `.claude/state/session.json`
 
-## Inputs
-- **User Project Context**: Project description, files, or folders from user
-- **Learning Patterns**: Cross-project patterns from `../docker/learning/global_patterns.json`
-- **Database State**: Project state and settings from enhanced database schema
-- **MCP Capabilities**: External tool access via enhanced MCP integration
-- **Documentation Context**: Framework and technology documentation for project stack
+## MANDATORY Outputs (Exact Locations)
+- **Web Interface**: ALL tasks MUST be visible at `http://localhost:3011`
+- **Database Records**: Project and tasks MUST be stored in SQLite database
+- **Response File**: MUST create `response_[date]_[time]_plan.md`
+- **Session State**: MUST update `.claude/state/session.json`
+- **Learning Updates**: MUST update `../docker/learning/global_patterns.json`
 
-## Implementation
+## MANDATORY Implementation
 
 ### Step 1: Initialize Enhanced Planning Session
-**Purpose**: Establish technical foundation and load learning context
-**Implementation**: **PROGRAMMATIC** - Database operations and system initialization
+**MANDATORY**: Execute ALL sub-steps without exception
 
-#### Sub-Steps:
-1.1. **Initialize Database Managers** (PROGRAMMATIC) - Opens SQLite database connections
-1.2. **Start SAGE Learning Session** (PROGRAMMATIC) - Creates tracking session for pattern capture
-1.3. **Load Historical Patterns** (AGENT) - PATTERN_MATCHER intelligently selects relevant patterns from past projects
-1.4. **Apply Automatic Adaptations** (AGENT) - PATTERN_MATCHER contextually applies high-confidence improvements
+#### MANDATORY Sub-Steps:
+**1.1. Database Connection** 
+- MUST connect to `http://localhost:3010/health` and verify response
+- IF connection fails: STOP command and report error
+- MUST NOT proceed without database connectivity
 
-**Outputs:**
-- Database connections established
-- Learning session ID for tracking
-- Relevant historical patterns loaded
-- Automatic improvements applied with reasoning
+**1.2. Learning Pattern Loading**
+- MUST read file `../docker/learning/global_patterns.json`
+- MUST filter patterns where tags contain project-relevant keywords
+- MUST store filtered patterns for use in subsequent steps
+- IF file doesn't exist: create empty patterns structure
 
-**Success Criteria:**
-- Database connectivity confirmed
-- Learning session active
-- Historical patterns loaded and filtered for relevance
-- Adaptations applied only with high confidence
+**1.3. Session Initialization**
+- MUST update `.claude/state/session.json` with:
+  - current_command: "plan"
+  - current_step: 1
+  - project_type: extracted from user input
+  - timestamp: current ISO timestamp
+  - current_project_id: null (will be set in Step 3)
 
-### Step 2: Research Understanding & Analysis  
-**Purpose**: Deep project analysis without user interaction - pure research phase
-**Implementation**: **AGENT-BASED** - INITIAL_UNDERSTANDING_AGENT reasoning and analysis
+**1.4. Web Interface Check**
+- MUST verify `http://localhost:3011` is accessible
+- IF not accessible: STOP and report error
 
-#### Sub-Steps:
-2.1. **Initial Project Interpretation** (AGENT) - Parse user input for basic understanding
-2.2. **Generate Alternative Interpretations** (AGENT) - Create 2-3 different project approaches
-2.3. **Technology Stack Options** (AGENT) - Suggest technology alternatives with pros/cons
-2.4. **Scope Options** (AGENT) - Present different scope levels (MVP, Standard, Comprehensive)
-2.5. **Generate Focused Questions** (AGENT) - Create targeted questions to clarify ambiguities
-2.6. **Recommend Preferred Approach** (AGENT) - Select and justify recommended option
+**MANDATORY Outputs:**
+- Connection confirmed to docker environment
+- Learning patterns loaded from `../docker/learning/global_patterns.json`
+- Session state updated in `.claude/state/session.json`
+- Web interface accessibility confirmed
 
-**Outputs:**
-- Initial understanding analysis (internal storage)
-- Alternative project interpretations with pros/cons (internal storage)
-- Technology stack options with recommendations (internal storage)  
-- Scope level options (MVP/Standard/Comprehensive) (internal storage)
-- Targeted clarifying questions (prepared for Step 3)
-- Recommended approach with justification (prepared for Step 3)
+### Step 2: Research Understanding & Analysis
+**MANDATORY**: Generate ALL analysis components
 
-**Success Criteria:**
-- Multiple viable interpretations generated
-- Clear technology and scope options presented
-- Focused questions address key ambiguities
-- Recommended approach is well-justified
-- Research analysis complete and stored
+#### MANDATORY Sub-Steps:
+**2.1. Project Interpretation**
+- MUST analyze user input and extract: core features, constraints, technology hints
+- MUST generate project summary (2-3 sentences)
 
-### Step 3: User Understanding Verification & Approval
-**Purpose**: Present research findings to user for confirmation and input
-**Implementation**: **HYBRID** - Agent synthesis with programmatic UI presentation
+**2.2. Alternative Approaches**
+- MUST create exactly 3 approaches: MVP, Standard, Enhanced
+- MUST include for each: feature list (5-8 items), timeline estimate, complexity rating
 
-#### Sub-Steps:
-3.1. **Generate Understanding Summary** (AGENT) - Synthesize Step 2 research into clear summary
-3.2. **Present Options and Recommendations** (PROGRAMMATIC) - Display findings in web interface  
-3.3. **Collect User Feedback** (PROGRAMMATIC) - Capture user corrections and preferences
-3.4. **Update Project Context** (AGENT) - Incorporate user feedback into project understanding
+**2.3. Technology Stack Options**
+- MUST create exactly 3 technology options with pros/cons
+- MUST include effort estimates and learning curve ratings
 
-**Outputs:**
-- **(USER INTERACTION)**: Research summary with alternative interpretations
-- **(USER INTERACTION)**: Technology stack options with recommendations
-- **(USER INTERACTION)**: Scope level options (MVP/Standard/Comprehensive)
-- **(USER INTERACTION)**: Targeted clarifying questions
-- **(APPROVAL REQUIRED)**: Final understanding confirmation with user modifications
+**2.4. Focused Questions**
+- MUST generate 3-5 specific questions to clarify ambiguities
+- MUST prioritize questions by impact on project scope
 
-**Success Criteria:**
-- User reviews and approves understanding
-- Any corrections incorporated into project context
-- Clear direction established for detailed analysis
+**2.5. Recommended Approach**
+- MUST select ONE approach and justify with 2-3 concrete reasons
 
-### Step 4: Comprehensive Project Analysis & Context Understanding
-**Purpose**: Deep analysis using BMAD+SAGE+Archon methodologies with user-confirmed understanding
-**Implementation**: **AGENT-BASED** - METHODOLOGY_ANALYST complex analysis requiring AI reasoning
+**MANDATORY Outputs:**
+- Project interpretation document stored internally
+- 3 alternative approaches with complete specifications
+- 3 technology options with detailed analysis
+- 3-5 focused clarification questions
+- 1 recommended approach with justification
 
-#### Sub-Steps:
-4.1. **BMAD Stakeholder Analysis** (AGENT) - Identifies stakeholders using confirmed understanding
-4.2. **SAGE Pattern Matching** (AGENT) - Finds similar projects with refined context
-4.3. **Archon Knowledge Integration** (AGENT) - Determines specialized knowledge needed
-4.4. **Risk Pattern Analysis** (AGENT) - Identifies potential risks from historical data
-4.5. **Generate Combined Recommendations** (AGENT) - Synthesizes all analyses
+### Step 3: Create Project in Web Interface
+**MANDATORY**: Project MUST be created and visible in web interface
 
-**Outputs:**
-- Stakeholder identification with roles and requirements
-- Similar project patterns with confidence scores and lessons learned
-- Required specialized knowledge domains and agents
-- Risk patterns identified from historical failures
+#### MANDATORY Sub-Steps:
+**3.1. Create Project via API**
+- MUST POST to `http://localhost:3010/trpc/project.create`
+- MUST use format: `{"name": "[project_name]", "description": "[description]", "methodology": "hybrid", "status": "active"}`
+- MUST capture project ID from response
+- IF API fails: STOP command and report error
+
+**3.2. Update Session State**
+- MUST update `.claude/state/session.json` with:
+  - current_project_id: [captured_project_id]
+  - current_project_name: [project_name]
+  - project_created_timestamp: current ISO timestamp
+
+**3.3. Verify Web Interface**
+- MUST verify project appears at `http://localhost:3011`
+- IF project not visible: STOP command and report error
+
+**MANDATORY Outputs:**
+- Project created in database with captured ID
+- Project visible in web interface at `http://localhost:3011`
+- Session state updated with project details
+
+### Step 4: Comprehensive Project Analysis
+**MANDATORY**: Execute complete BMAD+SAGE+Archon analysis
+
+#### MANDATORY Sub-Steps:
+**4.1. BMAD Stakeholder Analysis**
+- MUST identify: Primary User, Developer, QA Tester, End Users
+- MUST define success criteria for each stakeholder (2-3 per stakeholder)
+
+**4.2. SAGE Pattern Matching**
+- MUST query loaded patterns from Step 1.2 for similar projects
+- MUST score patterns by relevance (0.0-1.0)
+- MUST select top 3 patterns with confidence > 0.6
+
+**4.3. Risk Analysis**
+- MUST identify 3-5 technical risks from pattern analysis
+- MUST provide mitigation strategy for each risk
+
+**4.4. Combined Recommendations**
+- MUST synthesize analysis into comprehensive recommendations
+
+**MANDATORY Outputs:**
+- Stakeholder matrix with success criteria
+- Top 3 relevant patterns with confidence scores
+- Risk analysis with mitigation strategies
 - Combined methodology recommendations
 
-**Success Criteria:**
-- Stakeholders comprehensively identified using BMAD framework
-- High-confidence pattern matches found and analyzed
-- Knowledge gaps and required expertise identified
-- Risk patterns from similar projects captured
-- Analysis confidence score above 0.8
+### Step 5: Prototype Planning with Web Interface Tasks
+**MANDATORY**: Create prototypes AND tasks in web interface
 
-### Step 5: Settings Configuration with Web Interface Approval
-**Purpose**: Configure methodology parameters with intelligent recommendations
-**Implementation**: **HYBRID** - SETTINGS_ADVISOR recommendations with programmatic interface
+#### MANDATORY Sub-Steps:
+**5.1. Prototype Design**
+- MUST create exactly 3 prototypes following SAGE sizing patterns
+- MUST ensure each prototype has 3-6 discrete tasks
+- MUST assign priorities: Prototype 1 (high), Prototype 2 (medium), Prototype 3 (low)
 
-#### Sub-Steps:
-5.1. **Generate Context-Aware Settings** (AGENT) - Recommendations based on analysis
-5.2. **Present Configuration Options** (AGENT) - Multiple preset configurations with explanations
-5.3. **Create Approval Document** (PROGRAMMATIC) - Web interface formatting
-5.4. **Wait for User Approval** (PROGRAMMATIC) - Approval workflow management
+**5.2. Task Creation via API**
+- FOR EACH prototype task, MUST POST to `http://localhost:3010/trpc/task.create`
+- MUST use format: `{"projectId": "[project_id]", "title": "[task_title]", "description": "[task_description]", "status": "todo", "priority": "[high/medium/low]", "assignedTo": "claude", "estimatedHours": [hours]}`
+- MUST capture task IDs from responses
+- IF any task creation fails: STOP command and report error
 
-**Outputs:**
-- **(APPROVAL REQUIRED)**: Settings configuration in web interface
-- **(USER INTERACTION)**: Multiple preset options with trade-off analysis
-- Context-aware recommendations with justification
-- Saved methodology configuration for project
+**5.3. Validation Gates**
+- MUST create 1 validation task per prototype
+- MUST set validation tasks with priority matching parent prototype
 
-**Success Criteria:**
-- Settings recommendations based on project-specific analysis
-- Multiple viable configuration options presented
-- Trade-offs clearly explained for each option
-- User approves configuration matching project needs
+**MANDATORY Outputs:**
+- 3 prototypes with 3-6 tasks each (9-18 total tasks)
+- ALL tasks visible in web interface at `http://localhost:3011`
+- Task IDs captured and stored
+- Validation gates defined for each prototype
 
-### Step 6: MCP Integration & Capability Assessment
-**Purpose**: Establish enhanced tool ecosystem for methodology implementation
-**Implementation**: **HYBRID** - CAPABILITY_ASSESSOR assessment with programmatic connections
+### Step 6: Implementation Plan Generation
+**MANDATORY**: Create comprehensive plan with timeline
 
-#### Sub-Steps:
-6.1. **Assess Methodology-Specific Capabilities** (AGENT) - Determines tools needed for settings
-6.2. **Request MCP Capabilities** (PROGRAMMATIC) - Establishes tool connections
-6.3. **Validate Tool Integration** (PROGRAMMATIC) - Tests tool availability and functionality
-6.4. **Configure Fallback Options** (AGENT) - Alternative approaches for unavailable tools
+#### MANDATORY Sub-Steps:
+**6.1. Timeline Creation**
+- MUST create day-by-day implementation timeline
+- MUST map tasks to specific days/time blocks
+- MUST include testing and validation time
 
-**Outputs:**
-- Methodology-specific capabilities identified and requested
-- Tool connections established with status reporting
-- Fallback procedures configured for unavailable tools
-- Enhanced development ecosystem ready for implementation
+**6.2. Success Metrics**
+- MUST define 5-8 measurable success metrics
+- MUST include performance targets and quality gates
 
-**Success Criteria:**
-- All critical capabilities connected or fallbacks configured
-- Methodology-specific tools available for validation gates
-- Integration status clearly documented
-- No blocking capability failures
+**6.3. Risk Mitigation Plan**
+- MUST expand Step 4.3 risks into detailed mitigation plan
+- MUST include contingency procedures
 
-### Step 7: Enhanced Prototype Planning with Validation Gates
-**Purpose**: Create detailed prototypes with BMAD gates and SAGE dependency analysis
-**Implementation**: **HYBRID** - Agent planning with programmatic structuring
+**MANDATORY Outputs:**
+- Detailed implementation timeline
+- Measurable success metrics
+- Risk mitigation plan with procedures
 
-#### Sub-Steps:
-7.1. **Apply SAGE Sizing Patterns** (HYBRID)
-   - **What it does**: Uses historical data from similar projects to determine optimal prototype size (small=1-2 weeks, medium=3-4 weeks, large=5-8 weeks) based on project complexity, team size, and timeline constraints
-   - **Agent Role**: PATTERN_MATCHER analyzes project context and selects appropriate sizing strategy from historical patterns
-   - **Programmatic Role**: Applies the selected sizing rules to feature groupings and calculates effort estimates
-7.2. **Intelligent Feature Extraction** (AGENT) - PROTOTYPE_PLANNER groups features by business value and dependencies
-7.3. **Generate BMAD Validation Gates** (AGENT) - VALIDATION_DESIGNER creates appropriate quality checkpoints
-7.4. **SAGE Dependency Analysis** (AGENT) - PROTOTYPE_PLANNER maps risks and inter-prototype dependencies
-7.5. **Create Prototype Definitions** (HYBRID)
-   - **What it does**: Generates formal prototype specifications with all metadata including business descriptions, technical requirements, success criteria, validation approaches, effort estimates, and database-ready structure
-   - **Agent Role**: PROTOTYPE_PLANNER writes business-focused descriptions, success criteria, and validation approaches using natural language
-   - **Programmatic Role**: Structures the agent-generated content into database schema format and creates Kanban task definitions
+### Step 7: Learning Capture and Pattern Updates
+**MANDATORY**: Update learning patterns for future projects
 
-**Outputs:**
-- Systematically planned prototypes with clear business value
-- BMAD validation gates tailored to each prototype
-- SAGE-based dependency analysis with risk mitigation
-- Prototype definitions ready for implementation
-- Effort estimates based on historical patterns
+#### MANDATORY Sub-Steps:
+**7.1. Pattern Analysis**
+- MUST analyze what planning decisions were made
+- MUST identify successful pattern applications
 
-**Success Criteria:**
-- Each prototype provides independent deployable value
-- Validation gates appropriate for methodology settings
-- Dependencies clearly mapped with risk assessment
-- Combined prototypes fulfill complete project scope
-- Implementation sequence optimizes for early value delivery
+**7.2. Update Global Patterns**
+- MUST add new patterns to `../docker/learning/global_patterns.json`
+- MUST update existing pattern confidence scores
+- MUST save file with proper JSON formatting
 
-### Step 8: Comprehensive Plan Generation & Approval
-**Purpose**: Create final implementation plan with methodology integration
-**Implementation**: **HYBRID** - IMPLEMENTATION_PLANNER plan synthesis with programmatic presentation
+**7.3. Session Documentation**
+- MUST document planning session effectiveness
+- MUST record timing data and decision quality
 
-#### Sub-Steps:
-8.1. **Generate Implementation Plan** (AGENT) - Comprehensive planning document
-8.2. **Create Risk Analysis & Mitigation** (AGENT) - RISK_ANALYST pattern-based risk management
-8.3. **Design Success Metrics** (AGENT) - Measurable outcomes for each phase
-8.4. **Create Kanban Task Structure** (PROGRAMMATIC) - Visual project board
-8.5. **Present for Final Approval** (PROGRAMMATIC) - Web interface presentation
+**MANDATORY Outputs:**
+- Updated `../docker/learning/global_patterns.json`
+- Planning session documented
+- Pattern effectiveness recorded
 
-**Outputs:**
-- **(APPROVAL REQUIRED)**: Complete implementation plan in web interface
-- **(USER INTERACTION)**: Risk analysis with mitigation strategies
-- Kanban board populated with prototype and validation tasks
-- Success metrics and acceptance criteria
-- Implementation sequence with dependency management
+### Step 8: Final Approval Generation
+**MANDATORY**: Create response file with complete plan
 
-**Success Criteria:**
-- Implementation plan demonstrates clear methodology integration
-- Risk analysis covers identified patterns and mitigation strategies
-- Success metrics are measurable and tied to business value
-- Kanban structure supports visual progress tracking
-- User approves complete plan for implementation
+#### MANDATORY Sub-Steps:
+**8.1. Web Interface Verification**
+- MUST verify ALL tasks visible at `http://localhost:3011`
+- MUST count tasks and confirm total matches expected
+- IF mismatch: STOP and report error
 
-### Step 9: Finalize Planning & Learning Capture
-**Purpose**: Persist planning decisions and capture patterns for future projects
-**Implementation**: **HYBRID** - Agent analysis with programmatic persistence
+**8.2. Response File Creation**
+- MUST create `response_[date]_[time]_plan.md` with:
+  - Project name and ID
+  - Total task count and web interface URL
+  - Complete implementation plan
+  - Risk analysis and mitigation
+  - Success metrics
+  - Timeline breakdown
+  - Human approval checklist
 
-#### Sub-Steps:
-9.1. **Update Project State** (PROGRAMMATIC) - Database persistence of planning results
-9.2. **Analyze Planning Success Patterns** (AGENT) - LEARNING_ANALYZER identifies what worked well in this planning session
-9.3. **Capture Methodology Effectiveness** (AGENT) - LEARNING_ANALYZER records how well BMAD/SAGE/Archon integration worked
-9.4. **Save Learning Session** (PROGRAMMATIC) 
-   - **What it does**: Persists all captured learning data (successful decisions, user feedback, timing data, methodology effectiveness scores) to database tables and JSON storage for future retrieval and analysis
-9.5. **Update Cross-Project Intelligence** (HYBRID)
-   - **What it does**: Updates the global pattern library (global_patterns.json) with new successful patterns discovered during this planning session, including confidence scores and applicability contexts
-   - **Agent Role**: LEARNING_ANALYZER analyzes which patterns should be added/updated and determines their confidence scores
-   - **Programmatic Role**: Updates JSON files and database records with the new pattern data
+**8.3. Session State Finalization**
+- MUST update `.claude/state/session.json` with:
+  - current_step: "completed"
+  - tasks_created: [total_count]
+  - completion_timestamp: current ISO timestamp
 
-**Outputs:**
-- Project state saved with complete planning context
-- Learning patterns captured from planning process
-- Methodology effectiveness documented
-- Cross-project intelligence updated
-- Implementation phase ready to begin
+**MANDATORY Outputs:**
+- Response file created at `response_[date]_[time]_plan.md`
+- ALL tasks confirmed visible in web interface
+- Session state marked complete
+- Project ready for implement command
 
-**Success Criteria:**
-- All planning decisions persisted in database
-- Learning patterns captured for future projects
-- Methodology integration effectiveness measured
-- Cross-project pattern library updated
-- Ready for enhanced implement command
+## MANDATORY Web Interface Requirements
+**The user MUST be able to see ALL project information in web interface:**
 
-## New Agent Profiles Required
+1. **Project Visibility**: Project MUST appear at `http://localhost:3011`
+2. **Task Visibility**: ALL tasks MUST appear in Kanban board
+3. **Task Organization**: Tasks MUST be organized by priority/prototype
+4. **Progress Tracking**: User can see task status and progress
+5. **Interactive Elements**: User can interact with tasks in web interface
 
-### INITIAL_UNDERSTANDING_AGENT ✅ CREATED
-**Role**: Generates quick project interpretation with options and recommendations
-**Capabilities**: project_interpretation, option_generation, technology_assessment, scope_analysis
+## MANDATORY Error Handling
+**If ANY step fails:**
+1. STOP command execution immediately
+2. Report specific error and step that failed
+3. Provide exact instructions to resolve
+4. DO NOT continue with subsequent steps
+5. DO NOT create partial deliverables
 
-### METHODOLOGY_ANALYST ✅ CREATED
-**Role**: Specializes in BMAD/SAGE/Archon integration and analysis
-**Capabilities**: stakeholder_analysis, pattern_matching, knowledge_integration
-
-### PATTERN_MATCHER ✅ CREATED
-**Role**: Expert at finding and applying historical project patterns
-**Capabilities**: similarity_analysis, pattern_confidence, adaptation_logic
-
-### UNDERSTANDING_SYNTHESIZER ✅ CREATED
-**Role**: Creates comprehensive understanding documents and improvements
-**Capabilities**: narrative_generation, improvement_analysis, question_formulation
-
-### SETTINGS_ADVISOR ✅ CREATED
-**Role**: Recommends methodology configurations based on project analysis
-**Capabilities**: configuration_analysis, preset_selection, trade_off_analysis
-
-### CAPABILITY_ASSESSOR ✅ CREATED
-**Role**: Determines required tools and capabilities for methodology implementation
-**Capabilities**: tool_requirement_analysis, methodology_mapping, fallback_planning
-
-### PROTOTYPE_PLANNER ✅ CREATED
-**Role**: Expert at breaking projects into deployable prototypes with business value
-**Capabilities**: feature_analysis, value_grouping, dependency_mapping
-
-### VALIDATION_DESIGNER (Enhanced existing agent)
-**Role**: Creates appropriate validation gates and success criteria
-**Capabilities**: quality_gate_design, testing_strategy, acceptance_criteria
-
-### IMPLEMENTATION_PLANNER ✅ CREATED
-**Role**: Creates comprehensive implementation plans with methodology integration
-**Capabilities**: plan_synthesis, documentation_generation, success_metrics
-
-### RISK_ANALYST ✅ CREATED
-**Role**: Identifies and quantifies project risks with mitigation strategies
-**Capabilities**: risk_identification, impact_analysis, mitigation_planning
-
-### LEARNING_ANALYZER ✅ CREATED
-**Role**: Analyzes planning effectiveness for continuous improvement
-**Capabilities**: pattern_extraction, effectiveness_analysis, recommendation_generation
-
-### SECURITY_OPTIMIZER ✅ CREATED
-**Role**: Integrates security considerations into planning and optimization strategies
-**Capabilities**: security_planning, threat_assessment, security_optimization_patterns, secure_architecture_design
-
-## Outputs
-- **Two-Stage Understanding**: Quick validation followed by comprehensive analysis
-- **Options-Based Recommendations**: Multiple approaches with AI-recommended solutions
-- **Enhanced Database State**: Complete project state with methodology configuration
-- **Specialized Agent Network**: 11 new specialized agents + enhanced existing agents
-- **Interactive Approval Workflow**: Multiple approval points with user control
-- **Prototype Task Structure**: Kanban board with visually distinct prototype tasks
-- **Learning Intelligence**: Captured patterns for cross-project improvement in JSON format
-- **Implementation Readiness**: Fully planned project ready for enhanced implement command
-- **Response File**: `[XXX]_plan_approval.md` using auto-increment format for human approval and audit trail
-
-## Success Criteria
-- **Two-Stage Understanding**: User confirms understanding early and validates detailed analysis
-- **Options-Based Planning**: Multiple viable approaches presented with clear recommendations
-- **Methodology Integration**: BMAD+SAGE+Archon successfully integrated throughout planning
-- **Agent Specialization**: Complex reasoning tasks handled by specialized agents
-- **Minimal Human Involvement**: Strategic approval points without excessive interaction
-- **Database State Management**: All state managed via database (not session.json files)
-- **Cross-Project Learning**: Patterns captured and applied for continuous improvement
-- **Implementation Ready**: Project fully planned with clear next steps for implementation
-
-## Recovery Support
-Enhanced recovery using database state and agent coordination:
-- **State Recovery**: Resume from any step using database project state
-- **Agent Recovery**: Reload specialized agents and continue from interruption point  
-- **Learning Session Recovery**: Restore learning context and continue pattern capture
-- **Approval Recovery**: Check approval status in web interface and resume workflow
-- **Prototype Recovery**: Restore prototype definitions and validation gates from database
+## MANDATORY Success Criteria
+- Docker environment connected and operational
+- Project created and visible in web interface
+- ALL prototype tasks created in Kanban board  
+- Learning patterns loaded and updated
+- Response file generated with complete plan
+- User can view ALL progress at `http://localhost:3011`
