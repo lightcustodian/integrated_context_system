@@ -1,0 +1,199 @@
+{
+  "project_type": "node",
+  "root_path": "C:\\Users\\John\\Documents\\Development\\docker",
+  "platform_info": {
+    "platform": "Windows",
+    "windows_attributes_available": true,
+    "checking_windows_attributes": true
+  },
+  "summary": {
+    "target_files": [
+      ".gitignore",
+      "package.json",
+      "README.md",
+      "README.rst",
+      "Makefile",
+      "README.txt",
+      "LICENSE",
+      "server.js",
+      "app.js",
+      "main.js",
+      "index.js",
+      "Dockerfile"
+    ],
+    "found_important_files": [
+      ".gitignore",
+      "package.json",
+      "README.md",
+      "Dockerfile"
+    ],
+    "important_dirs": [
+      "client",
+      "data",
+      "server"
+    ],
+    "hidden_dirs": [],
+    "z_old_files": [],
+    "excluded_dirs": [
+      "__pycache__",
+      ".git",
+      ".venv",
+      "venv",
+      "env",
+      "node_modules",
+      "dist",
+      "build",
+      ".idea",
+      ".vscode",
+      "migrations",
+      "staticfiles",
+      "media",
+      ".pytest_cache",
+      ".tox",
+      ".coverage",
+      ".mypy_cache",
+      "htmlcov"
+    ],
+    "total_files": 16153,
+    "total_dirs": 2252
+  },
+  "directory_tree": {
+    ".dockerignore": "file",
+    ".gitignore": "file",
+    ".project_summary.config.json": "file",
+    "Dockerfile": "file",
+    "README.md": "file",
+    "client": {
+      "index.html": "file",
+      "kill-port.js": "file",
+      "package-lock.json": "file",
+      "package.json": "file",
+      "public": {
+        "type": "directory"
+      },
+      "src": {
+        "App.css": "file",
+        "App.tsx": "file",
+        "api": {
+          "socket.ts": "file",
+          "trpc.ts": "file"
+        },
+        "components": {
+          "KanbanBoard.css": "file",
+          "KanbanBoard.tsx": "file",
+          "ProjectForm.css": "file",
+          "ProjectForm.tsx": "file",
+          "ProjectTabs.css": "file",
+          "ProjectTabs.tsx": "file",
+          "TaskCard.css": "file",
+          "TaskCard.tsx": "file",
+          "TaskForm.css": "file",
+          "TaskForm.tsx": "file"
+        },
+        "index.css": "file",
+        "main.tsx": "file",
+        "store": {
+          "projectSlice.ts": "file",
+          "store.ts": "file",
+          "taskSlice.ts": "file",
+          "uiSlice.ts": "file"
+        },
+        "types": {
+          "type": "directory"
+        }
+      },
+      "tsconfig.json": "file",
+      "tsconfig.node.json": "file",
+      "vite.config.ts": "file"
+    },
+    "data": {
+      "type": "directory"
+    },
+    "docker-compose.yml": "file",
+    "package.json": "file",
+    "project_summary.py": "file",
+    "server": {
+      "data": {
+        "bmad.db": "file"
+      },
+      "kill-port.js": "file",
+      "package-lock.json": "file",
+      "package.json": "file",
+      "src": {
+        "db": {
+          "sqlite.js": "file"
+        },
+        "index.js": "file",
+        "socket": {
+          "handlers.js": "file"
+        },
+        "trpc": {
+          "router.js": "file"
+        },
+        "utils": {
+          "logger.js": "file"
+        }
+      }
+    },
+    "setup.bat": "file",
+    "setup.sh": "file",
+    "start-all.bat": "file",
+    "start.js": "file",
+    "test-api.js": "file",
+    "test-integration.js": "file"
+  },
+  "file_samples": {
+    ".gitignore": {
+      "path": ".gitignore",
+      "content_preview": "# Dependencies\nnode_modules/\npackage-lock.json\n\n# Build output\nclient/build/\nclient/dist/\n*.log\n\n# Database\ndata/*.db\ndata/*.db-journal\n\n# Environment files\n.env\n.env.local\n.env.production\n\n# IDE\n.vscode/\n.idea/\n\n# OS files\n.DS_Store\nThumbs.db\n\n# Test coverage\ncoverage/\n.nyc_output/\n\n# Temporary files\n*.tmp\n*.swp\n*~",
+      "size": 317,
+      "lines": 34
+    },
+    "Dockerfile": {
+      "path": "Dockerfile",
+      "content_preview": "# Multi-stage Dockerfile for BMAD Context Engineering MVP\n\n# Stage 1: Build the React client\nFROM node:18-alpine AS client-builder\nWORKDIR /app/client\nCOPY client/package.json ./\nRUN npm install\nCOPY client/ ./\nRUN npm run build\n\n# Stage 2: Setup complete application\nFROM node:18-alpine\nWORKDIR /app\n\n# Install SQLite and other dependencies\nRUN apk add --no-cache sqlite sqlite-dev python3 make g++\n\n# Copy root package.json and startup script\nCOPY package.json start.js ./\n\n# Copy server files\nCOPY",
+      "size": 1125,
+      "lines": 51
+    },
+    "package.json": {
+      "path": "server\\package.json",
+      "content_preview": "{\n  \"name\": \"bmad-context-server\",\n  \"version\": \"1.0.0\",\n  \"description\": \"BMAD Context Engineering Server with tRPC and Socket.io\",\n  \"main\": \"src/index.js\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"start\": \"node kill-port.js && node src/index.js\",\n    \"dev\": \"node kill-port.js && nodemon src/index.js\",\n    \"test\": \"jest\",\n    \"kill-port\": \"node kill-port.js\"\n  },\n  \"dependencies\": {\n    \"@trpc/server\": \"^10.45.0\",\n    \"@trpc/client\": \"^10.45.0\",\n    \"express\": \"^4.18.2\",\n    \"cors\": \"^2.8.5\",\n ",
+      "size": 763,
+      "lines": 30,
+      "json_keys": [
+        "name",
+        "version",
+        "description",
+        "main",
+        "type",
+        "scripts",
+        "dependencies",
+        "devDependencies"
+      ]
+    },
+    "README.md": {
+      "path": "README.md",
+      "content_preview": "# BMAD Context Engineering MVP\n\nA unified Context Engineering system combining BMAD (structured planning), SAGE (adaptive learning), and Archon (AI agent generation) methodologies with dual CLI and web interfaces.\n\n## Features\n\n- **Multi-Project Management**: Handle multiple projects with tab-based navigation\n- **Kanban Board**: Visual task management with drag-and-drop functionality\n- **Real-time Sync**: Live updates between CLI and web interfaces via Socket.io\n- **Persistent Storage**: SQLite ",
+      "size": 5009,
+      "lines": 215
+    },
+    "index.js": {
+      "path": "server\\src\\index.js",
+      "content_preview": "import express from 'express';\nimport cors from 'cors';\nimport { createServer } from 'http';\nimport { Server } from 'socket.io';\nimport { createExpressMiddleware } from '@trpc/server/adapters/express';\nimport path from 'path';\nimport { fileURLToPath } from 'url';\nimport dotenv from 'dotenv';\n\nimport { appRouter, createContext } from './trpc/router.js';\nimport { initDatabase } from './db/sqlite.js';\nimport { setupSocketHandlers } from './socket/handlers.js';\nimport { logger } from './utils/logger",
+      "size": 2008,
+      "lines": 75
+    }
+  },
+  "project_metadata": {
+    "name": "bmad-context-engineering",
+    "version": "1.0.0",
+    "dependencies": [],
+    "devDependencies": [],
+    "scripts": [
+      "start",
+      "dev",
+      "install-all",
+      "test"
+    ]
+  }
+}

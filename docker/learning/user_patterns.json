@@ -1,0 +1,26 @@
+{
+  "approval_patterns": [
+    {
+      "pattern": "too_many_approvals_reduce_engagement",
+      "confidence": 0.9,
+      "recommended_max": 2,
+      "user_feedback": "prefer_consolidated_approvals"
+    }
+  ],
+  "interaction_patterns": [
+    {
+      "pattern": "progressive_disclosure_preferred",
+      "confidence": 0.85,
+      "contexts": ["complex_workflows", "multi_step_processes"],
+      "recommendation": "show_summary_first_then_details"
+    }
+  ],
+  "feedback_patterns": [
+    {
+      "pattern": "real_time_progress_increases_satisfaction",
+      "confidence": 0.95,
+      "contexts": ["long_running_tasks", "implementation_phases"],
+      "recommendation": "socket_io_updates_every_30_seconds"
+    }
+  ]
+}

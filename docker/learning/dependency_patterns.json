@@ -1,0 +1,26 @@
+{
+  "react_patterns": [
+    {
+      "pattern": "component_prop_change_impacts",
+      "confidence": 0.9,
+      "affected_components": ["parent", "children", "siblings"],
+      "validation_tests": ["prop_validation", "render_tests"]
+    }
+  ],
+  "api_patterns": [
+    {
+      "pattern": "endpoint_schema_change_impacts",
+      "confidence": 0.95,
+      "affected_components": ["frontend_consumers", "client_libraries"],
+      "validation_tests": ["contract_tests", "integration_tests"]
+    }
+  ],
+  "database_patterns": [
+    {
+      "pattern": "schema_migration_impacts",
+      "confidence": 0.85,
+      "affected_components": ["models", "migrations", "seed_data"],
+      "validation_tests": ["migration_tests", "data_integrity_tests"]
+    }
+  ]
+}

@@ -8,9 +8,9 @@
 
 ## Response File Requirements
 **MANDATORY**: All responses to commands must be provided in a file named:
-`[auto-increment starting at the last unused # using the format XXX]_[task_name].md`
+`response_[date]_[time]_[command_name].md`
 
-Example: `055_plan_approval.md`
+Example: `response_2025-08-05_1902_implement.md`
 
 This file must follow the standard approval format and be generated before command completion.
 
@@ -188,7 +188,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Agent System
 
-### Archon Architecture - 17 Active Specialized Agents
+### Archon Architecture - 20+ Specialized Agents
 The system uses a sophisticated agent architecture with specialized agents for different domains:
 
 **Core Coordination Agents:**
@@ -229,28 +229,29 @@ The system uses a sophisticated agent architecture with specialized agents for d
 - **Agent Definitions**: Specialized agent profiles in .claude/agents/
 
 ### File Organization Standards
-**Everything stored in ROOT or .claude/ folder only**:
+**Integrated Context System architecture**:
 ```
 Root/
-├── DESIGN_PLAN.md (project configuration)
-├── [generated project files]
+├── CLAUDE.md                          # System instructions
+├── integrated_context_system.md       # Complete documentation  
 ├── docs/
-│   ├── internal/        # Project-specific documentation (fully ingested)
-│   └── external/        # External documentation (selectively loaded)
-│       ├── technologies/# Framework and library documentation
-│       ├── concepts/    # Business and technical concepts
-│       ├── apis/        # Third-party API documentation
-│       └── .index.md    # Master index with 2-3 line summaries
-└── .claude/
-    ├── commands/        # 7 command files
-    ├── agents/          # All agent files (6 active + existing preserved)  
-    ├── state/           # session.json, progress tracking, backups
-    ├── utils/           # project_summary.py and utilities
-    ├── templates/       # DESIGN_PLAN_Template.md and other templates
-    ├── planning/        # Planning documents (when technical requirements > defaults)
-    │   └── templates/   # Planning document templates
-    ├── mcp/            # MCP integration code and configuration
-    └── docs/           # CE.md, system documentation
+│   ├── internal/                      # Project-specific documentation
+│   └── external/                      # External documentation
+│       ├── technologies/              # Framework documentation
+│       ├── concepts/                  # Business concepts
+│       ├── apis/                      # API documentation
+│       └── .index.md                  # Master index
+├── .claude/
+│   ├── commands/                      # 4 command files (plan, implement, optimize, qa)
+│   ├── agents/                        # 20+ specialized agents
+│   ├── state/                         # Enhanced state management
+│   ├── utils/                         # Utilities and project_summary.py
+│   └── mcp/                          # MCP integration
+└── ../docker/                         # Implementation architecture
+    ├── client/                        # React/TypeScript frontend with Kanban
+    ├── server/                        # Node.js backend with enhancements
+    │   └── src/utils/                 # 6 enhancement systems
+    └── learning/                      # Cross-project intelligence storage
 ```
 
 ### MCP Integration Standards
@@ -354,7 +355,7 @@ Essential for recovery from any failure point:
 ## Approval File System
 
 ### Human Review Protocol
-- Every command generates `[XXX]_[task_name].md` using auto-increment format for human review
+- Every command generates `response_[date]_[time]_[command_name].md` for human review
 - Commands wait for explicit human approval before proceeding
 - Approval files serve as audit trail and decision documentation
 

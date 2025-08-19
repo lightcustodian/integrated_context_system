@@ -1,0 +1,30 @@
+{
+  "name": "bmad-context-server",
+  "version": "1.0.0",
+  "description": "BMAD Context Engineering Server with tRPC and Socket.io",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node kill-port.js && node src/index.js",
+    "dev": "node kill-port.js && nodemon src/index.js",
+    "test": "jest",
+    "kill-port": "node kill-port.js"
+  },
+  "dependencies": {
+    "@trpc/server": "^10.45.0",
+    "@trpc/client": "^10.45.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "socket.io": "^4.6.1",
+    "better-sqlite3": "^9.2.2",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "@types/node": "^20.10.0"
+  }
+}
