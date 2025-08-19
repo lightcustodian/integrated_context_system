@@ -1,9 +1,0 @@
-.task-form {
-  padding: 1.5rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
