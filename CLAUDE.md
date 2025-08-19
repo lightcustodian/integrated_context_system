@@ -79,6 +79,42 @@ Every command must:
 - **Deliver Results**: Working prototypes or functional enhancements
 - **Generate Approval**: Response file for human review and approval
 
+## Docker Environment Integration
+
+### MANDATORY Docker Access Requirements
+**The docker environment MUST be accessed at these locations**:
+- **Docker Directory**: `../docker/` (parent directory, NOT in current directory)
+- **API Server**: `http://localhost:3010` for backend operations
+- **Web Interface**: `http://localhost:3011` for frontend Kanban board
+- **Never**: Create docker directory in current project directory
+
+### Required Docker Integration Points
+1. **PLAN Command**: Must create project and tasks in web interface via API
+2. **IMPLEMENT Command**: Must update task status in Kanban board
+3. **OPTIMIZE Command**: Must track optimization tasks in web interface
+4. **QA Command**: Must update testing progress in Kanban board
+
+### Docker Connection Protocol
+**When ANY command starts**:
+1. Check docker availability at `http://localhost:3010/health`
+2. If unavailable, attempt to start docker environment from `../docker/`
+3. If still unavailable, report error and request user to start docker
+4. **NEVER**: Bypass web interface or continue without docker integration
+
+### Web Interface Task Management
+**All tasks MUST be synchronized with Kanban board**:
+- Create tasks via tRPC API at `http://localhost:3010/trpc/`
+- Update task status as work progresses
+- Use Socket.io for real-time synchronization
+- Store project ID in `.claude/state/session.json`
+
+### Fallback Handling
+**If docker is unavailable**:
+- **DO NOT**: Continue with file-only operations
+- **DO**: Report specific connection error
+- **DO**: Provide instructions to start docker: `cd ../docker && npm start`
+- **DO**: Wait for user confirmation that docker is running
+
 ## Version Control Safety Protocol
 
 ### Automatic Git Commit Requirements
@@ -231,7 +267,7 @@ The system uses a sophisticated agent architecture with specialized agents for d
 ### File Organization Standards
 **Integrated Context System architecture**:
 ```
-Root/
+Current Project Directory/              # Where CLAUDE.md resides
 ├── CLAUDE.md                          # System instructions
 ├── integrated_context_system.md       # Complete documentation  
 ├── docs/
@@ -247,12 +283,16 @@ Root/
 │   ├── state/                         # Enhanced state management
 │   ├── utils/                         # Utilities and project_summary.py
 │   └── mcp/                          # MCP integration
-└── ../docker/                         # Implementation architecture
-    ├── client/                        # React/TypeScript frontend with Kanban
-    ├── server/                        # Node.js backend with enhancements
+
+Parent Directory/
+└── docker/                            # MANDATORY: Docker environment (PARENT directory)
+    ├── client/                        # React frontend (http://localhost:3011)
+    ├── server/                        # Node.js backend (http://localhost:3010)
     │   └── src/utils/                 # 6 enhancement systems
     └── learning/                      # Cross-project intelligence storage
 ```
+
+**CRITICAL**: The docker directory MUST exist at `../docker/` relative to the current project directory. NEVER create a docker directory within the project directory itself.
 
 ### MCP Integration Standards
 **PROJECT_MANAGER handles all MCP server coordination**:
