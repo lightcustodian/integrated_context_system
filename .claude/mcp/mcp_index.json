@@ -462,6 +462,63 @@
     }
   },
 
+  "_security_scanning": {
+    "mcp-scan": {
+      "server": "mcp-scan",
+      "description": "Comprehensive MCP security scanning and vulnerability detection. Audits MCP traffic in real-time.",
+      "command": "pipx run uv mcp-scan@latest",
+      "installation": "pip install mcp-scan",
+      "validation": "mcp-scan --help",
+      "enabled": true,
+      "category": "security",
+      "priority": 1,
+      "when_to_use": "MCP server security auditing and vulnerability scanning",
+      "provides": ["mcp_vulnerability_scan", "traffic_monitoring", "security_audit"],
+      "capability_mapping": "security_scanning"
+    },
+    "security-scanner-mcp": {
+      "server": "security-scanner-mcp", 
+      "description": "Security scanning tool for code repositories. Identifies vulnerabilities, secrets, and dependency issues.",
+      "command": "npx security-scanner-mcp",
+      "installation": "npm install -g security-scanner-mcp",
+      "validation": "npx security-scanner-mcp --help",
+      "enabled": true,
+      "category": "security",
+      "priority": 1,
+      "when_to_use": "Code repository security scanning and vulnerability detection",
+      "provides": ["code_vulnerability_scan", "secret_detection", "dependency_audit"],
+      "capability_mapping": "code_security_scan"
+    },
+    "snyk-mcp": {
+      "server": "snyk-mcp",
+      "description": "Snyk MCP Server for dependency scanning (SCA), code security scanning (SAST) and infrastructure as code scanning (IaC).",
+      "command": "npx snyk-mcp",
+      "installation": "npm install -g snyk-mcp",
+      "validation": "echo $SNYK_TOKEN",
+      "requires": ["SNYK_TOKEN"],
+      "enabled": false,
+      "category": "security",
+      "priority": 2,
+      "when_to_use": "Enterprise-grade security scanning with Snyk integration",
+      "provides": ["dependency_scanning", "sast_analysis", "iac_scanning"],
+      "capability_mapping": "enterprise_security_scan",
+      "token_url": "https://app.snyk.io/account"
+    },
+    "mcp-security-audit": {
+      "server": "mcp-security-audit",
+      "description": "NPM package dependency auditing with vulnerability detection and remediation recommendations.",
+      "command": "npx mcp-security-audit",
+      "installation": "npm install -g mcp-security-audit",
+      "validation": "npx mcp-security-audit --help",
+      "enabled": true,
+      "category": "security",
+      "priority": 1,
+      "when_to_use": "NPM dependency vulnerability auditing and security compliance",
+      "provides": ["npm_audit", "vulnerability_reports", "remediation_advice"],
+      "capability_mapping": "dependency_security_audit"
+    }
+  },
+
   "_specialized_services": {
     "time": {
       "server": "@modelcontextprotocol/server-time",
@@ -626,6 +683,26 @@
       "primary": "reflektion",
       "fallback": [],
       "description": "Pattern recognition and learning analysis"
+    },
+    "security_scanning": {
+      "primary": "mcp-scan",
+      "fallback": ["security-scanner-mcp"],
+      "description": "MCP security scanning and vulnerability detection"
+    },
+    "code_security_scan": {
+      "primary": "security-scanner-mcp",
+      "fallback": ["mcp-security-audit"],
+      "description": "Code repository security and vulnerability scanning"
+    },
+    "enterprise_security_scan": {
+      "primary": "snyk-mcp",
+      "fallback": ["security-scanner-mcp"],
+      "description": "Enterprise-grade security scanning with Snyk"
+    },
+    "dependency_security_audit": {
+      "primary": "mcp-security-audit",
+      "fallback": ["security-scanner-mcp"],
+      "description": "NPM dependency vulnerability auditing"
     }
   },
 

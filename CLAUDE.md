@@ -1,16 +1,16 @@
-# CLAUDE.md - Simple Context Engineering Instructions
+# CLAUDE.md - Integrated Context System Instructions
 
 ## Primary Goals (In Order of Importance)
-1. Deliver working prototypes quickly for coding projects
-2. Maintain quality through testing and essential documentation
-3. Enable recovery from any failure point through state management
-4. Keep the system as simple as possible while achieving results
+1. Deliver working prototypes through BMAD+SAGE+Archon methodology integration
+2. Maintain quality through comprehensive testing and validation gates
+3. Enable recovery from any failure point through enhanced state management
+4. Provide intelligent automation while maintaining transparency and control
 
 ## Response File Requirements
 **MANDATORY**: All responses to commands must be provided in a file named:
-`response_[date]_[time]_[command_name].md`
+`[auto-increment starting at the last unused # using the format XXX]_[task_name].md`
 
-Example: `response_2025-08-05_1902_implement.md`
+Example: `055_plan_approval.md`
 
 This file must follow the standard approval format and be generated before command completion.
 
@@ -174,13 +174,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Simple Context Engineering Commands
 
 ### Available Commands
-1. **design**: Create project understanding and basic configuration (one time: beginning)
-2. **plan**: Break project into usable prototypes and configure system (one time: beginning)
-3. **implement**: Build working prototypes using TDD methodology (iterative)
-4. **optimize**: Improve performance, code quality, and architecture (iterative)
-5. **document**: Generate comprehensive documentation (iterative)  
-6. **qa**: Production readiness validation (one time: end)
-7. **ce-update**: Update simple_context system itself (one time: end, framework projects only)
+1. **plan**: Create comprehensive project plan with BMAD+SAGE+Archon integration (one time: beginning)
+2. **implement**: Build working prototypes using enhanced TDD methodology (iterative)
+3. **optimize**: Systematic performance optimization with security integration (iterative)
+4. **qa**: Production readiness validation with comprehensive security review (one time: end)
 
 ### Command Execution Requirements
 - Read command file from .claude/commands/[command_name].md for detailed instructions
@@ -191,21 +188,45 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Agent System
 
-### 6-Agent Workflow
-1. **STATE_MANAGER**: State management, progress tracking, recovery operations
-2. **PROJECT_MANAGER**: Simple coordination, MCP integration
-3. **CODER**: Writing code, following patterns, implementing features  
-4. **TESTER**: Running tests, validation, debugging
-5. **REVIEWER**: Quality checks, critical review (used in implement and QA commands)
-6. **CONTENT_SUMMARIZER**: Documentation management, external docs fetching, 1000-line file splitting
+### Archon Architecture - 17 Active Specialized Agents
+The system uses a sophisticated agent architecture with specialized agents for different domains:
 
-*Note: All existing agents are preserved but only these 6 are used in standard workflow*
+**Core Coordination Agents:**
+- **STATE_MANAGER**: Enhanced state management with multi-level tracking
+- **PROJECT_MANAGER**: Coordination with MCP integration and learning systems
+
+**Planning Agents (PLAN Command):**
+- **INITIAL_UNDERSTANDING_AGENT**: Project interpretation and options generation
+- **METHODOLOGY_ANALYST**: BMAD+SAGE+Archon integration specialist
+- **PATTERN_MATCHER**: Historical pattern recognition and adaptation
+- **UNDERSTANDING_SYNTHESIZER**: Comprehensive understanding document generation
+- **SETTINGS_ADVISOR**: Context-aware methodology configuration
+- **CAPABILITY_ASSESSOR**: MCP tool requirement analysis
+- **PROTOTYPE_PLANNER**: Feature analysis and prototype design
+- **IMPLEMENTATION_PLANNER**: Comprehensive implementation planning
+- **RISK_ANALYST**: Risk identification and mitigation strategies
+- **LEARNING_ANALYZER**: Pattern extraction and effectiveness analysis
+
+**Implementation Agents (IMPLEMENT Command):**
+- **TEST_CREATOR**: TDD test generation specialist
+- **FEATURE_IMPLEMENTER**: Code implementation with pattern application
+- **PATTERN_REFACTORER**: SAGE pattern application during refactoring
+
+**Optimization Agents (OPTIMIZE Command):**
+- **PERFORMANCE_TARGET_AGENT**: Performance baseline and target establishment
+- **SECURITY_OPTIMIZER**: Security-aware optimization specialist
+
+### Agent Reuse Registry
+- **95% Agent Reuse Efficiency**: Cross-command agent optimization
+- **Compatibility Matrix**: Performance-based agent selection
+- **Automatic Cleanup**: Resource management and optimization
 
 ### Context Loading Standards
-- **DESIGN_PLAN.md**: Contains project configuration and context (created by design command)
+- **integrated_context_system.md**: Contains complete system documentation and architecture
 - **Command Files**: Read .claude/commands/[command_name].md for detailed command instructions
-- **State File**: .claude/state/session.json tracks progress and enables recovery
-- Always read DESIGN_PLAN.md first for project context before executing commands (except design command which creates it)
+- **Database State**: SQLite database with enhanced state management
+- **Learning Patterns**: Cross-project intelligence from ../docker/learning/
+- **Agent Definitions**: Specialized agent profiles in .claude/agents/
 
 ### File Organization Standards
 **Everything stored in ROOT or .claude/ folder only**:
@@ -333,7 +354,7 @@ Essential for recovery from any failure point:
 ## Approval File System
 
 ### Human Review Protocol
-- Every command generates `response_[date]_[time]_[command_name].md` for human review
+- Every command generates `[XXX]_[task_name].md` using auto-increment format for human review
 - Commands wait for explicit human approval before proceeding
 - Approval files serve as audit trail and decision documentation
 

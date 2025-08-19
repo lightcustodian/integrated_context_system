@@ -74,10 +74,10 @@
   ],
   "approval_pending": true,
   "recovery_point": "initialization_completed",
-  "current_project_id": "fd11b340-1052-4706-b877-5270bc76c69e",
-  "current_project_name": "integrated_context_system",
+  "current_project_id": "b4c4abe9-bb92-4f3a-baa4-770f8ba11a64",
+  "current_project_name": "CE Integration Test Project",
   "kanban_sync": {
-    "last_sync": "2025-08-17T05:44:45.001Z",
-    "project_created": false
+    "last_sync": "2025-08-18T08:55:38.713Z",
+    "project_created": true
   }
 }
